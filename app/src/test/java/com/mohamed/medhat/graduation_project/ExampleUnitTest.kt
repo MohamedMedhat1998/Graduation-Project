@@ -1,4 +1,4 @@
-package com.mohamed.medhat.myapplication
+package com.mohamed.medhat.graduation_project
 
 import org.junit.Test
 
