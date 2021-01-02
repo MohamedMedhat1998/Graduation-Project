@@ -15,4 +15,8 @@ class LoginPresenter @Inject constructor() : SimplePresenter<LoginView>() {
     override fun setView(view: LoginView) {
         loginView = view
     }
+
+    override fun start() {
+        TODO("Not yet implemented")
+    }
 }
