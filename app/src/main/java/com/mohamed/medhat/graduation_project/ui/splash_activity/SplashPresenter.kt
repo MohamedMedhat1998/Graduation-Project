@@ -1,9 +1,10 @@
 package com.mohamed.medhat.graduation_project.ui.splash_activity
 
-import com.mohamed.medhat.graduation_project.MainActivity
+import android.os.Bundle
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.base.SimplePresenter
+import com.mohamed.medhat.graduation_project.ui.on_boarding_activity.OnBoardingActivity
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
@@ -20,17 +21,18 @@ class SplashPresenter @Inject constructor() :
         splashView = view
     }
 
-    override fun start() {
+    override fun start(savedInstanceState: Bundle?) {
         splashView.playRotationAnimation(R.id.iv_app_logo, onRotationFinished = {
             splashView.playRotationAnimation(
                 R.id.tv_app_slogan,
                 rotation = 720f,
                 onRotationFinished = {
-                    thread {
-                        Thread.sleep(1500)
-                        // TODO Navigate to the correct activity (OnBoardingActivity)
-                        splashView.navigateToActivity(MainActivity::class.java)
-                        (splashView as SplashActivity).finish()
+                    if (savedInstanceState == null) {
+                        thread {
+                            Thread.sleep(1500)
+                            splashView.navigateToActivity(OnBoardingActivity::class.java)
+                            (splashView as SplashActivity).finish()
+                        }
                     }
                 })
         })

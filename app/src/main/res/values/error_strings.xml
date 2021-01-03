@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="null_on_boarding_card" translatable="false">Null OnBoardingCard detected!</string>
+</resources>

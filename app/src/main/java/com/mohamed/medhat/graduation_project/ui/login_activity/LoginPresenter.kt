@@ -1,5 +1,6 @@
 package com.mohamed.medhat.graduation_project.ui.login_activity
 
+import android.os.Bundle
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.base.SimplePresenter
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class LoginPresenter @Inject constructor() : SimplePresenter<LoginView>() {
         loginView = view
     }
 
-    override fun start() {
+    override fun start(savedInstanceState: Bundle?) {
         TODO("Not yet implemented")
     }
 }
