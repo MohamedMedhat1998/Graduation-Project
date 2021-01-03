@@ -20,7 +20,7 @@ class OnBoardingActivity : BaseActivity(), OnBoardingView {
         setContentView(R.layout.activity_on_boarding)
         activityComponent.inject(this)
         presenter.setView(this)
-        presenter.start()
+        presenter.start(savedInstanceState)
     }
 
     override fun loadCards(cards: List<OnBoardingCard>) {

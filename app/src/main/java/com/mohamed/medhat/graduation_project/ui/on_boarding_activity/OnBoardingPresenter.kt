@@ -1,5 +1,6 @@
 package com.mohamed.medhat.graduation_project.ui.on_boarding_activity
 
+import android.os.Bundle
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.base.SimplePresenter
 import javax.inject.Inject
@@ -13,7 +14,7 @@ class OnBoardingPresenter @Inject constructor(private val onBoardingCardsProvide
 
     private lateinit var onBoardingView: OnBoardingView
 
-    override fun start() {
+    override fun start(savedInstanceState: Bundle?) {
         onBoardingView.loadCards(onBoardingCardsProvider.cards)
     }
 

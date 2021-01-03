@@ -22,7 +22,7 @@ class SplashActivity : BaseActivity(), SplashView {
         setContentView(R.layout.activity_splash)
         activityComponent.inject(this)
         splashPresenter.setView(this)
-        splashPresenter.start()
+        splashPresenter.start(savedInstanceState)
     }
 
     override fun playRotationAnimation(
