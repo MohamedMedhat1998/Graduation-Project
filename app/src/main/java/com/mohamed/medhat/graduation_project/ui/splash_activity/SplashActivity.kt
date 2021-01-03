@@ -42,8 +42,4 @@ class SplashActivity : BaseActivity(), SplashView {
             .setListener(animationListener)
             .start()
     }
-
-    override fun navigateToActivity(activity: Class<*>) {
-        startActivity(Intent(this, activity))
-    }
 }

@@ -4,6 +4,7 @@ import com.mohamed.medhat.graduation_project.dagger.ViewModelFactory
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginViewModel
+import com.mohamed.medhat.graduation_project.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.graduation_project.ui.splash_activity.SplashActivity
 import dagger.Subcomponent
 
@@ -21,6 +22,7 @@ interface ActivityComponent {
 
     fun inject(loginActivity: LoginActivity)
     fun inject(splashActivity: SplashActivity)
+    fun inject(onBoardingActivity: OnBoardingActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
 }

@@ -21,8 +21,4 @@ class LoginActivity : BaseActivity(), LoginView {
         activityComponent.inject(this)
         loginPresenter.setView(this)
     }
-
-    override fun navigateToActivity(activity: Class<*>) {
-        startActivity(Intent(this, activity))
-    }
 }

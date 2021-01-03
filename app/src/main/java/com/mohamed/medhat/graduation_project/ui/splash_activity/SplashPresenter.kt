@@ -1,9 +1,9 @@
 package com.mohamed.medhat.graduation_project.ui.splash_activity
 
-import com.mohamed.medhat.graduation_project.MainActivity
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.base.SimplePresenter
+import com.mohamed.medhat.graduation_project.ui.on_boarding_activity.OnBoardingActivity
 import javax.inject.Inject
 import kotlin.concurrent.thread
 
@@ -28,8 +28,7 @@ class SplashPresenter @Inject constructor() :
                 onRotationFinished = {
                     thread {
                         Thread.sleep(1500)
-                        // TODO Navigate to the correct activity (OnBoardingActivity)
-                        splashView.navigateToActivity(MainActivity::class.java)
+                        splashView.navigateToActivity(OnBoardingActivity::class.java)
                         (splashView as SplashActivity).finish()
                     }
                 })
