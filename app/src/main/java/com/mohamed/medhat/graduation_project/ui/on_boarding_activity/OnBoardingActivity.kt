@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.ui.on_boarding_activity
 
 import android.os.Bundle
+import com.google.android.material.tabs.TabLayoutMediator
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.model.OnBoardingCard
 import com.mohamed.medhat.graduation_project.ui.base.BaseActivity
@@ -25,5 +26,6 @@ class OnBoardingActivity : BaseActivity(), OnBoardingView {
 
     override fun loadCards(cards: List<OnBoardingCard>) {
         vp_on_boarding_cards.adapter = OnBoardingViewPagerAdapter(this, cards)
+        TabLayoutMediator(tl_on_boarding_indicator, vp_on_boarding_cards) { _, _ -> }.attach()
     }
 }
