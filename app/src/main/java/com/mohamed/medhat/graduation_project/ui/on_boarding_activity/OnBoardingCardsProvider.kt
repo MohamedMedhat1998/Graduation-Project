@@ -14,6 +14,6 @@ class OnBoardingCardsProvider @Inject constructor() {
     val cards = listOf(
         OnBoardingCard(android.R.drawable.star_big_on, "Feature one"),
         OnBoardingCard(android.R.drawable.sym_def_app_icon, "Feature two"),
-        OnBoardingCard(R.mipmap.ic_launcher_round, "Feature three")
+        OnBoardingCard(R.mipmap.ic_launcher_round, "Feature three", true)
     )
 }
