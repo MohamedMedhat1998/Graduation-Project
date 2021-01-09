@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.model.OnBoardingCard
+import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
 import com.mohamed.medhat.graduation_project.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.graduation_project.utils.REPORT_ERROR
 import kotlinx.android.synthetic.main.fragment_on_boarding_card.view.*
@@ -36,6 +37,11 @@ class OnBoardingCardFragment : Fragment() {
         if (onBoardingCard != null) {
             view.iv_on_boarding_card_image.setImageResource(onBoardingCard!!.imageId)
             view.tv_on_boarding_card_text.text = onBoardingCard!!.text
+            view.btn_on_boarding_finish.visibility =
+                if (onBoardingCard!!.isTheLastCard) View.VISIBLE else View.INVISIBLE
+            view.btn_on_boarding_finish.setOnClickListener {
+                (activity as OnBoardingActivity).navigateToActivity(LoginActivity::class.java)
+            }
         } else {
             Log.e(REPORT_ERROR, getString(R.string.null_on_boarding_card))
         }
