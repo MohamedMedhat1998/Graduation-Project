@@ -14,9 +14,11 @@ class RegistrationPresenter @Inject constructor() :
 
     private lateinit var registrationView: RegistrationView
     private lateinit var registrationViewModel: RegistrationViewModel
+    private lateinit var activity: RegistrationActivity
 
     override fun start(savedInstanceState: Bundle?) {
-        (registrationView as RegistrationActivity).displayToast("RegistrationActivity")
+        activity = (registrationView as RegistrationActivity)
+        activity.displayToast("RegistrationActivity")
     }
 
     override fun setView(view: RegistrationView) {
@@ -25,5 +27,19 @@ class RegistrationPresenter @Inject constructor() :
 
     override fun setViewModel(viewModel: RegistrationViewModel) {
         registrationViewModel = viewModel
+    }
+
+    fun onAddPictureClicked() {
+        activity.displayToast(
+            "AddPicture\nFirstName: ${activity.getFirstName()}\n" +
+                    "LastName: ${activity.getLastName()}\n" +
+                    "PhoneNumber: ${activity.getPhoneNumber()}\n" +
+                    "Email: ${activity.getEmail()}\n" +
+                    "Password: ${activity.getPassword()}"
+        )
+    }
+
+    fun onSubmitClicked() {
+        activity.displayToast("Submit")
     }
 }
