@@ -10,4 +10,10 @@ interface BaseView {
      * @param activity the class of the destination activity.
      */
     fun navigateToActivity(activity: Class<*>)
+
+    /**
+     * A function that is used to display a toast message on the screen.
+     * @param text the text value to be displayed.
+     */
+    fun displayToast(text: String)
 }

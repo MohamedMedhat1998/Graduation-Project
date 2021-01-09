@@ -8,5 +8,4 @@ import javax.inject.Inject
  * A ViewModel for the [LoginActivity].
  */
 @ActivityScope
-class LoginViewModel @Inject constructor() : ViewModel() {
-}
+class LoginViewModel @Inject constructor() : ViewModel()
