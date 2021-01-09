@@ -3,6 +3,7 @@ package com.mohamed.medhat.graduation_project.ui.login_activity
 import android.os.Bundle
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.ui.base.AdvancedPresenter
+import com.mohamed.medhat.graduation_project.ui.registration_activity.RegistrationActivity
 import javax.inject.Inject
 
 /**
@@ -13,13 +14,14 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
 
     private lateinit var loginView: LoginView
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var activity: LoginActivity
 
     override fun setView(view: LoginView) {
         loginView = view
     }
 
     override fun start(savedInstanceState: Bundle?) {
-        (loginView as LoginActivity).displayToast("Started")
+        activity = (loginView as LoginActivity)
     }
 
     override fun setViewModel(viewModel: LoginViewModel) {
@@ -27,10 +29,11 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
     }
 
     fun onLoginClicked() {
-        (loginView as LoginActivity).displayToast("Login \n${loginView.getEmail()} \n${loginView.getPassword()}")
+        activity.displayToast("Login \n${loginView.getEmail()} \n${loginView.getPassword()}")
     }
 
     fun onRegisterClicked() {
-        (loginView as LoginActivity).displayToast("Register \n${loginView.getEmail()} \n${loginView.getPassword()}")
+        activity.displayToast("Register \n${loginView.getEmail()} \n${loginView.getPassword()}")
+        activity.navigateToActivity(RegistrationActivity::class.java)
     }
 }

@@ -10,6 +10,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationProject">
+        <activity android:name=".ui.registration_activity.RegistrationActivity" />
         <activity android:name=".ui.on_boarding_activity.OnBoardingActivity" />
         <activity android:name=".ui.login_activity.LoginActivity" />
         <activity android:name=".ui.splash_activity.SplashActivity">
