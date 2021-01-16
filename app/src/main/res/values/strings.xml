@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Graduation Project</string>
     <string name="successfully_registered">"Successfully registered!\nPlease, login to use the app!"</string>
+    <string name="successfully_logged_in">Successfully logged in!</string>
 </resources>

@@ -30,8 +30,6 @@ class RegistrationViewModel @Inject constructor(val api: WebApi) : BaseViewModel
     val token: LiveData<Token>
         get() = _token
 
-    var error = ""
-
     /**
      * Sends a post request to the web api to create a [NewUser].
      * @param newUser the user to be created.
