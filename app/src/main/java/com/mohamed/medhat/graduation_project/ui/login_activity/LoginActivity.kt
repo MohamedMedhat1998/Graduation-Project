@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.ui.login_activity
 
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.ui.base.BaseActivity
@@ -41,5 +42,25 @@ class LoginActivity : BaseActivity(), LoginView {
 
     override fun getPassword(): String {
         return et_login_password.text.toString()
+    }
+
+    override fun showLoadingIndicator() {
+        pb_login_loading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingIndicator() {
+        pb_login_loading.visibility = View.INVISIBLE
+    }
+
+    override fun showErrorMessage() {
+        tv_login_error.visibility = View.VISIBLE
+    }
+
+    override fun hideErrorMessage() {
+        tv_login_error.visibility = View.INVISIBLE
+    }
+
+    override fun setErrorMessage(message: String) {
+        tv_login_error.text = message
     }
 }

@@ -26,11 +26,13 @@ class RegistrationPresenter @Inject constructor() :
     // TODO implement add picture
     override fun start(savedInstanceState: Bundle?) {
         activity = (registrationView as RegistrationActivity)
-        activity.displayToast("RegistrationActivity")
+        registrationView.displayToast("RegistrationActivity")
         registrationViewModel.token.observe(activity) {
             // TODO save token in the shared prefs
-            activity.navigateToThenFinish(LoginActivity::class.java)
-            activity.displayToast(activity.getString(R.string.successfully_registered))
+            registrationView.apply {
+                navigateToThenFinish(LoginActivity::class.java)
+                displayToast(activity.getString(R.string.successfully_registered))
+            }
             Log.d("TOKEN", "Success, your token is: ${it.token}")
         }
         registrationViewModel.state.observe(activity) {
@@ -47,17 +49,17 @@ class RegistrationPresenter @Inject constructor() :
     }
 
     fun onAddPictureClicked() {
-        activity.displayToast("AddPicture")
+        registrationView.displayToast("AddPicture")
     }
 
     fun onSubmitClicked() {
         resetErrors()
         if (validUserInputs()) {
             val newUser = NewUser(
-                fullName = activity.getFullName(),
-                email = activity.getEmail(),
-                password = activity.getPassword(),
-                confirmPassword = activity.getConfirmedPassword()
+                fullName = registrationView.getFullName(),
+                email = registrationView.getEmail(),
+                password = registrationView.getPassword(),
+                confirmPassword = registrationView.getConfirmedPassword()
             )
             registrationViewModel.registerNewUser(newUser)
         }
@@ -76,26 +78,26 @@ class RegistrationPresenter @Inject constructor() :
      */
     private fun areEmpty(): Boolean {
         // Getting the values from the input fields.
-        val fullName = activity.getFullName()
-        val email = activity.getEmail()
-        val password = activity.getPassword()
-        val confirmedPassword = activity.getConfirmedPassword()
+        val fullName = registrationView.getFullName()
+        val email = registrationView.getEmail()
+        val password = registrationView.getPassword()
+        val confirmedPassword = registrationView.getConfirmedPassword()
         val emptyError = activity.getString(R.string.empty_field_warning)
         // Checking if these values are empty.
         if (fullName.isEmpty()) {
-            activity.showInputError(activity.et_registration_full_name, emptyError)
+            registrationView.showInputError(activity.et_registration_full_name, emptyError)
             return true
         }
         if (email.isEmpty()) {
-            activity.showInputError(activity.et_registration_email, emptyError)
+            registrationView.showInputError(activity.et_registration_email, emptyError)
             return true
         }
         if (password.isEmpty()) {
-            activity.showInputError(activity.et_registration_password, emptyError)
+            registrationView.showInputError(activity.et_registration_password, emptyError)
             return true
         }
         if (confirmedPassword.isEmpty()) {
-            activity.showInputError(activity.et_registration_confirm_password, emptyError)
+            registrationView.showInputError(activity.et_registration_confirm_password, emptyError)
             return true
         }
         return false
@@ -106,14 +108,19 @@ class RegistrationPresenter @Inject constructor() :
      */
     private fun passwordOk(): Boolean {
         // Checking password matching.
-        if (activity.getPassword() != activity.getConfirmedPassword()) {
+        if (registrationView.getPassword() != registrationView.getConfirmedPassword()) {
             val passwordMatchingError = activity.getString(R.string.password_matching_warning)
-            activity.displayToast(passwordMatchingError)
-            activity.showInputError(activity.et_registration_password, passwordMatchingError)
-            activity.showInputError(
-                activity.et_registration_confirm_password,
-                passwordMatchingError
-            )
+            registrationView.apply {
+                displayToast(passwordMatchingError)
+                showInputError(
+                    activity.et_registration_password,
+                    passwordMatchingError
+                )
+                showInputError(
+                    activity.et_registration_confirm_password,
+                    passwordMatchingError
+                )
+            }
             return false
         }
         // TODO Check password constraints.
@@ -124,8 +131,8 @@ class RegistrationPresenter @Inject constructor() :
      * @return `true` if the **email** doesn't contain problems, `false` otherwise.
      */
     private fun emailOk(): Boolean {
-        if (!Patterns.EMAIL_ADDRESS.matcher(activity.getEmail()).matches()) {
-            activity.showInputError(
+        if (!Patterns.EMAIL_ADDRESS.matcher(registrationView.getEmail()).matches()) {
+            registrationView.showInputError(
                 activity.et_registration_email,
                 activity.getString(R.string.invalid_email_warning)
             )
@@ -138,11 +145,13 @@ class RegistrationPresenter @Inject constructor() :
      * Resets the errors on the input fields.
      */
     private fun resetErrors() {
-        activity.hideErrorMessage()
-        activity.hideLoadingIndicator()
-        activity.resetInputError(activity.et_registration_full_name)
-        activity.resetInputError(activity.et_registration_email)
-        activity.resetInputError(activity.et_registration_password)
-        activity.resetInputError(activity.et_registration_confirm_password)
+        registrationView.apply {
+            hideErrorMessage()
+            hideLoadingIndicator()
+            resetInputError(activity.et_registration_full_name)
+            resetInputError(activity.et_registration_email)
+            resetInputError(activity.et_registration_password)
+            resetInputError(activity.et_registration_confirm_password)
+        }
     }
 }

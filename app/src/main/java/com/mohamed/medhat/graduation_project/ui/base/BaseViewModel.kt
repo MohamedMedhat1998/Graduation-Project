@@ -20,4 +20,9 @@ open class BaseViewModel : ViewModel() {
      */
     val state: LiveData<State>
         get() = _state
+
+    /**
+     * The error value to display if the [State] is [State.ERROR].
+     */
+    var error = ""
 }

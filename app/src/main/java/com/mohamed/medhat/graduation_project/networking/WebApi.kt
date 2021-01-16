@@ -1,5 +1,6 @@
 package com.mohamed.medhat.graduation_project.networking
 
+import com.mohamed.medhat.graduation_project.model.LoginUser
 import com.mohamed.medhat.graduation_project.model.NewUser
 import com.mohamed.medhat.graduation_project.model.Token
 import retrofit2.Response
@@ -17,4 +18,12 @@ interface WebApi {
      */
     @POST("Accounts/Mentor/Register")
     suspend fun register(@Body newUser: NewUser): Response<Token>
+
+    /**
+     * Used to login to an existing user in the remote database.
+     * @param loginUser: The user to login to.
+     * @return a [Token] object.
+     */
+    @POST("Accounts/Login")
+    suspend fun login(@Body loginUser: LoginUser): Response<Token>
 }

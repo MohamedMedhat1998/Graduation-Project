@@ -53,14 +53,6 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
         return et_registration_confirm_password.text.toString()
     }
 
-    override fun showInputError(editText: EditText, error: String) {
-        editText.error = error
-    }
-
-    override fun resetInputError(editText: EditText) {
-        editText.error = null
-    }
-
     override fun showLoadingIndicator() {
         pb_registration_loading.visibility = View.VISIBLE
     }
