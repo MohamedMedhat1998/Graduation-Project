@@ -30,8 +30,7 @@ class SplashPresenter @Inject constructor() :
                     if (savedInstanceState == null) {
                         thread {
                             Thread.sleep(1500)
-                            splashView.navigateToActivity(OnBoardingActivity::class.java)
-                            (splashView as SplashActivity).finish()
+                            splashView.navigateToThenFinish(OnBoardingActivity::class.java)
                         }
                     }
                 })

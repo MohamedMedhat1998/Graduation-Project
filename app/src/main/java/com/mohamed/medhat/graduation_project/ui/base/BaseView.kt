@@ -9,8 +9,14 @@ interface BaseView {
      * A function that is used to start a new activity from the current activity.
      * @param activity the class of the destination activity.
      */
-    fun navigateToActivity(activity: Class<*>)
+    fun navigateTo(activity: Class<*>)
 
+    /**
+     * A function that is used to start a new activity from the current activity and finish the current activity.
+     * @param activity the class of the destination activity.
+     */
+    fun navigateToThenFinish(activity: Class<*>)
+    
     /**
      * A function that is used to display a toast message on the screen.
      * @param text the text value to be displayed.

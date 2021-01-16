@@ -19,8 +19,13 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         super.onCreate(savedInstanceState)
     }
 
-    override fun navigateToActivity(activity: Class<*>) {
+    override fun navigateTo(activity: Class<*>) {
         startActivity(Intent(this, activity))
+    }
+
+    override fun navigateToThenFinish(activity: Class<*>) {
+        navigateTo(activity)
+        finish()
     }
 
     override fun displayToast(text: String) {

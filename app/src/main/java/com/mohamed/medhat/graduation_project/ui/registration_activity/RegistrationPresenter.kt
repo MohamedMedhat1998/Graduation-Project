@@ -7,6 +7,8 @@ import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.NewUser
 import com.mohamed.medhat.graduation_project.ui.base.AdvancedPresenter
+import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
+import com.mohamed.medhat.graduation_project.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_registration.*
 import javax.inject.Inject
 
@@ -21,15 +23,18 @@ class RegistrationPresenter @Inject constructor() :
     private lateinit var registrationViewModel: RegistrationViewModel
     private lateinit var activity: RegistrationActivity
 
-    // TODO handle the loading icon
     // TODO implement add picture
-    // TODO test the configuration change
     override fun start(savedInstanceState: Bundle?) {
         activity = (registrationView as RegistrationActivity)
         activity.displayToast("RegistrationActivity")
         registrationViewModel.token.observe(activity) {
             // TODO save token in the shared prefs
+            activity.navigateToThenFinish(LoginActivity::class.java)
+            activity.displayToast(activity.getString(R.string.successfully_registered))
             Log.d("TOKEN", "Success, your token is: ${it.token}")
+        }
+        registrationViewModel.state.observe(activity) {
+            handleLoadingState(registrationView, registrationViewModel.error, it)
         }
     }
 
@@ -133,6 +138,8 @@ class RegistrationPresenter @Inject constructor() :
      * Resets the errors on the input fields.
      */
     private fun resetErrors() {
+        activity.hideErrorMessage()
+        activity.hideLoadingIndicator()
         activity.resetInputError(activity.et_registration_full_name)
         activity.resetInputError(activity.et_registration_email)
         activity.resetInputError(activity.et_registration_password)

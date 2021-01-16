@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.ui.registration_activity
 
 import android.os.Bundle
+import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.graduation_project.R
@@ -58,5 +59,25 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
 
     override fun resetInputError(editText: EditText) {
         editText.error = null
+    }
+
+    override fun showLoadingIndicator() {
+        pb_registration_loading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingIndicator() {
+        pb_registration_loading.visibility = View.INVISIBLE
+    }
+
+    override fun showErrorMessage() {
+        tv_registration_error.visibility = View.VISIBLE
+    }
+
+    override fun hideErrorMessage() {
+        tv_registration_error.visibility = View.INVISIBLE
+    }
+
+    override fun setErrorMessage(message: String) {
+        tv_registration_error.text = message
     }
 }

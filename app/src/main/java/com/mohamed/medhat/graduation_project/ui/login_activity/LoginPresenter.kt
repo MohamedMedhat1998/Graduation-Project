@@ -34,6 +34,6 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
 
     fun onRegisterClicked() {
         activity.displayToast("Register \n${loginView.getEmail()} \n${loginView.getPassword()}")
-        activity.navigateToActivity(RegistrationActivity::class.java)
+        activity.navigateTo(RegistrationActivity::class.java)
     }
 }

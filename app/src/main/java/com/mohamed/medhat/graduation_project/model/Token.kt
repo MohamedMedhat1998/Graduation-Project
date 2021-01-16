@@ -12,4 +12,9 @@ import kotlinx.android.parcel.Parcelize
 data class Token(
 	val expiration: String,
 	val token: String
-) : Parcelable
+) : Parcelable {
+
+    override fun toString(): String {
+        return "Token[${hashCode()}](token: ${token}, expiration: $expiration)"
+    }
+}
