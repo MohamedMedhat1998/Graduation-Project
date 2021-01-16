@@ -2,12 +2,13 @@ package com.mohamed.medhat.graduation_project.dagger.modules
 
 import com.mohamed.medhat.graduation_project.networking.BASE_URL
 import com.mohamed.medhat.graduation_project.networking.WebApi
-import com.squareup.moshi.Moshi
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.converter.moshi.MoshiConverterFactory
+import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -25,30 +26,32 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideRetrofit(moshiConverterFactory: MoshiConverterFactory): Retrofit {
+    fun provideRetrofit(
+        gsonConverterFactory: GsonConverterFactory,
+        okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
-            .addConverterFactory(moshiConverterFactory)
+            .addConverterFactory(gsonConverterFactory)
+            .client(okHttpClient)
             .baseUrl(BASE_URL)
             .build()
     }
 
     @Singleton
     @Provides
-    fun provideMoshiConverterFactory(moshi: Moshi): MoshiConverterFactory {
-        return MoshiConverterFactory.create(moshi)
+    fun provideGsonConverterFactory(): GsonConverterFactory {
+        return GsonConverterFactory.create()
     }
 
     @Singleton
     @Provides
-    fun provideMoshi(kotlinJsonAdapterFactory: KotlinJsonAdapterFactory): Moshi {
-        return Moshi.Builder()
-            .add(kotlinJsonAdapterFactory)
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .connectTimeout(20, TimeUnit.SECONDS)
+            .readTimeout(20, TimeUnit.SECONDS)
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                this.level = HttpLoggingInterceptor.Level.BODY
+            })
             .build()
-    }
-
-    @Singleton
-    @Provides
-    fun provideKotlinJsonAdapterFactory(): KotlinJsonAdapterFactory {
-        return KotlinJsonAdapterFactory()
     }
 }

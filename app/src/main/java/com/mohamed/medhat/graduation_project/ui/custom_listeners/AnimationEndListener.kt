@@ -1,9 +1,9 @@
-package com.mohamed.medhat.graduation_project.ui.animation
+package com.mohamed.medhat.graduation_project.ui.custom_listeners
 
 import android.animation.Animator
 
 /**
- * A custom listener that only exposes [onAnimationEnd] function.
+ * A custom animator listener listener that only exposes [onAnimationEnd] function.
  */
 interface AnimationEndListener : Animator.AnimatorListener {
     override fun onAnimationStart(animation: Animator?) {}

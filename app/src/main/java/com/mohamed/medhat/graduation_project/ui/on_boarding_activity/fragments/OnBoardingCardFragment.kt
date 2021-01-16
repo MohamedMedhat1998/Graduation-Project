@@ -40,7 +40,7 @@ class OnBoardingCardFragment : Fragment() {
             view.btn_on_boarding_finish.visibility =
                 if (onBoardingCard!!.isTheLastCard) View.VISIBLE else View.INVISIBLE
             view.btn_on_boarding_finish.setOnClickListener {
-                (activity as OnBoardingActivity).navigateToActivity(LoginActivity::class.java)
+                (activity as OnBoardingActivity).navigateTo(LoginActivity::class.java)
             }
         } else {
             Log.e(REPORT_ERROR, getString(R.string.null_on_boarding_card))
