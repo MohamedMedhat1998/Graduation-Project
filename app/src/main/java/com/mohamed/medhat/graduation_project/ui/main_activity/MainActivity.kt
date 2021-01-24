@@ -2,6 +2,7 @@ package com.mohamed.medhat.graduation_project.ui.main_activity
 
 import android.os.Bundle
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.gms.maps.GoogleMap
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.ui.base.BaseActivity
 import javax.inject.Inject
@@ -27,5 +28,9 @@ class MainActivity : BaseActivity(), MainView {
         mainPresenter.setView(this)
         mainPresenter.setViewModel(mainViewModel)
         mainPresenter.start(savedInstanceState)
+    }
+
+    override fun onMapReady(p0: GoogleMap?) {
+
     }
 }
