@@ -12,6 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationProject">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
         <activity android:name=".ui.main_activity.MainActivity" />
         <activity android:name=".ui.registration_activity.RegistrationActivity" />
         <activity android:name=".ui.on_boarding_activity.OnBoardingActivity" />
