@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.dagger.modules
 
 import com.mohamed.medhat.graduation_project.networking.BASE_URL
+import com.mohamed.medhat.graduation_project.networking.CONNECTION_TIMEOUT
 import com.mohamed.medhat.graduation_project.networking.WebApi
 import dagger.Module
 import dagger.Provides
@@ -47,8 +48,8 @@ class NetworkModule {
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(20, TimeUnit.SECONDS)
-            .readTimeout(20, TimeUnit.SECONDS)
+            .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             })
