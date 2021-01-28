@@ -5,6 +5,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.model.OnBoardingCard
 import com.mohamed.medhat.graduation_project.ui.base.BaseActivity
+import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateUnaware
 import kotlinx.android.synthetic.main.activity_on_boarding.*
 import javax.inject.Inject
 
@@ -17,6 +18,7 @@ class OnBoardingActivity : BaseActivity(), OnBoardingView {
     lateinit var presenter: OnBoardingPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        setNetworkStateAwareness(NetworkStateUnaware())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_on_boarding)
         activityComponent.inject(this)

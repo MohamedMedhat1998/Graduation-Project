@@ -2,4 +2,6 @@
     <string name="app_name">Graduation Project</string>
     <string name="successfully_registered">"Successfully registered!\nPlease, login to use the app!"</string>
     <string name="successfully_logged_in">Successfully logged in!</string>
+    <string name="no_internet_title">No Internet Connection!</string>
+    <string name="no_internet_message">Please connect to the internet to continue using our app!</string>
 </resources>
