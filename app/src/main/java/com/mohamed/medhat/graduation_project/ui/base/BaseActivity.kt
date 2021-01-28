@@ -7,17 +7,21 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mohamed.medhat.graduation_project.dagger.DaggerApplication
 import com.mohamed.medhat.graduation_project.dagger.components.ActivityComponent
+import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAware
+import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAwareness
 
 /**
  * A base class for all the activities in the app. This class is meant to reduce the boilerplate code for the activity classes.
  */
 open class BaseActivity : AppCompatActivity(), BaseView {
     lateinit var activityComponent: ActivityComponent
+    private var networkStateAwareness: NetworkStateAwareness = NetworkStateAware()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent =
             (application as DaggerApplication).appComponent.activityComponent().create()
         super.onCreate(savedInstanceState)
+        networkStateAwareness.handleNetworkStateChangeBehavior(this)
     }
 
     override fun navigateTo(activity: Class<*>) {
@@ -39,5 +43,9 @@ open class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun resetInputError(editText: EditText) {
         editText.error = null
+    }
+
+    override fun setNetworkStateAwareness(networkStateAwareness: NetworkStateAwareness) {
+        this.networkStateAwareness = networkStateAwareness
     }
 }

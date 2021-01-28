@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.ui.base
 
 import android.widget.EditText
+import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAwareness
 
 /**
  * The parent interface for all the mvp view interfaces.
@@ -36,4 +37,10 @@ interface BaseView {
      * Resets the errors in a specific [EditText].
      */
     fun resetInputError(editText: EditText)
+
+    /**
+     * Defines the suitable behavior for the activity when the network state changes.
+     * @param networkStateAwareness the behavior the activity will follow.
+     */
+    fun setNetworkStateAwareness(networkStateAwareness: NetworkStateAwareness)
 }
