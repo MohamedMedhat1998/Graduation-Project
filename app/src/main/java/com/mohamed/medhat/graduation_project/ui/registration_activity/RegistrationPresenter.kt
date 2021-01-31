@@ -56,7 +56,8 @@ class RegistrationPresenter @Inject constructor() :
         resetErrors()
         if (validUserInputs()) {
             val newUser = NewUser(
-                fullName = registrationView.getFullName(),
+                firstName = registrationView.getFirstName(),
+                lastName = registrationView.getLastName(),
                 email = registrationView.getEmail(),
                 password = registrationView.getPassword(),
                 confirmPassword = registrationView.getConfirmedPassword()
@@ -78,29 +79,35 @@ class RegistrationPresenter @Inject constructor() :
      */
     private fun areEmpty(): Boolean {
         // Getting the values from the input fields.
-        val fullName = registrationView.getFullName()
+        val firstName = registrationView.getFirstName()
+        val lastName = registrationView.getLastName()
         val email = registrationView.getEmail()
         val password = registrationView.getPassword()
         val confirmedPassword = registrationView.getConfirmedPassword()
         val emptyError = activity.getString(R.string.empty_field_warning)
+        var errorFlag = false
         // Checking if these values are empty.
-        if (fullName.isEmpty()) {
-            registrationView.showInputError(activity.et_registration_full_name, emptyError)
-            return true
+        if (firstName.isEmpty()) {
+            registrationView.showInputError(activity.et_registration_first_name, emptyError)
+            errorFlag = true
+        }
+        if (lastName.isEmpty()) {
+            registrationView.showInputError(activity.et_registration_last_name, emptyError)
+            errorFlag = true
         }
         if (email.isEmpty()) {
             registrationView.showInputError(activity.et_registration_email, emptyError)
-            return true
+            errorFlag = true
         }
         if (password.isEmpty()) {
             registrationView.showInputError(activity.et_registration_password, emptyError)
-            return true
+            errorFlag = true
         }
         if (confirmedPassword.isEmpty()) {
             registrationView.showInputError(activity.et_registration_confirm_password, emptyError)
-            return true
+            errorFlag = true
         }
-        return false
+        return errorFlag
     }
 
     /**
@@ -148,7 +155,8 @@ class RegistrationPresenter @Inject constructor() :
         registrationView.apply {
             hideErrorMessage()
             hideLoadingIndicator()
-            resetInputError(activity.et_registration_full_name)
+            resetInputError(activity.et_registration_first_name)
+            resetInputError(activity.et_registration_last_name)
             resetInputError(activity.et_registration_email)
             resetInputError(activity.et_registration_password)
             resetInputError(activity.et_registration_confirm_password)

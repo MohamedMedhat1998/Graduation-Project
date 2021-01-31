@@ -2,7 +2,6 @@ package com.mohamed.medhat.graduation_project.ui.registration_activity
 
 import android.os.Bundle
 import android.view.View
-import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.ui.base.BaseActivity
@@ -37,8 +36,12 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
         }
     }
 
-    override fun getFullName(): String {
-        return et_registration_full_name.text.toString()
+    override fun getFirstName(): String {
+        return et_registration_first_name.text.toString()
+    }
+
+    override fun getLastName(): String {
+        return et_registration_last_name.text.toString()
     }
 
     override fun getEmail(): String {
