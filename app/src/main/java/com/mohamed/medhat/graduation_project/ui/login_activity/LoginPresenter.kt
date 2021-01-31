@@ -33,7 +33,6 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
                 displayToast(activity.getString(R.string.successfully_logged_in))
                 navigateToThenFinish(MainActivity::class.java)
             }
-            Log.d("Login", "Your token is: ${it.token}")
         }
         loginViewModel.state.observe(activity) {
             handleLoadingState(loginView, loginViewModel.error, it)
