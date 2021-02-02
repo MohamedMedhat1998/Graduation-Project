@@ -2,6 +2,7 @@ package com.mohamed.medhat.graduation_project.dagger.modules
 
 import com.mohamed.medhat.graduation_project.networking.BASE_URL
 import com.mohamed.medhat.graduation_project.networking.CONNECTION_TIMEOUT
+import com.mohamed.medhat.graduation_project.networking.NetworkInterceptor
 import com.mohamed.medhat.graduation_project.networking.WebApi
 import dagger.Module
 import dagger.Provides
@@ -53,6 +54,7 @@ class NetworkModule {
             .addInterceptor(HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(NetworkInterceptor())
             .build()
     }
 }

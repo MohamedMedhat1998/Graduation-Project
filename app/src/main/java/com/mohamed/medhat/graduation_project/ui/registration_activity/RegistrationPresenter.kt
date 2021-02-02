@@ -7,6 +7,7 @@ import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.NewUser
 import com.mohamed.medhat.graduation_project.ui.base.AdvancedPresenter
+import com.mohamed.medhat.graduation_project.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
 import com.mohamed.medhat.graduation_project.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -36,7 +37,13 @@ class RegistrationPresenter @Inject constructor() :
             Log.d("TOKEN", "Success, your token is: ${it.token}")
         }
         registrationViewModel.state.observe(activity) {
-            handleLoadingState(registrationView, registrationViewModel.error, it)
+            registrationView.setAppErrorViewer(
+                TextErrorViewer(
+                    registrationViewModel.appError,
+                    activity.tv_registration_error
+                )
+            )
+            handleLoadingState(registrationView, it)
         }
     }
 
@@ -114,8 +121,11 @@ class RegistrationPresenter @Inject constructor() :
      * @return `true` if the **password** doesn't contain problems, `false` otherwise.
      */
     private fun passwordOk(): Boolean {
+        var okFlag = true
+        val password = registrationView.getPassword()
+        val confirmPassword = registrationView.getConfirmedPassword()
         // Checking password matching.
-        if (registrationView.getPassword() != registrationView.getConfirmedPassword()) {
+        if (password != confirmPassword) {
             val passwordMatchingError = activity.getString(R.string.password_matching_warning)
             registrationView.apply {
                 displayToast(passwordMatchingError)
@@ -128,10 +138,21 @@ class RegistrationPresenter @Inject constructor() :
                     passwordMatchingError
                 )
             }
-            return false
+            okFlag = false
+        } else {
+            val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#\$^+=!*()@%&]).{8,}\$"
+            if (!password.matches(passwordRegex.toRegex())) {
+                okFlag = false
+                // TODO move to strings
+                val passwordMatchingError = "Min Length 8 Characters\n" +
+                        "Should Include digit numbers\n" +
+                        "Should Include Uppercase\n" +
+                        "Should Include Lowercase\n" +
+                        "Should Include Special Characters"
+                registrationView.showInputError(activity.et_registration_password,passwordMatchingError)
+            }
         }
-        // TODO Check password constraints.
-        return true
+        return okFlag
     }
 
     /**
@@ -153,7 +174,7 @@ class RegistrationPresenter @Inject constructor() :
      */
     private fun resetErrors() {
         registrationView.apply {
-            hideErrorMessage()
+            hideError()
             hideLoadingIndicator()
             resetInputError(activity.et_registration_first_name)
             resetInputError(activity.et_registration_last_name)

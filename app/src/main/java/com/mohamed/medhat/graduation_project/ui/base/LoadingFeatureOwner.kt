@@ -1,6 +1,7 @@
 package com.mohamed.medhat.graduation_project.ui.base
 
 import androidx.lifecycle.ViewModel
+import com.mohamed.medhat.graduation_project.model.error.DetailedConnectionError
 
 /**
  * Implement this interface if the activity has a [ViewModel].
@@ -17,18 +18,12 @@ interface LoadingFeatureOwner {
     fun hideLoadingIndicator()
 
     /**
-     * Shows the error message in the activity.
+     * Shows the error in the activity.
      */
-    fun showErrorMessage()
+    fun showError()
 
     /**
-     * Hides the error message in the activity.
+     * Hides the error in the activity.
      */
-    fun hideErrorMessage()
-
-    /**
-     * Sets the error message in the activity.
-     * @param message the message to set.
-     */
-    fun setErrorMessage(message: String)
+    fun hideError()
 }

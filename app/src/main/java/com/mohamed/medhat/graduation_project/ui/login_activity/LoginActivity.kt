@@ -52,15 +52,11 @@ class LoginActivity : BaseActivity(), LoginView {
         pb_login_loading.visibility = View.INVISIBLE
     }
 
-    override fun showErrorMessage() {
-        tv_login_error.visibility = View.VISIBLE
+    override fun showError() {
+        displayAppError()
     }
 
-    override fun hideErrorMessage() {
-        tv_login_error.visibility = View.INVISIBLE
-    }
-
-    override fun setErrorMessage(message: String) {
-        tv_login_error.text = message
+    override fun hideError() {
+        hideAppError()
     }
 }
