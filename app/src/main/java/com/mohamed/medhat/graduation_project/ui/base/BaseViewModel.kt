@@ -3,6 +3,8 @@ package com.mohamed.medhat.graduation_project.ui.base
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.mohamed.medhat.graduation_project.model.error.AppError
+import com.mohamed.medhat.graduation_project.model.error.NoError
 import com.mohamed.medhat.graduation_project.ui.helpers.State
 
 /**
@@ -22,7 +24,7 @@ open class BaseViewModel : ViewModel() {
         get() = _state
 
     /**
-     * The error value to display if the [State] is [State.ERROR].
+     * An error object that should be built if the [State] is [State.ERROR].
      */
-    var error = ""
+    var appError: AppError = NoError()
 }

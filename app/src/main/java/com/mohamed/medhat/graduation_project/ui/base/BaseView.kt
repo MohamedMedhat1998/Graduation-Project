@@ -1,6 +1,8 @@
 package com.mohamed.medhat.graduation_project.ui.base
 
 import android.widget.EditText
+import com.mohamed.medhat.graduation_project.model.error.AppError
+import com.mohamed.medhat.graduation_project.ui.base.error_viewers.AppErrorViewer
 import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAwareness
 
 /**
@@ -43,4 +45,21 @@ interface BaseView {
      * @param networkStateAwareness the behavior the activity will follow.
      */
     fun setNetworkStateAwareness(networkStateAwareness: NetworkStateAwareness)
+
+    /**
+     * Defines the suitable way to display errors in the activity.
+     * @param appErrorViewer the way to display the error.
+     */
+    fun setAppErrorViewer(appErrorViewer: AppErrorViewer)
+
+    /**
+     * Displays an error in the activity. The error will belong to [AppError] family and it will be displayed in a way
+     * specified by the function [setAppErrorViewer].
+     */
+    fun displayAppError()
+
+    /**
+     * Hides the [AppError] from the activity.
+     */
+    fun hideAppError()
 }

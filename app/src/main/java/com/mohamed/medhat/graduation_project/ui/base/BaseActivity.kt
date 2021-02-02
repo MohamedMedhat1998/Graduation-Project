@@ -7,6 +7,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mohamed.medhat.graduation_project.dagger.DaggerApplication
 import com.mohamed.medhat.graduation_project.dagger.components.ActivityComponent
+import com.mohamed.medhat.graduation_project.ui.base.error_viewers.AppErrorViewer
+import com.mohamed.medhat.graduation_project.ui.base.error_viewers.NoErrorViewer
 import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAware
 import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.NetworkStateAwareness
 
@@ -16,6 +18,7 @@ import com.mohamed.medhat.graduation_project.ui.base.network_state_awareness.Net
 open class BaseActivity : AppCompatActivity(), BaseView {
     lateinit var activityComponent: ActivityComponent
     private var networkStateAwareness: NetworkStateAwareness = NetworkStateAware()
+    private var appErrorViewer: AppErrorViewer = NoErrorViewer()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         activityComponent =
@@ -47,5 +50,17 @@ open class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun setNetworkStateAwareness(networkStateAwareness: NetworkStateAwareness) {
         this.networkStateAwareness = networkStateAwareness
+    }
+
+    override fun setAppErrorViewer(appErrorViewer: AppErrorViewer) {
+        this.appErrorViewer = appErrorViewer
+    }
+
+    override fun displayAppError() {
+        appErrorViewer.display()
+    }
+
+    override fun hideAppError() {
+        appErrorViewer.hide()
     }
 }

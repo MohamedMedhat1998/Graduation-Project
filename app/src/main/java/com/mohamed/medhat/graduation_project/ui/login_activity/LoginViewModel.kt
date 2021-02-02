@@ -6,10 +6,17 @@ import androidx.lifecycle.viewModelScope
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.LoginUser
 import com.mohamed.medhat.graduation_project.model.Token
+import com.mohamed.medhat.graduation_project.model.error.NoError
+import com.mohamed.medhat.graduation_project.model.error.SimpleConnectionError
 import com.mohamed.medhat.graduation_project.networking.WebApi
 import com.mohamed.medhat.graduation_project.ui.base.BaseViewModel
 import com.mohamed.medhat.graduation_project.ui.helpers.State
+import com.mohamed.medhat.graduation_project.utils.catchServerOrResponseError
+import com.mohamed.medhat.graduation_project.utils.catchUnknownError
+import com.mohamed.medhat.graduation_project.utils.parsers.ApplicationConnectionErrorParser
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 /**
@@ -32,7 +39,7 @@ class LoginViewModel @Inject constructor(val api: WebApi) : BaseViewModel() {
      * @param loginUser the user to login to.
      */
     fun login(loginUser: LoginUser) {
-        // TODO handle the errors
+        appError = NoError()
         _state.value = State.LOADING
         viewModelScope.launch {
             try {
@@ -40,15 +47,16 @@ class LoginViewModel @Inject constructor(val api: WebApi) : BaseViewModel() {
                 if (response.isSuccessful) {
                     val token: Token = response.body()!!
                     _token.value = token
-                    error = ""
+                    appError = NoError()
                     _state.value = State.NORMAL
                 } else {
-                    error = response.message()
-                    _state.value = State.ERROR
+                    withContext(Dispatchers.IO) {
+                        appError = catchServerOrResponseError(response)
+                        _state.postValue(State.ERROR)
+                    }
                 }
             } catch (t: Throwable) {
-                t.printStackTrace()
-                error = t.message.toString()
+                appError = catchUnknownError(t)
                 _state.value = State.ERROR
             }
         }

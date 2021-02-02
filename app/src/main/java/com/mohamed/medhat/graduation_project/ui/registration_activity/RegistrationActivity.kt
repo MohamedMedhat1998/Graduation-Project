@@ -64,15 +64,11 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
         pb_registration_loading.visibility = View.INVISIBLE
     }
 
-    override fun showErrorMessage() {
-        tv_registration_error.visibility = View.VISIBLE
+    override fun showError() {
+        displayAppError()
     }
 
-    override fun hideErrorMessage() {
-        tv_registration_error.visibility = View.INVISIBLE
-    }
-
-    override fun setErrorMessage(message: String) {
-        tv_registration_error.text = message
+    override fun hideError() {
+        hideAppError()
     }
 }

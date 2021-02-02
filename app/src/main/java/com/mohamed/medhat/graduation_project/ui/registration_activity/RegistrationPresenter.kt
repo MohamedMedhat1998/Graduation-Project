@@ -7,6 +7,7 @@ import com.mohamed.medhat.graduation_project.R
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.NewUser
 import com.mohamed.medhat.graduation_project.ui.base.AdvancedPresenter
+import com.mohamed.medhat.graduation_project.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
 import com.mohamed.medhat.graduation_project.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_registration.*
@@ -36,7 +37,13 @@ class RegistrationPresenter @Inject constructor() :
             Log.d("TOKEN", "Success, your token is: ${it.token}")
         }
         registrationViewModel.state.observe(activity) {
-            handleLoadingState(registrationView, registrationViewModel.error, it)
+            registrationView.setAppErrorViewer(
+                TextErrorViewer(
+                    registrationViewModel.appError,
+                    activity.tv_registration_error
+                )
+            )
+            handleLoadingState(registrationView, it)
         }
     }
 
@@ -153,7 +160,7 @@ class RegistrationPresenter @Inject constructor() :
      */
     private fun resetErrors() {
         registrationView.apply {
-            hideErrorMessage()
+            hideError()
             hideLoadingIndicator()
             resetInputError(activity.et_registration_first_name)
             resetInputError(activity.et_registration_last_name)
