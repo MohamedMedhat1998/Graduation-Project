@@ -121,8 +121,11 @@ class RegistrationPresenter @Inject constructor() :
      * @return `true` if the **password** doesn't contain problems, `false` otherwise.
      */
     private fun passwordOk(): Boolean {
+        var okFlag = true
+        val password = registrationView.getPassword()
+        val confirmPassword = registrationView.getConfirmedPassword()
         // Checking password matching.
-        if (registrationView.getPassword() != registrationView.getConfirmedPassword()) {
+        if (password != confirmPassword) {
             val passwordMatchingError = activity.getString(R.string.password_matching_warning)
             registrationView.apply {
                 displayToast(passwordMatchingError)
@@ -135,10 +138,21 @@ class RegistrationPresenter @Inject constructor() :
                     passwordMatchingError
                 )
             }
-            return false
+            okFlag = false
+        } else {
+            val passwordRegex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[#\$^+=!*()@%&]).{8,}\$"
+            if (!password.matches(passwordRegex.toRegex())) {
+                okFlag = false
+                // TODO move to strings
+                val passwordMatchingError = "Min Length 8 Characters\n" +
+                        "Should Include digit numbers\n" +
+                        "Should Include Uppercase\n" +
+                        "Should Include Lowercase\n" +
+                        "Should Include Special Characters"
+                registrationView.showInputError(activity.et_registration_password,passwordMatchingError)
+            }
         }
-        // TODO Check password constraints.
-        return true
+        return okFlag
     }
 
     /**
