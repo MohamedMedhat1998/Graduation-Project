@@ -2,6 +2,8 @@ package com.mohamed.medhat.graduation_project.dagger.components
 
 import com.mohamed.medhat.graduation_project.dagger.ViewModelFactory
 import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
+import com.mohamed.medhat.graduation_project.ui.confirmation_activity.ConfirmationActivity
+import com.mohamed.medhat.graduation_project.ui.confirmation_activity.ConfirmationViewModel
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginActivity
 import com.mohamed.medhat.graduation_project.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.graduation_project.ui.main_activity.MainActivity
@@ -13,7 +15,7 @@ import com.mohamed.medhat.graduation_project.ui.splash_activity.SplashActivity
 import dagger.Subcomponent
 
 /**
- * A dagger subcomponent for the activity lifecycle.
+ * A dagger sub-component for the activity lifecycle.
  */
 @ActivityScope
 @Subcomponent
@@ -29,8 +31,10 @@ interface ActivityComponent {
     fun inject(onBoardingActivity: OnBoardingActivity)
     fun inject(registrationActivity: RegistrationActivity)
     fun inject(mainActivity: MainActivity)
+    fun inject(confirmationActivity: ConfirmationActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun registrationViewModel(): ViewModelFactory<RegistrationViewModel>
     fun mainViewModel(): ViewModelFactory<MainViewModel>
+    fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
 }

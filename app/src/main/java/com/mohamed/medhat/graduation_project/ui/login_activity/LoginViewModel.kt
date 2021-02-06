@@ -7,13 +7,11 @@ import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.LoginUser
 import com.mohamed.medhat.graduation_project.model.Token
 import com.mohamed.medhat.graduation_project.model.error.NoError
-import com.mohamed.medhat.graduation_project.model.error.SimpleConnectionError
 import com.mohamed.medhat.graduation_project.networking.WebApi
 import com.mohamed.medhat.graduation_project.ui.base.BaseViewModel
 import com.mohamed.medhat.graduation_project.ui.helpers.State
 import com.mohamed.medhat.graduation_project.utils.catchServerOrResponseError
 import com.mohamed.medhat.graduation_project.utils.catchUnknownError
-import com.mohamed.medhat.graduation_project.utils.parsers.ApplicationConnectionErrorParser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
