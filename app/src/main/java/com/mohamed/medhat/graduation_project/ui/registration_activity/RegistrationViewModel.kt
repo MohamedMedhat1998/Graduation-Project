@@ -13,6 +13,7 @@ import com.mohamed.medhat.graduation_project.ui.base.BaseViewModel
 import com.mohamed.medhat.graduation_project.ui.helpers.State
 import com.mohamed.medhat.graduation_project.utils.catchServerOrResponseError
 import com.mohamed.medhat.graduation_project.utils.catchUnknownError
+import com.mohamed.medhat.graduation_project.utils.managers.TokenManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -22,7 +23,8 @@ import javax.inject.Inject
  * A [ViewModel] for the [RegistrationActivity].
  */
 @ActivityScope
-class RegistrationViewModel @Inject constructor(val api: WebApi) : BaseViewModel() {
+class RegistrationViewModel @Inject constructor(val api: WebApi, val tokenManager: TokenManager) :
+    BaseViewModel() {
 
     init {
         _state.value = State.NORMAL
@@ -46,6 +48,7 @@ class RegistrationViewModel @Inject constructor(val api: WebApi) : BaseViewModel
                 if (response.isSuccessful) {
                     val token: Token = response.body()!!
                     _token.value = token
+                    tokenManager.save(token)
                     appError = NoError()
                     _state.value = State.NORMAL
                 } else {
