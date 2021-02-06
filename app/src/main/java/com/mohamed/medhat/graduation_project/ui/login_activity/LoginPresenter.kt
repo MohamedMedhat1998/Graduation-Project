@@ -6,6 +6,7 @@ import com.mohamed.medhat.graduation_project.dagger.scopes.ActivityScope
 import com.mohamed.medhat.graduation_project.model.LoginUser
 import com.mohamed.medhat.graduation_project.ui.base.AdvancedPresenter
 import com.mohamed.medhat.graduation_project.ui.base.error_viewers.TextErrorViewer
+import com.mohamed.medhat.graduation_project.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.graduation_project.ui.main_activity.MainActivity
 import com.mohamed.medhat.graduation_project.ui.registration_activity.RegistrationActivity
 import com.mohamed.medhat.graduation_project.utils.handleLoadingState
@@ -31,7 +32,8 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
         loginViewModel.token.observe(activity) {
             loginView.apply {
                 displayToast(activity.getString(R.string.successfully_logged_in))
-                navigateToThenFinish(MainActivity::class.java)
+                // TODO change the destination activity based on the confirmation state
+                navigateToThenFinish(ConfirmationActivity::class.java)
             }
         }
         loginViewModel.state.observe(activity) {
