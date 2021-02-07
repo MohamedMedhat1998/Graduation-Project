@@ -13,6 +13,7 @@ import retrofit2.Response
  */
 val handleLoadingState: (loadingFeatureOwner: LoadingFeatureOwner, state: State) -> Unit =
     { loadingFeatureOwner: LoadingFeatureOwner, state: State ->
+        // TODO handle authorization exception
         when (state) {
             State.NORMAL -> {
                 loadingFeatureOwner.apply {
