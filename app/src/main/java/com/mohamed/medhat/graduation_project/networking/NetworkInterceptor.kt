@@ -38,7 +38,7 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
      * @param request the [Request] object under the check.
      * @return `true` if the request requires authentication, `false` otherwise.
      */
-    private fun requiresAuth(request: Request): Boolean {
+    fun requiresAuth(request: Request): Boolean {
         val url = request.url.toString()
         nonAuthEndpoints.forEach {
             if (url == it) {
