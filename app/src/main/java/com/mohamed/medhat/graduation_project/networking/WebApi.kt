@@ -3,7 +3,6 @@ package com.mohamed.medhat.graduation_project.networking
 import com.mohamed.medhat.graduation_project.model.LoginUser
 import com.mohamed.medhat.graduation_project.model.NewUser
 import com.mohamed.medhat.graduation_project.model.Token
-import org.json.JSONObject
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST

@@ -3,6 +3,7 @@ package com.mohamed.medhat.graduation_project.local
 import android.content.SharedPreferences
 import android.util.Log
 import com.mohamed.medhat.graduation_project.utils.BLANK
+import com.mohamed.medhat.graduation_project.utils.PREFS_CLEAR
 import com.mohamed.medhat.graduation_project.utils.PREFS_READ
 import com.mohamed.medhat.graduation_project.utils.PREFS_WRITE
 import javax.inject.Inject
@@ -38,10 +39,24 @@ class SharedPrefs @Inject constructor(val sharedPreferences: SharedPreferences) 
     /**
      * Removes all the entities from the shared preferences.
      */
-    fun clear() {
+    fun clearAll() {
         val editor = sharedPreferences.edit()
         sharedPreferences.all.keys.forEach {
             editor.remove(it)
+        }
+        editor.apply()
+        Log.d(PREFS_CLEAR, "Cache was cleared!")
+    }
+
+    /**
+     * Removes all the passed keys from the shared preferences.
+     * @param keys the keys to clear.
+     */
+    fun clear(vararg keys: String) {
+        val editor = sharedPreferences.edit()
+        keys.forEach {
+            editor.remove(it)
+            Log.d(PREFS_CLEAR, "\"$it\" was cleared")
         }
         editor.apply()
     }
