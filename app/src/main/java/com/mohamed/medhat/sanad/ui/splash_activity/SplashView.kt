@@ -1,0 +1,22 @@
+package com.mohamed.medhat.sanad.ui.splash_activity
+
+import com.mohamed.medhat.sanad.ui.base.BaseView
+
+/**
+ * An mvp view for the [SplashActivity].
+ */
+interface SplashView : BaseView {
+    /**
+     * Applies a rotation animation to a specific view.
+     * @param id the id of the view to be rotated.
+     * @param rotation the rotation angle.
+     * @param duration the duration of the animation.
+     * @param onRotationFinished a lambda that should be called when the rotation is done.
+     */
+    fun playRotationAnimation(
+        id: Int,
+        rotation: Float = 360f,
+        duration: Long = 1000,
+        onRotationFinished: () -> Unit
+    )
+}
