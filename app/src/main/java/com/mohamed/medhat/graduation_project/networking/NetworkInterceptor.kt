@@ -88,7 +88,7 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
      * @param request the [Request] object under the check.
      * @return `true` if the request requires authentication, `false` otherwise.
      */
-    fun requiresAuth(request: Request): Boolean {
+    private fun requiresAuth(request: Request): Boolean {
         val url = request.url.toString()
         nonAuthEndpoints.forEach {
             if (url == it) {
@@ -135,6 +135,12 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
                     Gson().fromJson(response.peekBody(1024).string(), Token::class.java)
                 tokenManager.save(token)
                 Log.d(INTERCEPTOR_TAG, "Token Refreshed!")
+                // TODO resend the original request with the refreshed token
+                // resending the original request (that requires authentication) with the new token.
+                val requestToResend = request.newBuilder()
+                    .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
+                    .build()
+                return chain.proceed(requestToResend)
             } catch (e: Exception) {
                 e.printStackTrace()
                 tokenManager.clearToken()
