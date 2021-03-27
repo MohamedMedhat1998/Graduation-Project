@@ -135,7 +135,6 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
                     Gson().fromJson(response.peekBody(1024).string(), Token::class.java)
                 tokenManager.save(token)
                 Log.d(INTERCEPTOR_TAG, "Token Refreshed!")
-                // TODO resend the original request with the refreshed token
                 // resending the original request (that requires authentication) with the new token.
                 val requestToResend = request.newBuilder()
                     .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
