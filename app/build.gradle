@@ -10,7 +10,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.mohamed.medhat.graduation_project"
+        applicationId "com.mohamed.medhat.sanad"
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 1
