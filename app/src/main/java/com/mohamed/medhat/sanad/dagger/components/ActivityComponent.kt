@@ -12,6 +12,7 @@ import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationViewModel
 import com.mohamed.medhat.sanad.ui.splash_activity.SplashActivity
+import com.mohamed.medhat.sanad.ui.splash_activity.SplashNavViewModel
 import dagger.Subcomponent
 
 /**
@@ -37,4 +38,5 @@ interface ActivityComponent {
     fun registrationViewModel(): ViewModelFactory<RegistrationViewModel>
     fun mainViewModel(): ViewModelFactory<MainViewModel>
     fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
+    fun splashNavViewViewModel(): ViewModelFactory<SplashNavViewModel>
 }

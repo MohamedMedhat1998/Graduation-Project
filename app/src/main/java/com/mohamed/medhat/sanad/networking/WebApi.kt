@@ -1,10 +1,12 @@
 package com.mohamed.medhat.sanad.networking
 
 import com.mohamed.medhat.sanad.model.LoginUser
+import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.NewUser
 import com.mohamed.medhat.sanad.model.Token
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
 
@@ -35,4 +37,10 @@ interface WebApi {
      */
     @POST("Accounts/ConfirmEmail/{confirmationCode}")
     suspend fun confirmEmail(@Path("confirmationCode") confirmationCode: String): Response<Any>
+
+    /**
+     * @return the mentor profile response body.
+     */
+    @GET("/Api/Accounts/Profile")
+    suspend fun getMentorProfile(): Response<MentorProfile>
 }
