@@ -8,7 +8,7 @@ import javax.inject.Inject
 
 private const val TOKEN_MANAGER_TAG = "TOKEN_MANAGER"
 
-private const val TOKEN = "token"
+const val TOKEN = "token"
 private const val TOKEN_EXPIRATION_DATE = "token-expiration-date"
 private const val REFRESH_TOKEN = "refresh-token"
 private const val REFRESH_TOKEN_EXPIRATION_DATE = "refresh-token-expiration-date"
