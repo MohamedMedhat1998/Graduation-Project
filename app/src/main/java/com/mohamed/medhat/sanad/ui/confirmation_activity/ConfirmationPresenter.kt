@@ -4,7 +4,10 @@ import android.os.Bundle
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
-import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
+import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
+import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
+import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
+import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_confirmation.*
 import javax.inject.Inject
 
@@ -22,15 +25,25 @@ class ConfirmationPresenter @Inject constructor() :
     override fun start(savedInstanceState: Bundle?) {
         activity = confirmationView as ConfirmationActivity
         confirmationViewModel.isConfirmed.observe(activity) {
-            // TODO handle successful confirmation
             if (it) {
-                confirmationView.navigateToThenFinish(MainActivity::class.java)
+                confirmationView.navigateToThenFinish(QRActivity::class.java)
             } else {
                 confirmationView.displayToast("Something went wrong!")
             }
         }
         confirmationViewModel.state.observe(activity) {
-            // TODO handle request state
+            activity.setAppErrorViewer(
+                TextErrorViewer(
+                    confirmationViewModel.appError,
+                    activity.tv_confirmation_error
+                )
+            )
+            handleLoadingState(confirmationView, it)
+        }
+        confirmationViewModel.shouldReLogin.observe(activity) {
+            if (it) {
+                confirmationView.navigateToThenFinish(LoginActivity::class.java)
+            }
         }
     }
 
