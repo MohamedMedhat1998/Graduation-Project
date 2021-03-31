@@ -19,7 +19,7 @@ class SplashActivity : BaseActivity(), SplashView {
     lateinit var splashPresenter: SplashPresenter
 
     val splashNavViewModel: SplashNavViewModel by lazy {
-        ViewModelProviders.of(this, activityComponent.splashNavViewViewModel())
+        ViewModelProviders.of(this, activityComponent.splashNavViewModel())
             .get(SplashNavViewModel::class.java)
     }
 

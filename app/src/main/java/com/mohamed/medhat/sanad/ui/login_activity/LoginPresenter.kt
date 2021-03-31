@@ -6,7 +6,6 @@ import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.LoginUser
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
-import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
 import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_login.*
@@ -20,10 +19,15 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
 
     private lateinit var loginView: LoginView
     private lateinit var loginViewModel: LoginViewModel
+    private lateinit var loginNavViewModel: LoginNavViewModel
     private lateinit var activity: LoginActivity
 
     override fun setView(view: LoginView) {
         loginView = view
+    }
+
+    fun setNavigationViewModel(loginNavViewModel: LoginNavViewModel) {
+        this.loginNavViewModel = loginNavViewModel
     }
 
     override fun start(savedInstanceState: Bundle?) {
@@ -31,14 +35,16 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
         loginViewModel.token.observe(activity) {
             loginView.apply {
                 displayToast(activity.getString(R.string.successfully_logged_in))
-                // TODO change the destination activity based on the confirmation state
-                navigateToThenFinish(ConfirmationActivity::class.java)
+                loginNavViewModel.calculateDestination()
             }
         }
         loginViewModel.state.observe(activity) {
             val textErrorViewer = TextErrorViewer(loginViewModel.appError, activity.tv_login_error)
             loginView.setAppErrorViewer(textErrorViewer)
             handleLoadingState(loginView, it)
+        }
+        loginNavViewModel.destination.observe(activity) {
+            loginView.navigateToThenFinish(it)
         }
     }
 
