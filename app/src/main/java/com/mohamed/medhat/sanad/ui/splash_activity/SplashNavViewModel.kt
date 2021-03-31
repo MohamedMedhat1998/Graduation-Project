@@ -7,12 +7,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.MentorProfile
+import com.mohamed.medhat.sanad.model.error.NoError
+import com.mohamed.medhat.sanad.model.error.SingleLineError
+import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
-import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.helpers.State
+import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
+import com.mohamed.medhat.sanad.utils.IS_USER_CONFIRMED
+import com.mohamed.medhat.sanad.utils.SPLASH
 import com.mohamed.medhat.sanad.utils.managers.TOKEN
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -35,80 +40,77 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
     val destination: LiveData<Class<*>?>
         get() = _destination
 
-    private var isIsConfirmedCalculated = false
-    private var isConfirmed = false
-
     /**
      * This function performs some tasks to update the [destination].
      */
     fun calculateDestination() {
-        _state.value = State.LOADING
-        var isError = false
+        // Making sure that there is only 1 active version of this function
+        if (_state.value == State.LOADING) {
+            return
+        }
         viewModelScope.launch {
-            when {
-                shouldGoToOnBoardingActivity() -> {
-                    _destination.postValue(OnBoardingActivity::class.java)
-                }
-                shouldGoToConfirmationActivity() -> {
-                    _destination.postValue(ConfirmationActivity::class.java)
-                }
-                shouldGoToMainActivity() -> {
-                    _destination.postValue(MainActivity::class.java)
-                }
-                else -> {
-                    isError = true
-                    _destination.postValue(null)
-                    _state.postValue(State.ERROR)
-                }
-            }
-            if (!isError) {
+            _state.value = State.LOADING
+            // Navigate to OnBoardingActivity if it is the first time for the user to open.
+            if (token.isEmpty()) {
+                _destination.postValue(OnBoardingActivity::class.java)
+                appError = NoError()
                 _state.value = State.NORMAL
+                return@launch
             }
-        }
-    }
-
-    /**
-     * Decides whether to navigate to [OnBoardingActivity] or not.
-     */
-    private fun shouldGoToOnBoardingActivity(): Boolean {
-        return token.isEmpty()
-    }
-
-    /**
-     * Decides whether to navigate to [OnBoardingActivity] or not.
-     */
-    private suspend fun shouldGoToConfirmationActivity(): Boolean {
-        val isConfirmed = isUserConfirmed()
-        return token.isNotEmpty() && !isConfirmed
-    }
-
-    /**
-     * Decides whether to navigate to [OnBoardingActivity] or not.
-     */
-    private suspend fun shouldGoToMainActivity(): Boolean {
-        val isConfirmed = isUserConfirmed()
-        return token.isNotEmpty() && isConfirmed
-    }
-
-    /**
-     * @return `true` if the mentor profile is verified, `false` otherwise.
-     */
-    private suspend fun isUserConfirmed(): Boolean {
-        if (isIsConfirmedCalculated) {
-            return isConfirmed
-        } else {
-            val response = webApi.getMentorProfile()
-            if (response.isSuccessful) {
-                val mentorProfile = response.body() as MentorProfile
-                isIsConfirmedCalculated = true
-                Log.d("NavViewModel", "the end of the coroutine")
-                isConfirmed = mentorProfile.emailConfirmed
+            // A local cached confirmation state
+            var isConfirmed = sharedPrefs.read(IS_USER_CONFIRMED).toBoolean()
+            // Checking the network state
+            if (NetworkState.isConnected.value == true) {
+                // Connecting to the internet to fetch the user profile
+                val response = webApi.getMentorProfile()
+                if (response.isSuccessful) {
+                    val profile = response.body() as MentorProfile
+                    // Setting the confirmation to the fetched value
+                    isConfirmed = profile.emailConfirmed
+                    // Caching the confirmation state
+                    sharedPrefs.write(IS_USER_CONFIRMED, isConfirmed.toString())
+                } else {
+                    // TODO handle 401 unauthorized, internal server error, timed out
+                    if (response.code() == 401) {
+                        // Unauthorized access, navigate to LoginActivity
+                        _destination.postValue(LoginActivity::class.java)
+                        appError = NoError()
+                        _state.value = State.NORMAL
+                        return@launch
+                    } else {
+                        Log.e(
+                            SPLASH,
+                            "Something went wrong while choosing a destination: ${response.code()} ${response.message()}"
+                        )
+                        appError =
+                            SingleLineError("Something went wrong! Please wait while retrying...")
+                        _state.value = State.ERROR
+                        // TODO stop the infinite recursion loop?
+                        calculateDestination()
+                        return@launch
+                    }
+                }
             } else {
-                // TODO handle this error state
-                throw Exception("Error while fetching mentor profile ${response.code()}")
+                // No Internet connection state
+                Log.e(SPLASH, "No Internet Connection!")
+                _destination.postValue(null)
+                appError =
+                    SingleLineError("No Internet Connection! Please connect to the internet to continue!")
+                _state.value = State.ERROR
+                return@launch
+            }
+            // Navigate to MainActivity if the user is confirmed
+            if (token.isNotEmpty() && isConfirmed) {
+                _destination.postValue(MainActivity::class.java)
+                _state.value = State.NORMAL
+                return@launch
+            }
+            // Navigate to LoginActivity if the user is confirmed
+            if (token.isNotEmpty() && !isConfirmed) {
+                _destination.postValue(LoginActivity::class.java)
+                _state.value = State.NORMAL
+                return@launch
             }
         }
-        return isConfirmed
     }
-
 }
