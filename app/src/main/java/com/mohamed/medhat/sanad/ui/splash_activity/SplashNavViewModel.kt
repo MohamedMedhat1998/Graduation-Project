@@ -16,6 +16,8 @@ import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
+import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
+import com.mohamed.medhat.sanad.utils.IS_MENTORING_SOMEONE
 import com.mohamed.medhat.sanad.utils.IS_USER_CONFIRMED
 import com.mohamed.medhat.sanad.utils.SPLASH
 import com.mohamed.medhat.sanad.utils.managers.TOKEN
@@ -70,7 +72,7 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                     // Caching the confirmation state
                     sharedPrefs.write(IS_USER_CONFIRMED, isConfirmed.toString())
                 } else {
-                    if (response.code() == 401) {
+                    if (response.code() in 400..499 && response.code() != 408) {
                         // Unauthorized access, navigate to LoginActivity
                         _destination.postValue(LoginActivity::class.java)
                         appError = NoError()
@@ -100,7 +102,11 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
             }
             // Navigate to MainActivity if the user is confirmed
             if (token.isNotEmpty() && isConfirmed) {
-                _destination.postValue(MainActivity::class.java)
+                if (sharedPrefs.read(IS_MENTORING_SOMEONE).toBoolean()) {
+                    _destination.postValue(MainActivity::class.java)
+                } else {
+                    _destination.postValue(QRActivity::class.java)
+                }
                 _state.value = State.NORMAL
                 return@launch
             }
