@@ -50,4 +50,20 @@ class SplashActivity : BaseActivity(), SplashView {
             .setListener(animationListener)
             .start()
     }
+
+    override fun showLoadingIndicator() {
+        // TODO Blocked on UI
+    }
+
+    override fun hideLoadingIndicator() {
+        // TODO Blocked on UI
+    }
+
+    override fun showError() {
+        displayAppError()
+    }
+
+    override fun hideError() {
+        hideAppError()
+    }
 }

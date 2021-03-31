@@ -1,11 +1,12 @@
 package com.mohamed.medhat.sanad.ui.splash_activity
 
 import com.mohamed.medhat.sanad.ui.base.BaseView
+import com.mohamed.medhat.sanad.ui.base.LoadingFeatureOwner
 
 /**
  * An mvp view for the [SplashActivity].
  */
-interface SplashView : BaseView {
+interface SplashView : BaseView, LoadingFeatureOwner {
     /**
      * Applies a rotation animation to a specific view.
      * @param id the id of the view to be rotated.
