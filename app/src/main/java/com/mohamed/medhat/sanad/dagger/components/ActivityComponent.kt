@@ -5,6 +5,7 @@ import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
+import com.mohamed.medhat.sanad.ui.login_activity.LoginNavViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
@@ -35,8 +36,9 @@ interface ActivityComponent {
     fun inject(confirmationActivity: ConfirmationActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
+    fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
     fun registrationViewModel(): ViewModelFactory<RegistrationViewModel>
     fun mainViewModel(): ViewModelFactory<MainViewModel>
     fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
-    fun splashNavViewViewModel(): ViewModelFactory<SplashNavViewModel>
+    fun splashNavViewModel(): ViewModelFactory<SplashNavViewModel>
 }

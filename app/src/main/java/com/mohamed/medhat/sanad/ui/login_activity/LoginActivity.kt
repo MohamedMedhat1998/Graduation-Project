@@ -21,12 +21,18 @@ class LoginActivity : BaseActivity(), LoginView {
             .get(LoginViewModel::class.java)
     }
 
+    private val loginNavViewModel by lazy {
+        ViewModelProviders.of(this, activityComponent.loginNavViewModel())
+            .get(LoginNavViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
         activityComponent.inject(this)
         loginPresenter.setView(this)
         loginPresenter.setViewModel(loginViewModel)
+        loginPresenter.setNavigationViewModel(loginNavViewModel)
         loginPresenter.start(savedInstanceState)
         btn_login_login.setOnClickListener {
             loginPresenter.onLoginClicked()

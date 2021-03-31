@@ -70,7 +70,6 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                     // Caching the confirmation state
                     sharedPrefs.write(IS_USER_CONFIRMED, isConfirmed.toString())
                 } else {
-                    // TODO handle 401 unauthorized, internal server error, timed out
                     if (response.code() == 401) {
                         // Unauthorized access, navigate to LoginActivity
                         _destination.postValue(LoginActivity::class.java)
