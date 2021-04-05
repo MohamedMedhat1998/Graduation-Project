@@ -10,6 +10,8 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
+import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
+import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationViewModel
 import com.mohamed.medhat.sanad.ui.splash_activity.SplashActivity
@@ -34,6 +36,8 @@ interface ActivityComponent {
     fun inject(registrationActivity: RegistrationActivity)
     fun inject(mainActivity: MainActivity)
     fun inject(confirmationActivity: ConfirmationActivity)
+    fun inject(qrActivity: QRActivity)
+    fun inject(scannerActivity: ScannerActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
