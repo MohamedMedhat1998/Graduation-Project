@@ -30,4 +30,12 @@ class QRActivity : BaseActivity(), QRView {
     override fun updateHelloMessage(message: String) {
         tv_q_r_welcome.text = message
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        qrPresenter.handleOnRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
 }

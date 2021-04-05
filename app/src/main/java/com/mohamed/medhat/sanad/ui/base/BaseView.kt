@@ -1,5 +1,6 @@
 package com.mohamed.medhat.sanad.ui.base
 
+import android.Manifest
 import android.widget.EditText
 import com.mohamed.medhat.sanad.model.error.AppError
 import com.mohamed.medhat.sanad.ui.base.error_viewers.AppErrorViewer
@@ -62,4 +63,24 @@ interface BaseView {
      * Hides the [AppError] from the activity.
      */
     fun hideAppError()
+
+    /**
+     * Automatically checks for a permission, proceeds with an action if granted, and re-requests it if denied.
+     * @param permission The permission string from [Manifest.permission] class.
+     * @param title The permission dialog title if the permission was denied before.
+     * @param message The permission dialog message if the permission was denied before.
+     * @param positiveButtonLabel The label of the positive permission dialog if the permission was denied before.
+     * @param negativeButtonLabel The label of the negative permission dialog if the permission was denied before.
+     * @param permissionCode The unique permission code for the requested permission.
+     * @param onGranted The action to proceed with if the permission was granted.
+     */
+    fun requestPermission(
+        permission: String,
+        title: String = "Permission needed",
+        message: String = "This permission is needed to use this feature",
+        positiveButtonLabel: String = "Ok",
+        negativeButtonLabel: String = "Cancel",
+        permissionCode: Int,
+        onGranted: () -> Unit
+    )
 }
