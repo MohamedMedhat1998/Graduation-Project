@@ -1,16 +1,22 @@
 package com.mohamed.medhat.sanad.ui.base
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.mohamed.medhat.sanad.dagger.DaggerApplication
 import com.mohamed.medhat.sanad.dagger.components.ActivityComponent
 import com.mohamed.medhat.sanad.ui.base.error_viewers.AppErrorViewer
 import com.mohamed.medhat.sanad.ui.base.error_viewers.NoErrorViewer
 import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateAware
 import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateAwareness
+
 
 /**
  * A base class for all the activities in the app. This class is meant to reduce the boilerplate code for the activity classes.
@@ -62,5 +68,102 @@ open class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun hideAppError() {
         appErrorViewer.hide()
+    }
+
+    override fun requestPermission(
+        permission: String,
+        title: String,
+        message: String,
+        positiveButtonLabel: String,
+        negativeButtonLabel: String,
+        permissionCode: Int,
+        onGranted: () -> Unit
+    ) {
+        if (ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            // Permission granted, proceed with the passed action.
+            onGranted.invoke()
+        } else {
+            // Permission denied, re-request the permission.
+            requestPermission(
+                permission,
+                title,
+                message,
+                positiveButtonLabel,
+                negativeButtonLabel,
+                permissionCode
+            )
+        }
+    }
+
+    /**
+     * Requests a permission.
+     * @param permission The permission string from [Manifest.permission] class.
+     * @param title The permission dialog title if the permission was denied before.
+     * @param message The permission dialog message if the permission was denied before.
+     * @param positiveButtonLabel The label of the positive permission dialog if the permission was denied before.
+     * @param negativeButtonLabel The label of the negative permission dialog if the permission was denied before.
+     * @param permissionCode The unique permission code for the requested permission.
+     */
+    private fun requestPermission(
+        permission: String,
+        title: String,
+        message: String,
+        positiveButtonLabel: String,
+        negativeButtonLabel: String,
+        permissionCode: Int
+    ) {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, permission)) {
+            // What to show to the user if he/she denied the permission before and then tries to access it again
+            newPermissionDialog(
+                permission,
+                title,
+                message,
+                positiveButtonLabel,
+                negativeButtonLabel,
+                permissionCode
+            )
+        } else {
+            // Re-request the permission
+            ActivityCompat.requestPermissions(this, arrayOf(permission), permissionCode)
+        }
+    }
+
+    /**
+     * Creates and displays an [AlertDialog] specified for permissions.
+     * @param permission The permission string from [Manifest.permission] class.
+     * @param title Dialog title.
+     * @param message Dialog message.
+     * @param positiveButtonLabel The text of the positive button.
+     * @param negativeButtonLabel The text of the negative button.
+     * @param permissionCode The unique permission code for the requested permission.
+     */
+    private fun newPermissionDialog(
+        permission: String,
+        title: String,
+        message: String,
+        positiveButtonLabel: String,
+        negativeButtonLabel: String,
+        permissionCode: Int
+    ) {
+        AlertDialog.Builder(this)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(
+                positiveButtonLabel
+            ) { _, _ ->
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(permission),
+                    permissionCode
+                )
+            }
+            .setNegativeButton(
+                negativeButtonLabel
+            ) { dialog, _ -> dialog.dismiss() }
+            .create().show()
     }
 }

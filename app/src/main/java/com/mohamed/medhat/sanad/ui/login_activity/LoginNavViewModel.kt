@@ -17,6 +17,7 @@ import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.utils.IS_MENTORING_SOMEONE
 import com.mohamed.medhat.sanad.utils.LOGIN
+import com.mohamed.medhat.sanad.utils.USER_FIRST_NAME
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -47,6 +48,7 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
             val response = webApi.getMentorProfile()
             if (response.isSuccessful) {
                 val profile = response.body() as MentorProfile
+                sharedPrefs.write(USER_FIRST_NAME, profile.firstName)
                 if (profile.emailConfirmed) {
                     // If the email is confirmed, we have two choices: QRActivity or MainActivity
                     if (sharedPrefs.read(IS_MENTORING_SOMEONE).toBoolean()) {

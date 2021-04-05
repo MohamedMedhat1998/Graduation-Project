@@ -20,6 +20,7 @@ import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.utils.IS_MENTORING_SOMEONE
 import com.mohamed.medhat.sanad.utils.IS_USER_CONFIRMED
 import com.mohamed.medhat.sanad.utils.SPLASH
+import com.mohamed.medhat.sanad.utils.USER_FIRST_NAME
 import com.mohamed.medhat.sanad.utils.managers.TOKEN
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -67,6 +68,7 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                 val response = webApi.getMentorProfile()
                 if (response.isSuccessful) {
                     val profile = response.body() as MentorProfile
+                    sharedPrefs.write(USER_FIRST_NAME, profile.firstName)
                     // Setting the confirmation to the fetched value
                     isConfirmed = profile.emailConfirmed
                     // Caching the confirmation state
