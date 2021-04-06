@@ -8,7 +8,7 @@ import android.util.Log
 import com.mohamed.medhat.sanad.dagger.components.AppComponent
 import com.mohamed.medhat.sanad.dagger.components.DaggerAppComponent
 import com.mohamed.medhat.sanad.networking.NetworkState
-import com.mohamed.medhat.sanad.utils.INTERNET
+import com.mohamed.medhat.sanad.utils.TAG_INTERNET
 
 /**
  * A dagger application.
@@ -32,21 +32,21 @@ class DaggerApplication : Application() {
                 override fun onAvailable(network: Network) {
                     super.onAvailable(network)
                     NetworkState.isConnected.postValue(true)
-                    Log.d(INTERNET, "Connected!")
+                    Log.d(TAG_INTERNET, "Connected!")
                     availableFlag = true
                 }
 
                 override fun onLost(network: Network) {
                     super.onLost(network)
                     NetworkState.isConnected.postValue(false)
-                    Log.d(INTERNET, "disconnected!")
+                    Log.d(TAG_INTERNET, "disconnected!")
                 }
             })
         // Fixing the initial state of the "No Internet Connection" state.
         Thread {
             Thread.sleep(100)
             if (!availableFlag) {
-                Log.d(INTERNET, "disconnected!")
+                Log.d(TAG_INTERNET, "disconnected!")
                 NetworkState.isConnected.postValue(false)
             }
         }.start()

@@ -12,7 +12,7 @@ import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State
-import com.mohamed.medhat.sanad.utils.IS_USER_CONFIRMED
+import com.mohamed.medhat.sanad.utils.PREFS_IS_USER_CONFIRMED
 import com.mohamed.medhat.sanad.utils.catchServerOrResponseError
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -53,7 +53,7 @@ class ConfirmationViewModel @Inject constructor(val api: WebApi, val sharedPrefs
         viewModelScope.launch {
             val response = api.confirmEmail(confirmationCode)
             if (response.isSuccessful) {
-                sharedPrefs.write(IS_USER_CONFIRMED, true.toString())
+                sharedPrefs.write(PREFS_IS_USER_CONFIRMED, true.toString())
                 _isConfirmed.postValue(true)
                 appError = NoError()
                 _state.postValue(State.NORMAL)

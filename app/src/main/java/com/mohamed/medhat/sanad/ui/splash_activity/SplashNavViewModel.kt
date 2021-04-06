@@ -17,10 +17,10 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
-import com.mohamed.medhat.sanad.utils.IS_MENTORING_SOMEONE
-import com.mohamed.medhat.sanad.utils.IS_USER_CONFIRMED
-import com.mohamed.medhat.sanad.utils.SPLASH
-import com.mohamed.medhat.sanad.utils.USER_FIRST_NAME
+import com.mohamed.medhat.sanad.utils.PREFS_IS_MENTORING_SOMEONE
+import com.mohamed.medhat.sanad.utils.PREFS_IS_USER_CONFIRMED
+import com.mohamed.medhat.sanad.utils.TAG_SPLASH
+import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import com.mohamed.medhat.sanad.utils.managers.TOKEN
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -61,18 +61,18 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                 return@launch
             }
             // A local cached confirmation state
-            var isConfirmed = sharedPrefs.read(IS_USER_CONFIRMED).toBoolean()
+            var isConfirmed = sharedPrefs.read(PREFS_IS_USER_CONFIRMED).toBoolean()
             // Checking the network state
             if (NetworkState.isConnected.value == true) {
                 // Connecting to the internet to fetch the user profile
                 val response = webApi.getMentorProfile()
                 if (response.isSuccessful) {
                     val profile = response.body() as MentorProfile
-                    sharedPrefs.write(USER_FIRST_NAME, profile.firstName)
+                    sharedPrefs.write(PREFS_USER_FIRST_NAME, profile.firstName)
                     // Setting the confirmation to the fetched value
                     isConfirmed = profile.emailConfirmed
                     // Caching the confirmation state
-                    sharedPrefs.write(IS_USER_CONFIRMED, isConfirmed.toString())
+                    sharedPrefs.write(PREFS_IS_USER_CONFIRMED, isConfirmed.toString())
                 } else {
                     if (response.code() in 400..499 && response.code() != 408) {
                         // Unauthorized access, navigate to LoginActivity
@@ -82,7 +82,7 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                         return@launch
                     } else {
                         Log.e(
-                            SPLASH,
+                            TAG_SPLASH,
                             "Something went wrong while choosing a destination: ${response.code()} ${response.message()}"
                         )
                         appError =
@@ -95,7 +95,7 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
                 }
             } else {
                 // No Internet connection state
-                Log.e(SPLASH, "No Internet Connection!")
+                Log.e(TAG_SPLASH, "No Internet Connection!")
                 _destination.postValue(null)
                 appError =
                     SingleLineError("No Internet Connection! Please connect to the internet to continue!")
@@ -104,7 +104,7 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
             }
             // Navigate to MainActivity if the user is confirmed
             if (token.isNotEmpty() && isConfirmed) {
-                if (sharedPrefs.read(IS_MENTORING_SOMEONE).toBoolean()) {
+                if (sharedPrefs.read(PREFS_IS_MENTORING_SOMEONE).toBoolean()) {
                     _destination.postValue(MainActivity::class.java)
                 } else {
                     _destination.postValue(QRActivity::class.java)

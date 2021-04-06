@@ -3,9 +3,9 @@ package com.mohamed.medhat.sanad.local
 import android.content.SharedPreferences
 import android.util.Log
 import com.mohamed.medhat.sanad.utils.BLANK
-import com.mohamed.medhat.sanad.utils.PREFS_CLEAR
-import com.mohamed.medhat.sanad.utils.PREFS_READ
-import com.mohamed.medhat.sanad.utils.PREFS_WRITE
+import com.mohamed.medhat.sanad.utils.TAG_PREFS_CLEAR
+import com.mohamed.medhat.sanad.utils.TAG_PREFS_READ
+import com.mohamed.medhat.sanad.utils.TAG_PREFS_WRITE
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -22,7 +22,7 @@ class SharedPrefs @Inject constructor(val sharedPreferences: SharedPreferences) 
      */
     fun read(key: String): String {
         val result = sharedPreferences.getString(key, BLANK) ?: BLANK
-        Log.d(PREFS_READ, "\"$result\" was read from \"$key\"!")
+        Log.d(TAG_PREFS_READ, "\"$result\" was read from \"$key\"!")
         return result
     }
 
@@ -33,7 +33,7 @@ class SharedPrefs @Inject constructor(val sharedPreferences: SharedPreferences) 
      */
     fun write(key: String, value: String) {
         sharedPreferences.edit().putString(key, value).apply()
-        Log.d(PREFS_WRITE, "\"$value\" was stored at \"$key\"!")
+        Log.d(TAG_PREFS_WRITE, "\"$value\" was stored at \"$key\"!")
     }
 
     /**
@@ -45,7 +45,7 @@ class SharedPrefs @Inject constructor(val sharedPreferences: SharedPreferences) 
             editor.remove(it)
         }
         editor.apply()
-        Log.d(PREFS_CLEAR, "Cache was cleared!")
+        Log.d(TAG_PREFS_CLEAR, "Cache was cleared!")
     }
 
     /**
@@ -56,7 +56,7 @@ class SharedPrefs @Inject constructor(val sharedPreferences: SharedPreferences) 
         val editor = sharedPreferences.edit()
         keys.forEach {
             editor.remove(it)
-            Log.d(PREFS_CLEAR, "\"$it\" was cleared")
+            Log.d(TAG_PREFS_CLEAR, "\"$it\" was cleared")
         }
         editor.apply()
     }

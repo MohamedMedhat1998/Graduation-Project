@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.gson.Gson
 import com.mohamed.medhat.sanad.model.Time
 import com.mohamed.medhat.sanad.model.Token
+import com.mohamed.medhat.sanad.utils.NETWORK_BASE_URL
 import com.mohamed.medhat.sanad.utils.managers.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Request
@@ -19,8 +20,8 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
 
     // TODO update this list whenever a new endpoint is added to [WebApi] interface
     private val nonAuthEndpoints = listOf(
-        "${BASE_URL}Accounts/Mentor/Register",
-        "${BASE_URL}Accounts/Login"
+        "${NETWORK_BASE_URL}Accounts/Mentor/Register",
+        "${NETWORK_BASE_URL}Accounts/Login"
     )
 
 
@@ -104,7 +105,8 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
      * @return a [Time] object containing the current time.
      */
     private fun getTime(chain: Interceptor.Chain, request: Request): Time? {
-        val timeRequest = request.newBuilder().method("get", null).url("${BASE_URL}Time").build()
+        val timeRequest =
+            request.newBuilder().method("get", null).url("${NETWORK_BASE_URL}Time").build()
         val response = chain.proceed(timeRequest)
         if (response.isSuccessful) {
             return try {
@@ -125,7 +127,7 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
     private fun refreshToken(chain: Interceptor.Chain, request: Request): Response {
         val refreshRequest = request.newBuilder()
             .method("post", null)
-            .url("${BASE_URL}Accounts/RefreshToken/${tokenManager.getRefreshToken()}")
+            .url("${NETWORK_BASE_URL}Accounts/RefreshToken/${tokenManager.getRefreshToken()}")
             .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
             .build()
         val response = chain.proceed(refreshRequest)

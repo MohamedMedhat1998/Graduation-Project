@@ -10,7 +10,7 @@ import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.OnBoardingCard
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
-import com.mohamed.medhat.sanad.utils.REPORT_ERROR
+import com.mohamed.medhat.sanad.utils.TAG_REPORT_ERROR
 import kotlinx.android.synthetic.main.fragment_on_boarding_card.view.*
 
 private const val ON_BOARDING_CARD_KEY = "on_boarding_card_key"
@@ -43,7 +43,7 @@ class OnBoardingCardFragment : Fragment() {
                 (activity as OnBoardingActivity).navigateToThenFinish(LoginActivity::class.java)
             }
         } else {
-            Log.e(REPORT_ERROR, getString(R.string.null_on_boarding_card))
+            Log.e(TAG_REPORT_ERROR, getString(R.string.null_on_boarding_card))
         }
         return view
     }

@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.ui.base
 
 import android.Manifest
+import android.os.Bundle
 import android.widget.EditText
 import com.mohamed.medhat.sanad.model.error.AppError
 import com.mohamed.medhat.sanad.ui.base.error_viewers.AppErrorViewer
@@ -13,15 +14,17 @@ import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateAwar
 interface BaseView {
     /**
      * A function that is used to start a new activity from the current activity.
-     * @param activity the class of the destination activity.
+     * @param activity The class of the destination activity.
+     * @param bundle The bundle object to pass to the next activity.
      */
-    fun navigateTo(activity: Class<*>)
+    fun navigateTo(activity: Class<*>, bundle: Bundle? = null)
 
     /**
      * A function that is used to start a new activity from the current activity and finish the current activity.
-     * @param activity the class of the destination activity.
+     * @param activity The class of the destination activity.
+     * @param bundle The bundle object to pass to the next activity.
      */
-    fun navigateToThenFinish(activity: Class<*>)
+    fun navigateToThenFinish(activity: Class<*>, bundle: Bundle? = null)
 
     /**
      * A function that is used to display a toast message on the screen.

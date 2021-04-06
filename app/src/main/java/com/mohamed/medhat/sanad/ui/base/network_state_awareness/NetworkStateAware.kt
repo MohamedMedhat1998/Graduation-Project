@@ -5,7 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
-import com.mohamed.medhat.sanad.utils.NETWORK_STATE_AWARENESS
+import com.mohamed.medhat.sanad.utils.TAG_NETWORK_STATE_AWARENESS
 
 /**
  * A behavior that will freeze the app when the network is unavailable.
@@ -15,7 +15,7 @@ class NetworkStateAware : NetworkStateAwareness {
     lateinit var internetAlertDialog: AlertDialog
 
     override fun handleNetworkStateChangeBehavior(activity: BaseActivity) {
-        Log.d(NETWORK_STATE_AWARENESS, "${activity.javaClass.simpleName} is aware")
+        Log.d(TAG_NETWORK_STATE_AWARENESS, "${activity.javaClass.simpleName} is aware")
         NetworkState.isConnected.observe(activity) {
             if (!it) {
                 if (!::internetAlertDialog.isInitialized) {

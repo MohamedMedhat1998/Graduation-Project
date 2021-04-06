@@ -1,10 +1,14 @@
 package com.mohamed.medhat.sanad.ui.q_r_activity.scanner
 
 import android.os.Bundle
+import android.util.Log
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import com.budiyev.android.codescanner.ErrorCallback
+import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
 import com.mohamed.medhat.sanad.ui.base.SimplePresenter
+import com.mohamed.medhat.sanad.utils.EXTRA_SCANNED_SERIAL
+import com.mohamed.medhat.sanad.utils.TAG_SCANNER
 import kotlinx.android.synthetic.main.activity_scanner.*
 import javax.inject.Inject
 
@@ -51,8 +55,11 @@ class ScannerPresenter @Inject constructor() : SimplePresenter<ScannerView>() {
      * @param scannedText the result of the scanning operation.
      */
     private fun onScanSuccess(scannedText: String) {
-        // TODO navigate to add blind screen with the `scanned serial` bundle
-        scannerView.displayToast(scannedText)
+        Log.d(TAG_SCANNER, "Scanned: $scannedText")
+        val extras = Bundle()
+        extras.putString(EXTRA_SCANNED_SERIAL, scannedText)
+        scannerView.displayToast("Successfully scanned the QR code!")
+        scannerView.navigateTo(AddBlindActivity::class.java, extras)
     }
 
     /**
