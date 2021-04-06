@@ -52,7 +52,7 @@ class ScannerPresenter @Inject constructor() : SimplePresenter<ScannerView>() {
      */
     private fun onScanSuccess(scannedText: String) {
         // TODO navigate to add blind screen with the `scanned serial` bundle
-        scannerActivity.displayToast(scannedText)
+        scannerView.displayToast(scannedText)
     }
 
     /**
@@ -61,7 +61,7 @@ class ScannerPresenter @Inject constructor() : SimplePresenter<ScannerView>() {
      */
     private fun onScanError(error: String) {
         // TODO update error message
-        scannerActivity.displayToast(error)
+        scannerView.displayToast(error)
     }
 
     fun onScannerViewClicked() {

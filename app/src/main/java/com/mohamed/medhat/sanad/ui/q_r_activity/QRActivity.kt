@@ -25,6 +25,9 @@ class QRActivity : BaseActivity(), QRView {
         iv_q_r_scan.setOnClickListener {
             qrPresenter.onScanClicked()
         }
+        btn_q_r_no_device.setOnClickListener {
+            qrPresenter.onNoDeviceClicked()
+        }
     }
 
     override fun updateHelloMessage(message: String) {

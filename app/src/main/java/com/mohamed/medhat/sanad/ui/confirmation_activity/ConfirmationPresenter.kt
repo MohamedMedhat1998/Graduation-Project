@@ -32,7 +32,7 @@ class ConfirmationPresenter @Inject constructor() :
             }
         }
         confirmationViewModel.state.observe(activity) {
-            activity.setAppErrorViewer(
+            confirmationView.setAppErrorViewer(
                 TextErrorViewer(
                     confirmationViewModel.appError,
                     activity.tv_confirmation_error

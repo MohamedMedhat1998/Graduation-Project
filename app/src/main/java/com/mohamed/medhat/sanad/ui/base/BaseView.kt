@@ -83,4 +83,10 @@ interface BaseView {
         permissionCode: Int,
         onGranted: () -> Unit
     )
+
+    /**
+     * Opens the browser with the passed url.
+     * @param url The website to open.
+     */
+    fun navigateToWebsite(url: String)
 }
