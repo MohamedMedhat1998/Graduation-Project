@@ -16,7 +16,6 @@ import javax.inject.Inject
 class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePresenter<QRView>() {
 
     private lateinit var qrView: QRView
-    private lateinit var qrActivity: QRActivity
 
     override fun start(savedInstanceState: Bundle?) {
         qrView.updateHelloMessage("Hello ${sharedPrefs.read(USER_FIRST_NAME)}")
@@ -24,16 +23,15 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
 
     override fun setView(view: QRView) {
         qrView = view
-        qrActivity = qrView as QRActivity
     }
 
     fun onScanClicked() {
-        qrActivity.requestPermission(
+        qrView.requestPermission(
             permission = Manifest.permission.CAMERA,
             message = "The app wants to access the camera to scan the QR code on the device.",
             permissionCode = QR_ACTIVITY_CAMERA_PERMISSION
         ) {
-            qrActivity.navigateTo(ScannerActivity::class.java)
+            qrView.navigateTo(ScannerActivity::class.java)
         }
     }
 
@@ -44,10 +42,15 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
     ) {
         if (requestCode == QR_ACTIVITY_CAMERA_PERMISSION) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                qrActivity.navigateTo(ScannerActivity::class.java)
+                qrView.navigateTo(ScannerActivity::class.java)
             } else {
                 qrView.displayToast("Unable to proceed without the permission.")
             }
         }
+    }
+
+    fun onNoDeviceClicked() {
+        // TODO update the website to be the buy the product website.
+        qrView.navigateToWebsite("https://www.google.com")
     }
 }

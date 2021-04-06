@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.base
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
@@ -97,6 +98,12 @@ open class BaseActivity : AppCompatActivity(), BaseView {
                 permissionCode
             )
         }
+    }
+
+    override fun navigateToWebsite(url: String) {
+        val websiteIntent = Intent(Intent.ACTION_VIEW)
+        websiteIntent.data = Uri.parse(url)
+        startActivity(websiteIntent)
     }
 
     /**
