@@ -23,6 +23,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Name"
@@ -42,6 +43,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_age"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Age"
@@ -49,7 +51,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <RadioGroup
-            android:id="@+id/radioGroup"
+            android:id="@+id/rg_add_blind_gender"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -65,18 +67,20 @@
                 android:text="Gender" />
 
             <RadioButton
+                android:id="@+id/rb_add_blind_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Male" />
 
             <RadioButton
+                android:id="@+id/rb_add_blind_female"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Female" />
         </RadioGroup>
 
         <Spinner
-            android:id="@+id/spinner"
+            android:id="@+id/sp_add_blind_blood_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -97,7 +101,7 @@
             android:text="Blood Type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            app:layout_constraintTop_toBottomOf="@+id/rg_add_blind_gender" />
 
         <TextView
             android:id="@+id/textView4"
@@ -109,10 +113,10 @@
             android:text="Illnesses"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinner" />
+            app:layout_constraintTop_toBottomOf="@+id/sp_add_blind_blood_type" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rv_add_blind_illnesses"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -129,18 +133,19 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/button"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_add_illness"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/recyclerView">
+            app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_illnesses">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_other_illness"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Other" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btn_add_blind_add_illness"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -151,17 +156,17 @@
             app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btn_add_blind_add_picture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:text="Add Picture"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btn_add_blind_next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -170,10 +175,10 @@
             android:text="Next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btn_add_blind_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
@@ -182,7 +187,17 @@
             android:text="Back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button2" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
+
+        <ImageView
+            android:id="@+id/iv_add_blind_profile_preview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11"
+            app:srcCompat="@drawable/on_boarding_tab_active" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

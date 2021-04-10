@@ -92,4 +92,11 @@ interface BaseView {
      * @param url The website to open.
      */
     fun navigateToWebsite(url: String)
+
+    /**
+     * Opens the gallery to pick a picture from.
+     * @param requestCode A request code to identify each call.
+     * @param title An optional title for the image picker.
+     */
+    fun pickPicture(requestCode: Int, title: String = "Select an image")
 }

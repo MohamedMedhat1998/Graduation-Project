@@ -110,6 +110,13 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         startActivity(websiteIntent)
     }
 
+    override fun pickPicture(requestCode: Int, title: String) {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, title), requestCode)
+    }
+
     /**
      * Requests a permission.
      * @param permission The permission string from [Manifest.permission] class.
