@@ -28,8 +28,12 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         activityComponent.inject(this)
         addBlindPresenter.setView(this)
         addBlindPresenter.setViewModel(addBlindViewModel)
+        addBlindPresenter.start(savedInstanceState)
         btn_add_blind_add_picture.setOnClickListener {
             addBlindPresenter.onAddPictureClicked()
+        }
+        btn_add_blind_add_illness.setOnClickListener {
+            addBlindPresenter.onAddIllnessClicked()
         }
     }
 
@@ -40,5 +44,13 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
 
     override fun updateProfilePreviewImage(uriImage: Uri?) {
         iv_add_blind_profile_preview.setImageURI(uriImage)
+    }
+
+    override fun getOtherIllness(): String {
+        return et_add_blind_other_illness.text.toString()
+    }
+
+    override fun clearOtherIllness() {
+        et_add_blind_other_illness.setText("")
     }
 }

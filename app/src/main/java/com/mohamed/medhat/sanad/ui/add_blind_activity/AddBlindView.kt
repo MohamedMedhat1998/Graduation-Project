@@ -8,4 +8,6 @@ import com.mohamed.medhat.sanad.ui.base.BaseView
  */
 interface AddBlindView : BaseView {
     fun updateProfilePreviewImage(uriImage: Uri?)
+    fun getOtherIllness(): String
+    fun clearOtherIllness()
 }
