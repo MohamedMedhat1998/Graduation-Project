@@ -6,8 +6,8 @@ import android.os.Bundle
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.ui.base.SimplePresenter
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
-import com.mohamed.medhat.sanad.utils.QR_ACTIVITY_CAMERA_PERMISSION
-import com.mohamed.medhat.sanad.utils.USER_FIRST_NAME
+import com.mohamed.medhat.sanad.utils.PERMISSION_QR_ACTIVITY_CAMERA
+import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import javax.inject.Inject
 
 /**
@@ -18,7 +18,7 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
     private lateinit var qrView: QRView
 
     override fun start(savedInstanceState: Bundle?) {
-        qrView.updateHelloMessage("Hello ${sharedPrefs.read(USER_FIRST_NAME)}")
+        qrView.updateHelloMessage("Hello ${sharedPrefs.read(PREFS_USER_FIRST_NAME)}")
     }
 
     override fun setView(view: QRView) {
@@ -29,7 +29,7 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
         qrView.requestPermission(
             permission = Manifest.permission.CAMERA,
             message = "The app wants to access the camera to scan the QR code on the device.",
-            permissionCode = QR_ACTIVITY_CAMERA_PERMISSION
+            permissionCode = PERMISSION_QR_ACTIVITY_CAMERA
         ) {
             qrView.navigateTo(ScannerActivity::class.java)
         }
@@ -40,7 +40,7 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
         permissions: Array<String?>,
         grantResults: IntArray
     ) {
-        if (requestCode == QR_ACTIVITY_CAMERA_PERMISSION) {
+        if (requestCode == PERMISSION_QR_ACTIVITY_CAMERA) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 qrView.navigateTo(ScannerActivity::class.java)
             } else {

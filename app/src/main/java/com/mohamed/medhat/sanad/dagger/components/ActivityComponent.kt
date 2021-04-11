@@ -2,6 +2,8 @@ package com.mohamed.medhat.sanad.dagger.components
 
 import com.mohamed.medhat.sanad.dagger.ViewModelFactory
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
+import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
+import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -38,6 +40,7 @@ interface ActivityComponent {
     fun inject(confirmationActivity: ConfirmationActivity)
     fun inject(qrActivity: QRActivity)
     fun inject(scannerActivity: ScannerActivity)
+    fun inject(addBlindActivity: AddBlindActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -45,4 +48,5 @@ interface ActivityComponent {
     fun mainViewModel(): ViewModelFactory<MainViewModel>
     fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
     fun splashNavViewModel(): ViewModelFactory<SplashNavViewModel>
+    fun addBlindViewModel(): ViewModelFactory<AddBlindViewModel>
 }

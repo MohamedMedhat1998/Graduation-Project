@@ -34,12 +34,16 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         networkStateAwareness.handleNetworkStateChangeBehavior(this)
     }
 
-    override fun navigateTo(activity: Class<*>) {
-        startActivity(Intent(this, activity))
+    override fun navigateTo(activity: Class<*>, bundle: Bundle?) {
+        val activityIntent = Intent(this, activity)
+        if (bundle != null) {
+            activityIntent.putExtras(bundle)
+        }
+        startActivity(activityIntent)
     }
 
-    override fun navigateToThenFinish(activity: Class<*>) {
-        navigateTo(activity)
+    override fun navigateToThenFinish(activity: Class<*>, bundle: Bundle?) {
+        navigateTo(activity, bundle)
         finish()
     }
 
@@ -104,6 +108,13 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         val websiteIntent = Intent(Intent.ACTION_VIEW)
         websiteIntent.data = Uri.parse(url)
         startActivity(websiteIntent)
+    }
+
+    override fun pickPicture(requestCode: Int, title: String) {
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_GET_CONTENT
+        startActivityForResult(Intent.createChooser(intent, title), requestCode)
     }
 
     /**

@@ -15,9 +15,9 @@ import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
-import com.mohamed.medhat.sanad.utils.IS_MENTORING_SOMEONE
-import com.mohamed.medhat.sanad.utils.LOGIN
-import com.mohamed.medhat.sanad.utils.USER_FIRST_NAME
+import com.mohamed.medhat.sanad.utils.PREFS_IS_MENTORING_SOMEONE
+import com.mohamed.medhat.sanad.utils.TAG_LOGIN
+import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,10 +48,10 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
             val response = webApi.getMentorProfile()
             if (response.isSuccessful) {
                 val profile = response.body() as MentorProfile
-                sharedPrefs.write(USER_FIRST_NAME, profile.firstName)
+                sharedPrefs.write(PREFS_USER_FIRST_NAME, profile.firstName)
                 if (profile.emailConfirmed) {
                     // If the email is confirmed, we have two choices: QRActivity or MainActivity
-                    if (sharedPrefs.read(IS_MENTORING_SOMEONE).toBoolean()) {
+                    if (sharedPrefs.read(PREFS_IS_MENTORING_SOMEONE).toBoolean()) {
                         // TODO find a place to update `IS_MENTORING_SOMEONE`
                         // If the user is mentoring someone already, navigate directly to the MainActivity
                         _destination.value = MainActivity::class.java
@@ -78,7 +78,7 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
                 } else {
                     // Internal server error, retrying...
                     Log.e(
-                        LOGIN,
+                        TAG_LOGIN,
                         "Something went wrong while choosing a destination: ${response.code()} ${response.message()}"
                     )
                     appError =

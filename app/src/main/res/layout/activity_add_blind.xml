@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:context=".ui.add_blind_activity.AddBlindActivity">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="24dp"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Name"
+                android:inputType="text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:inputType="number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_age"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Age"
+                android:inputType="number" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <RadioGroup
+            android:id="@+id/rg_add_blind_gender"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout10">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender" />
+
+            <RadioButton
+                android:id="@+id/rb_add_blind_male"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/rb_add_blind_female"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+        </RadioGroup>
+
+        <Spinner
+            android:id="@+id/sp_add_blind_blood_type"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:entries="@array/blood_types"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="Blood Type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rg_add_blind_gender" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:text="Illnesses"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sp_add_blind_blood_type" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_add_blind_illnesses"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_add_illness"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_illnesses">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_add_blind_other_illness"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Other" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/btn_add_blind_add_illness"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:text="Add"
+            app:layout_constraintBottom_toBottomOf="@+id/textInputLayout11"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
+
+        <Button
+            android:id="@+id/btn_add_blind_add_picture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Add Picture"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
+
+        <Button
+            android:id="@+id/btn_add_blind_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="24dp"
+            android:text="Next"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
+
+        <Button
+            android:id="@+id/btn_add_blind_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="Back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
+
+        <ImageView
+            android:id="@+id/iv_add_blind_profile_preview"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11"
+            app:srcCompat="@drawable/on_boarding_tab_active" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

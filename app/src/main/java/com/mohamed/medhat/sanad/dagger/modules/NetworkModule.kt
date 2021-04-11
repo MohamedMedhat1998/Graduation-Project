@@ -1,9 +1,9 @@
 package com.mohamed.medhat.sanad.dagger.modules
 
-import com.mohamed.medhat.sanad.networking.BASE_URL
-import com.mohamed.medhat.sanad.networking.CONNECTION_TIMEOUT
 import com.mohamed.medhat.sanad.networking.NetworkInterceptor
 import com.mohamed.medhat.sanad.networking.WebApi
+import com.mohamed.medhat.sanad.utils.NETWORK_BASE_URL
+import com.mohamed.medhat.sanad.utils.NETWORK_CONNECTION_TIMEOUT
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -35,7 +35,7 @@ class NetworkModule {
         return Retrofit.Builder()
             .addConverterFactory(gsonConverterFactory)
             .client(okHttpClient)
-            .baseUrl(BASE_URL)
+            .baseUrl(NETWORK_BASE_URL)
             .build()
     }
 
@@ -49,8 +49,8 @@ class NetworkModule {
     @Provides
     fun provideOkHttpClient(networkInterceptor: NetworkInterceptor): OkHttpClient {
         return OkHttpClient.Builder()
-            .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+            .connectTimeout(NETWORK_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(NETWORK_CONNECTION_TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(HttpLoggingInterceptor().apply {
                 this.level = HttpLoggingInterceptor.Level.BODY
             })
