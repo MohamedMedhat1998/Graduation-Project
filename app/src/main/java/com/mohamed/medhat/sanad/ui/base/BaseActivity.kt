@@ -117,6 +117,10 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         startActivityForResult(Intent.createChooser(intent, title), requestCode)
     }
 
+    override fun getExtras(): Bundle? {
+        return intent.extras
+    }
+
     /**
      * Requests a permission.
      * @param permission The permission string from [Manifest.permission] class.

@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationProject">
-        <activity android:name=".ui.add_blind_activity.AddBlindActivity"></activity>
+        <activity android:name=".ui.add_blind_activity.AddBlindActivity" />
         <activity android:name=".ui.q_r_activity.scanner.ScannerActivity" />
         <activity android:name=".ui.q_r_activity.QRActivity" />
         <activity android:name=".ui.confirmation_activity.ConfirmationActivity" />

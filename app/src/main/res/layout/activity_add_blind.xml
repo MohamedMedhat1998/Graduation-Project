@@ -70,6 +70,7 @@
                 android:id="@+id/rb_add_blind_male"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:text="Male" />
 
             <RadioButton

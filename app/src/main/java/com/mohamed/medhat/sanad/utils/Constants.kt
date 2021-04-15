@@ -29,3 +29,7 @@ const val PERMISSION_QR_ACTIVITY_CAMERA = 1
 
 // Bundle extras
 const val EXTRA_SCANNED_SERIAL = "scanned-serial"
+
+// Gender
+const val GENDER_MALE = 1
+const val GENDER_FEMALE = 0

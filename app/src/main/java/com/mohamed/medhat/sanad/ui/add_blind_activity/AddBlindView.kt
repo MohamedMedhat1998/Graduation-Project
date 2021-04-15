@@ -10,4 +10,9 @@ interface AddBlindView : BaseView {
     fun updateProfilePreviewImage(uriImage: Uri?)
     fun getOtherIllness(): String
     fun clearOtherIllness()
+    fun getName(): String
+    fun getAge(): Int
+    fun getGender(): Int
+    fun getBloodType(): String
+    fun getIllnesses(): List<String>
 }

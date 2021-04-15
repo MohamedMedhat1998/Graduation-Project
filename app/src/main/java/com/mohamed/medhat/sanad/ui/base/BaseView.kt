@@ -99,4 +99,9 @@ interface BaseView {
      * @param title An optional title for the image picker.
      */
     fun pickPicture(requestCode: Int, title: String = "Select an image")
+
+    /**
+     * @return Bundle extras that was passed from the calling intent.
+     */
+    fun getExtras(): Bundle?
 }

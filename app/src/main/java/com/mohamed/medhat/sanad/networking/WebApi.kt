@@ -4,11 +4,9 @@ import com.mohamed.medhat.sanad.model.LoginUser
 import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.NewUser
 import com.mohamed.medhat.sanad.model.Token
+import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Contains all the endpoints from the web service. This class returns real data from the remote RESTFUL web service.
@@ -43,4 +41,22 @@ interface WebApi {
      */
     @GET("/Api/Accounts/Profile")
     suspend fun getMentorProfile(): Response<MentorProfile>
+
+    /**
+     * TODO
+     */
+    @Multipart
+    @POST("/Api/Mentority/RegisterBlind")
+    suspend fun addBlind(
+        @Part("FirstName") firstName: String,
+        @Part("LastName") lastName: String,
+        @Part("Gender") gender: Int,
+        @Part("Age") age: Int,
+        @Part("PhoneNumber") phoneNumber: String,
+        @Part("SerialNumber") serialNumber: String,
+        @Part("EmergencyPhoneNumber") emergencyPhoneNumber: String,
+        @Part("BloodType") bloodType: String,
+        @Part("Illnesses") illnesses: List<String>,
+        @Part profilePicture: MultipartBody.Part
+    ): Response<Any> // TODO change the return type 'Any' to a suitable model
 }
