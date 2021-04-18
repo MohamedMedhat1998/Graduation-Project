@@ -43,20 +43,21 @@ interface WebApi {
     suspend fun getMentorProfile(): Response<MentorProfile>
 
     /**
-     * TODO
+     * A multipart post request that is used to register a new blind in the website database
+     * based on the QR code.
      */
     @Multipart
     @POST("/Api/Mentority/RegisterBlind")
     suspend fun addBlind(
-        @Part("FirstName") firstName: String,
-        @Part("LastName") lastName: String,
-        @Part("Gender") gender: Int,
-        @Part("Age") age: Int,
-        @Part("PhoneNumber") phoneNumber: String,
-        @Part("SerialNumber") serialNumber: String,
-        @Part("EmergencyPhoneNumber") emergencyPhoneNumber: String,
-        @Part("BloodType") bloodType: String,
-        @Part("Illnesses") illnesses: List<String>,
+        @Part firstName: MultipartBody.Part,
+        @Part lastName: MultipartBody.Part,
+        @Part gender: MultipartBody.Part,
+        @Part age: MultipartBody.Part,
+        @Part phoneNumber: MultipartBody.Part,
+        @Part serialNumber: MultipartBody.Part,
+        @Part emergencyPhoneNumber: MultipartBody.Part,
+        @Part bloodType: MultipartBody.Part,
+        @Part("illnesses") illnesses: List<String>,
         @Part profilePicture: MultipartBody.Part
-    ): Response<Any> // TODO change the return type 'Any' to a suitable model
+    ): Response<Any>
 }

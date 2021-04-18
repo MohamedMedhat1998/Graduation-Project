@@ -2,13 +2,11 @@ package com.mohamed.medhat.sanad.ui.add_blind_activity
 
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindPost
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessItem
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
@@ -27,19 +25,24 @@ private const val ADD_BLIND_PICK_PICTURE = 1
 /**
  * An mvp presenter for [AddBlindActivity].
  */
-class AddBlindPresenter @Inject constructor(val illnessesAdapter: IllnessesAdapter) :
+class AddBlindPresenter @Inject constructor() :
     AdvancedPresenter<AddBlindView, AddBlindViewModel>() {
 
     private lateinit var addBlindView: AddBlindView
     private lateinit var addBlindViewModel: AddBlindViewModel
     private lateinit var addBlindActivity: AddBlindActivity
     private lateinit var rvIllnesses: RecyclerView
-    private lateinit var filePath: String
-    private lateinit var imageInputStream: InputStream
+    private lateinit var illnessesAdapter: IllnessesAdapter
+    private var imageUri: Uri? = null
 
     override fun start(savedInstanceState: Bundle?) {
         rvIllnesses = addBlindActivity.rv_add_blind_illnesses
         rvIllnesses.layoutManager = LinearLayoutManager(addBlindActivity)
+        val illnesses = mutableListOf<IllnessItem>()
+        addBlindActivity.resources.getStringArray(R.array.illnesses).forEach {
+            illnesses.add(IllnessItem(it, false))
+        }
+        illnessesAdapter = IllnessesAdapter(illnesses)
         rvIllnesses.adapter = illnessesAdapter
     }
 
@@ -59,17 +62,8 @@ class AddBlindPresenter @Inject constructor(val illnessesAdapter: IllnessesAdapt
     fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == ADD_BLIND_PICK_PICTURE) {
             if (resultCode == RESULT_OK) {
-                val imageUri = data?.data
+                imageUri = data?.data
                 addBlindView.updateProfilePreviewImage(imageUri)
-                if (imageUri != null) {
-                    val inputStream = addBlindActivity.contentResolver.openInputStream(imageUri)
-                    if (inputStream != null) {
-                        imageInputStream = inputStream
-                    }
-                }
-                /*if (imageUri != null) {
-                    filePath = getRealPathFromURI(imageUri)
-                }*/
             } else {
                 addBlindView.displayToast("Something went wrong while selecting an image!")
             }
@@ -77,7 +71,6 @@ class AddBlindPresenter @Inject constructor(val illnessesAdapter: IllnessesAdapt
     }
 
     fun onAddIllnessClicked() {
-        // TODO handle empty illness.
         illnessesAdapter.addIllness(IllnessItem(addBlindView.getOtherIllness(), true))
         rvIllnesses.smoothScrollToPosition(illnessesAdapter.itemCount - 1)
         addBlindView.clearOtherIllness()
@@ -90,45 +83,54 @@ class AddBlindPresenter @Inject constructor(val illnessesAdapter: IllnessesAdapt
         val bloodType = addBlindView.getBloodType()
         val illnesses = addBlindView.getIllnesses()
         val serialNumber = addBlindView.getExtras()?.get(EXTRA_SCANNED_SERIAL).toString()
-        if (::imageInputStream.isInitialized) {
-            val requestBody =
-                imageInputStream.readBytes().toRequestBody("image/png".toMediaType())
-            val multipartBody: MultipartBody.Part = MultipartBody.Part.createFormData(
-                "File", "profile_picture_$name.png", requestBody
+        var imageInputStream: InputStream? = null
+        if (imageUri != null) {
+            imageInputStream = addBlindActivity.contentResolver.openInputStream(imageUri!!)
+        }
+        if (imageInputStream != null) {
+            val namePart =
+                MultipartBody.Part.createFormData("FirstName", name)
+            val agePart =
+                MultipartBody.Part.createFormData("Age", age.toString())
+            val genderPart =
+                MultipartBody.Part.createFormData("Gender", gender.toString())
+            val bloodTypePart =
+                MultipartBody.Part.createFormData("BloodType", bloodType)
+            val profileRequestBody =
+                imageInputStream.readBytes().toRequestBody("application/octet-stream".toMediaType())
+            val profilePicturePart = MultipartBody.Part.createFormData(
+                "File",
+                "profile_ss_picture_$name.png",
+                profileRequestBody
             )
+            // TODO update constant values after the UI is done
+            val lastNamePart =
+                MultipartBody.Part.createFormData("LastName", "last-name")
+            // TODO update constant values after the UI is done
+            val emergencyPhoneNumberPart =
+                MultipartBody.Part.createFormData("EmergencyPhoneNumber", "01234567899")
+            // TODO update constant values after the UI is done
+            val phoneNumberPart =
+                MultipartBody.Part.createFormData("PhoneNumber", "01234567809")
+            val serialNumberPart =
+                MultipartBody.Part.createFormData("SerialNumber", serialNumber)
             addBlindViewModel.addBlind(
                 BlindPost(
-                    firstName = name,
-                    age = age,
-                    gender = gender,
-                    bloodType = bloodType,
+                    firstName = namePart,
+                    age = agePart,
+                    gender = genderPart,
+                    bloodType = bloodTypePart,
                     illnesses = illnesses,
-                    profilePicture = multipartBody,
-                    lastName = "a", // TODO fix this
-                    emergencyPhoneNumber = "012345678911",
-                    phoneNumber = "012345678910",
-                    serialNumber = serialNumber
+                    profilePicture = profilePicturePart,
+                    lastName = lastNamePart, // TODO fix this
+                    emergencyPhoneNumber = emergencyPhoneNumberPart,
+                    phoneNumber = phoneNumberPart,
+                    serialNumber = serialNumberPart
                 )
             )
         } else {
             // TODO fix error message
             addBlindView.displayToast("Something went wrong while picking an image")
         }
-    }
-
-    private fun getRealPathFromURI(contentURI: Uri): String {
-        val result: String
-        val cursor: Cursor? =
-            addBlindActivity.contentResolver.query(contentURI, null, null, null, null)
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.path!!
-        } else {
-            cursor.moveToFirst()
-            val idx: Int = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA)
-            Log.d("idx", idx.toString())
-            result = cursor.getString(idx)
-            cursor.close()
-        }
-        return result
     }
 }

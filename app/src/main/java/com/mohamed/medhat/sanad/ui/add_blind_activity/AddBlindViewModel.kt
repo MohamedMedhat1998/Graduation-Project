@@ -13,7 +13,8 @@ import javax.inject.Inject
  */
 class AddBlindViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() {
     /**
-     * TODO
+     * Registers a new blind to the server's database.
+     * @param blindPost A data object containing all the attributes of the blind to register.
      */
     fun addBlind(blindPost: BlindPost) {
         viewModelScope.launch {
