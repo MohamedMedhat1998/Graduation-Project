@@ -11,7 +11,10 @@ import com.mohamed.medhat.sanad.model.BlindPost
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessItem
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
+import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
+import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.utils.EXTRA_SCANNED_SERIAL
+import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_add_blind.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
@@ -44,6 +47,20 @@ class AddBlindPresenter @Inject constructor() :
         }
         illnessesAdapter = IllnessesAdapter(illnesses)
         rvIllnesses.adapter = illnessesAdapter
+        addBlindViewModel.state.observe(addBlindActivity) {
+            addBlindView.setAppErrorViewer(
+                TextErrorViewer(
+                    addBlindViewModel.appError,
+                    addBlindActivity.tv_add_blind_error
+                )
+            )
+            handleLoadingState(addBlindView, it)
+        }
+        addBlindViewModel.shouldReLogin.observe(addBlindActivity) {
+            if (it) {
+                addBlindView.navigateToThenFinish(LoginActivity::class.java)
+            }
+        }
     }
 
     override fun setView(view: AddBlindView) {
@@ -77,6 +94,27 @@ class AddBlindPresenter @Inject constructor() :
     }
 
     fun onNextClicked() {
+        val emptyFieldError = addBlindActivity.getString(R.string.empty_field_warning)
+        if (addBlindView.getName().isEmpty()) {
+            addBlindView.showInputError(addBlindActivity.et_add_blind_name, emptyFieldError)
+            addBlindActivity.add_blind_root.post {
+                addBlindActivity.add_blind_root.smoothScrollTo(
+                    0,
+                    addBlindActivity.et_add_blind_name.top
+                )
+            }
+            return
+        }
+        if (addBlindActivity.et_add_blind_age.text.toString().isEmpty()) {
+            addBlindView.showInputError(addBlindActivity.et_add_blind_age, emptyFieldError)
+            addBlindActivity.add_blind_root.post {
+                addBlindActivity.add_blind_root.smoothScrollTo(
+                    0,
+                    addBlindActivity.et_add_blind_age.top
+                )
+            }
+            return
+        }
         val name = addBlindView.getName()
         val age = addBlindView.getAge()
         val gender = addBlindView.getGender()
@@ -130,7 +168,7 @@ class AddBlindPresenter @Inject constructor() :
             )
         } else {
             // TODO fix error message
-            addBlindView.displayToast("Something went wrong while picking an image")
+            addBlindView.displayToast("Please add a picture")
         }
     }
 }

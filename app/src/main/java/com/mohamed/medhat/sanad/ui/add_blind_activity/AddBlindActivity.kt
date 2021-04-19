@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.add_blind_activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
@@ -78,5 +79,21 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
 
     override fun getIllnesses(): List<String> {
         return (rv_add_blind_illnesses.adapter as IllnessesAdapter).getCheckedIllnesses()
+    }
+
+    override fun showLoadingIndicator() {
+        pb_add_blind_loading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingIndicator() {
+        pb_add_blind_loading.visibility = View.INVISIBLE
+    }
+
+    override fun showError() {
+        displayAppError()
+    }
+
+    override fun hideError() {
+        hideAppError()
     }
 }
