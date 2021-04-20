@@ -95,10 +95,16 @@ interface BaseView {
 
     /**
      * Opens the gallery to pick a picture from.
-     * @param requestCode A request code to identify each call.
+     * @param requestCode A request code to be caught in `onActivityResult`.
      * @param title An optional title for the image picker.
      */
-    fun pickPicture(requestCode: Int, title: String = "Select an image")
+    fun pickPictureFromGallery(requestCode: Int, title: String = "Select an image")
+
+    /**
+     * Launches the camera app to take a picture.
+     * @param requestCode A request code to be caught in `onActivityResult`.
+     */
+    fun takePhoto(requestCode: Int)
 
     /**
      * @return Bundle extras that was passed from the calling intent.

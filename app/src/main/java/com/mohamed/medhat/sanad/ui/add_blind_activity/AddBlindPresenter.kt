@@ -1,9 +1,13 @@
 package com.mohamed.medhat.sanad.ui.add_blind_activity
 
+import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.R
@@ -14,16 +18,21 @@ import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.utils.EXTRA_SCANNED_SERIAL
+import com.mohamed.medhat.sanad.utils.PERMISSION_ADD_BLIND_ACTIVITY_CAMERA
 import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_add_blind.*
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
 
 
-private const val ADD_BLIND_PICK_PICTURE = 1
+private const val ADD_BLIND_PICK_FROM_GALLERY = 1
+private const val ADD_BLIND_TAKE_PHOTO = 2
 
 /**
  * An mvp presenter for [AddBlindActivity].
@@ -72,17 +81,66 @@ class AddBlindPresenter @Inject constructor() :
         addBlindViewModel = viewModel
     }
 
-    fun onAddPictureClicked() {
-        addBlindView.pickPicture(ADD_BLIND_PICK_PICTURE)
+    fun onPickFromGalleryClicked() {
+        addBlindView.pickPictureFromGallery(ADD_BLIND_PICK_FROM_GALLERY)
+    }
+
+    fun onTakePhotoClicked() {
+        addBlindView.requestPermission(
+            permission = Manifest.permission.CAMERA,
+            message = "The app wants to access the camera to take a picture.",
+            permissionCode = PERMISSION_ADD_BLIND_ACTIVITY_CAMERA
+        ) {
+            addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO)
+        }
+    }
+
+    fun handleOnRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == PERMISSION_ADD_BLIND_ACTIVITY_CAMERA) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO)
+            } else {
+                addBlindView.displayToast("Unable to proceed without the permission.")
+            }
+        }
     }
 
     fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == ADD_BLIND_PICK_PICTURE) {
-            if (resultCode == RESULT_OK) {
-                imageUri = data?.data
-                addBlindView.updateProfilePreviewImage(imageUri)
-            } else {
-                addBlindView.displayToast("Something went wrong while selecting an image!")
+        Log.d("RequestCode", requestCode.toString())
+        when (requestCode) {
+            ADD_BLIND_PICK_FROM_GALLERY -> {
+                if (resultCode == RESULT_OK) {
+                    imageUri = data?.data
+                    addBlindView.updateProfilePreviewImage(imageUri)
+                } else {
+                    addBlindView.displayToast("Something went wrong while selecting an image!")
+                }
+            }
+            ADD_BLIND_TAKE_PHOTO -> {
+                if (resultCode == RESULT_OK) {
+                    Log.d("Picture", "Result of from camera")
+                    val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
+                    addBlindView.updateProfilePreviewImage(imageBitmap)
+                    try {
+                        FileOutputStream("${addBlindActivity.cacheDir}/profile_pic.png").use { output ->
+                            imageBitmap.compress(
+                                Bitmap.CompressFormat.PNG,
+                                100,
+                                output
+                            )
+                        }
+                        imageUri =
+                            Uri.fromFile(File("${addBlindActivity.cacheDir}/profile_pic.png"))
+                    } catch (e: IOException) {
+                        e.printStackTrace()
+                    }
+                } else {
+                    addBlindView.displayToast("Something went wrong while taking a photo!")
+                }
             }
         }
     }

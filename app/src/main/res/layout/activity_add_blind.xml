@@ -160,12 +160,14 @@
             app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
 
         <Button
-            android:id="@+id/btn_add_blind_add_picture"
+            android:id="@+id/btn_add_blind_pick_from_gallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Add Picture"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="4dp"
+            android:text="Pick from gallery"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_take_photo"
+            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
 
@@ -179,7 +181,7 @@
             android:text="Next"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_pick_from_gallery" />
 
         <Button
             android:id="@+id/btn_add_blind_back"
@@ -191,7 +193,7 @@
             android:text="Back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_picture" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_pick_from_gallery" />
 
         <ImageView
             android:id="@+id/iv_add_blind_profile_preview"
@@ -210,7 +212,7 @@
             android:layout_height="wrap_content"
             android:visibility="invisible"
             app:layout_constraintBottom_toTopOf="@+id/btn_add_blind_back"
-            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_add_picture"
+            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_pick_from_gallery"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
 
@@ -224,6 +226,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_illness" />
+
+        <Button
+            android:id="@+id/btn_add_blind_take_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="Take photo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/btn_add_blind_pick_from_gallery"
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

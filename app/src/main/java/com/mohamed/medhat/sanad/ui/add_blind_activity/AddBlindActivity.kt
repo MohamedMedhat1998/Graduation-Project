@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.ui.add_blind_activity
 
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -33,8 +34,11 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         addBlindPresenter.setView(this)
         addBlindPresenter.setViewModel(addBlindViewModel)
         addBlindPresenter.start(savedInstanceState)
-        btn_add_blind_add_picture.setOnClickListener {
-            addBlindPresenter.onAddPictureClicked()
+        btn_add_blind_pick_from_gallery.setOnClickListener {
+            addBlindPresenter.onPickFromGalleryClicked()
+        }
+        btn_add_blind_take_photo.setOnClickListener {
+            addBlindPresenter.onTakePhotoClicked()
         }
         btn_add_blind_add_illness.setOnClickListener {
             addBlindPresenter.onAddIllnessClicked()
@@ -49,8 +53,20 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         addBlindPresenter.handleOnActivityResult(requestCode, resultCode, data)
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        addBlindPresenter.handleOnRequestPermissionsResult(requestCode, permissions, grantResults)
+    }
+
     override fun updateProfilePreviewImage(uriImage: Uri?) {
         iv_add_blind_profile_preview.setImageURI(uriImage)
+    }
+
+    override fun updateProfilePreviewImage(bitmapImage: Bitmap?) {
+        iv_add_blind_profile_preview.setImageBitmap(bitmapImage)
     }
 
     override fun getOtherIllness(): String {
