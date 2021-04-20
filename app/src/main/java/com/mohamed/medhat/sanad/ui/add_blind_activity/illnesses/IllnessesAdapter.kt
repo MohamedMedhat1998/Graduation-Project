@@ -5,15 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.R
-import com.mohamed.medhat.sanad.dagger.annotations.Illnesses
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
 import kotlinx.android.synthetic.main.item_illness_holder.view.*
-import javax.inject.Inject
 
 /**
  * An adapter for handling the "IllnessesRecyclerView" in the [AddBlindActivity].
  */
-class IllnessesAdapter @Inject constructor(@Illnesses val illnessItems: MutableList<IllnessItem>) :
+class IllnessesAdapter(val illnessItems: MutableList<IllnessItem>) :
     RecyclerView.Adapter<IllnessesAdapter.IllnessHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IllnessHolder {
@@ -35,9 +33,8 @@ class IllnessesAdapter @Inject constructor(@Illnesses val illnessItems: MutableL
 
     inner class IllnessHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
-            view.setOnClickListener {
-                illnessItems[adapterPosition].isChecked = !illnessItems[adapterPosition].isChecked
-                notifyItemChanged(adapterPosition)
+            view.cb_item_illness.setOnCheckedChangeListener { _, isChecked ->
+                illnessItems[adapterPosition].isChecked = isChecked
             }
         }
     }
@@ -58,7 +55,9 @@ class IllnessesAdapter @Inject constructor(@Illnesses val illnessItems: MutableL
     fun getCheckedIllnesses(): List<String> {
         val names = mutableListOf<String>()
         illnessItems.forEach {
-            names.add(it.name)
+            if (it.isChecked) {
+                names.add(it.name)
+            }
         }
         return names
     }

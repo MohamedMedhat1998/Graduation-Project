@@ -5,6 +5,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -17,7 +19,6 @@ import com.mohamed.medhat.sanad.ui.base.error_viewers.AppErrorViewer
 import com.mohamed.medhat.sanad.ui.base.error_viewers.NoErrorViewer
 import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateAware
 import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateAwareness
-
 
 /**
  * A base class for all the activities in the app. This class is meant to reduce the boilerplate code for the activity classes.
@@ -110,11 +111,22 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         startActivity(websiteIntent)
     }
 
-    override fun pickPicture(requestCode: Int, title: String) {
+    override fun pickPictureFromGallery(requestCode: Int, title: String) {
         val intent = Intent()
         intent.type = "image/*"
         intent.action = Intent.ACTION_GET_CONTENT
         startActivityForResult(Intent.createChooser(intent, title), requestCode)
+    }
+
+    override fun takePhoto(requestCode: Int) {
+        val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val uri = Uri.parse("file://${getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
+        takePicture.putExtra(MediaStore.EXTRA_OUTPUT, uri)
+        startActivityForResult(takePicture, requestCode)
+    }
+
+    override fun getExtras(): Bundle? {
+        return intent.extras
     }
 
     /**

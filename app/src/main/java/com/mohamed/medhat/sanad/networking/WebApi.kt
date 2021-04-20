@@ -4,11 +4,9 @@ import com.mohamed.medhat.sanad.model.LoginUser
 import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.NewUser
 import com.mohamed.medhat.sanad.model.Token
+import okhttp3.MultipartBody
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 /**
  * Contains all the endpoints from the web service. This class returns real data from the remote RESTFUL web service.
@@ -43,4 +41,23 @@ interface WebApi {
      */
     @GET("/Api/Accounts/Profile")
     suspend fun getMentorProfile(): Response<MentorProfile>
+
+    /**
+     * A multipart post request that is used to register a new blind in the website database
+     * based on the QR code.
+     */
+    @Multipart
+    @POST("/Api/Mentority/RegisterBlind")
+    suspend fun addBlind(
+        @Part firstName: MultipartBody.Part,
+        @Part lastName: MultipartBody.Part,
+        @Part gender: MultipartBody.Part,
+        @Part age: MultipartBody.Part,
+        @Part phoneNumber: MultipartBody.Part,
+        @Part serialNumber: MultipartBody.Part,
+        @Part emergencyPhoneNumber: MultipartBody.Part,
+        @Part bloodType: MultipartBody.Part,
+        @Part("illnesses") illnesses: List<String>,
+        @Part profilePicture: MultipartBody.Part
+    ): Response<Any>
 }
