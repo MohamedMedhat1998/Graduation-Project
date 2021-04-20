@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.EditText
 import android.widget.Toast
@@ -119,6 +120,8 @@ open class BaseActivity : AppCompatActivity(), BaseView {
 
     override fun takePhoto(requestCode: Int) {
         val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val uri = Uri.parse("file://${getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
+        takePicture.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(takePicture, requestCode)
     }
 

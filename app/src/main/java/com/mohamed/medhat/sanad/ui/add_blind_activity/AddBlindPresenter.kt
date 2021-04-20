@@ -4,9 +4,9 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -25,8 +25,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -123,21 +121,10 @@ class AddBlindPresenter @Inject constructor() :
             ADD_BLIND_TAKE_PHOTO -> {
                 if (resultCode == RESULT_OK) {
                     Log.d("Picture", "Result of from camera")
-                    val imageBitmap: Bitmap = data?.extras?.get("data") as Bitmap
-                    addBlindView.updateProfilePreviewImage(imageBitmap)
-                    try {
-                        FileOutputStream("${addBlindActivity.cacheDir}/profile_pic.png").use { output ->
-                            imageBitmap.compress(
-                                Bitmap.CompressFormat.PNG,
-                                100,
-                                output
-                            )
-                        }
-                        imageUri =
-                            Uri.fromFile(File("${addBlindActivity.cacheDir}/profile_pic.png"))
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                    }
+                    val picture =
+                        File("${addBlindActivity.getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
+                    imageUri = Uri.fromFile(picture)
+                    addBlindActivity.updateProfilePreviewImage(imageUri)
                 } else {
                     addBlindView.displayToast("Something went wrong while taking a photo!")
                 }
