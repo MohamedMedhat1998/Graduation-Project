@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mohamed.medhat.sanad.local.SharedPrefs
+import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.error.SingleLineError
 import com.mohamed.medhat.sanad.networking.NetworkState
@@ -16,9 +17,10 @@ import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.utils.PREFS_IS_MENTORING_SOMEONE
-import com.mohamed.medhat.sanad.utils.TAG_LOGIN
 import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
+import com.mohamed.medhat.sanad.utils.TAG_LOGIN
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import javax.inject.Inject
 
 /**
@@ -51,17 +53,22 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
                 sharedPrefs.write(PREFS_USER_FIRST_NAME, profile.firstName)
                 if (profile.emailConfirmed) {
                     // If the email is confirmed, we have two choices: QRActivity or MainActivity
-                    if (sharedPrefs.read(PREFS_IS_MENTORING_SOMEONE).toBoolean()) {
-                        // TODO find a place to update `IS_MENTORING_SOMEONE`
-                        // If the user is mentoring someone already, navigate directly to the MainActivity
-                        _destination.value = MainActivity::class.java
-                        _state.value = State.NORMAL
-                        return@launch
+                    val blindsResponse = webApi.getBlinds()
+                    if (blindsResponse.isSuccessful) {
+                        val blindsList = blindsResponse.body() as List<BlindMiniProfile>
+                        if (blindsList.isEmpty()) {
+                            // If the user is not mentoring anyone, navigate to the QRActivity
+                            _destination.value = QRActivity::class.java
+                            _state.value = State.NORMAL
+                            return@launch
+                        } else {
+                            // If the user is mentoring someone already, navigate directly to the MainActivity
+                            _destination.value = MainActivity::class.java
+                            _state.value = State.NORMAL
+                            return@launch
+                        }
                     } else {
-                        // If the user is not mentoring anyone, navigate to the QRActivity
-                        _destination.value = QRActivity::class.java
-                        _state.value = State.NORMAL
-                        return@launch
+                        handleFailedResponse(blindsResponse)
                     }
                 } else {
                     // If the email isn't confirmed, navigate to the confirmation screen
@@ -70,24 +77,32 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
                     return@launch
                 }
             } else {
-                if (response.code() == 401) {
-                    // Unauthorized
-                    _destination.value = LoginActivity::class.java
-                    _state.value = State.NORMAL
-                    return@launch
-                } else {
-                    // Internal server error, retrying...
-                    Log.e(
-                        TAG_LOGIN,
-                        "Something went wrong while choosing a destination: ${response.code()} ${response.message()}"
-                    )
-                    appError =
-                        SingleLineError("Something went wrong! Please wait while retrying...")
-                    _state.value = State.ERROR
-                    // TODO stop the infinite recursion loop?
-                    calculateDestination()
-                }
+                handleFailedResponse(response)
             }
+        }
+    }
+
+    /**
+     * Handles the error cases that may occur if the `response.isSuccessful == false`.
+     * @param response The failed response.
+     */
+    private fun <T> handleFailedResponse(response: Response<T>) {
+        if (response.code() == 401) {
+            // Unauthorized
+            _destination.value = LoginActivity::class.java
+            _state.value = State.NORMAL
+            return
+        } else {
+            // Internal server error, retrying...
+            Log.e(
+                TAG_LOGIN,
+                "Something went wrong while choosing a destination: ${response.code()} ${response.message()}"
+            )
+            appError =
+                SingleLineError("Something went wrong! Please wait while retrying...")
+            _state.value = State.ERROR
+            // TODO stop the infinite recursion loop?
+            calculateDestination()
         }
     }
 }

@@ -21,7 +21,6 @@ const val NETWORK_CONNECTION_TIMEOUT: Long = 30
 // Shared preferences
 const val PREFS_FILE_NAME = "cache"
 const val PREFS_IS_USER_CONFIRMED = "is-user-confirmed"
-const val PREFS_IS_MENTORING_SOMEONE = "is-mentoring-someone"
 const val PREFS_USER_FIRST_NAME = "user-first-name"
 
 // Permission codes

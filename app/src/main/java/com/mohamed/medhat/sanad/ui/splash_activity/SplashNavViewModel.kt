@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mohamed.medhat.sanad.local.SharedPrefs
+import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.error.NoError
 import com.mohamed.medhat.sanad.model.error.SingleLineError
@@ -17,7 +18,6 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
-import com.mohamed.medhat.sanad.utils.PREFS_IS_MENTORING_SOMEONE
 import com.mohamed.medhat.sanad.utils.PREFS_IS_USER_CONFIRMED
 import com.mohamed.medhat.sanad.utils.TAG_SPLASH
 import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
@@ -104,13 +104,33 @@ class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs
             }
             // Navigate to MainActivity if the user is confirmed
             if (token.isNotEmpty() && isConfirmed) {
-                if (sharedPrefs.read(PREFS_IS_MENTORING_SOMEONE).toBoolean()) {
-                    _destination.postValue(MainActivity::class.java)
+                // If the email is confirmed, we have two choices: QRActivity or MainActivity
+                val blindsResponse = webApi.getBlinds()
+                if (blindsResponse.isSuccessful) {
+                    val blindsList = blindsResponse.body() as List<BlindMiniProfile>
+                    if (blindsList.isEmpty()) {
+                        // If the user is not mentoring anyone, navigate to the QRActivity
+                        _destination.value = QRActivity::class.java
+                        _state.value = State.NORMAL
+                        return@launch
+                    } else {
+                        // If the user is mentoring someone already, navigate directly to the MainActivity
+                        _destination.value = MainActivity::class.java
+                        _state.value = State.NORMAL
+                        return@launch
+                    }
                 } else {
-                    _destination.postValue(QRActivity::class.java)
+                    Log.e(
+                        TAG_SPLASH,
+                        "Something went wrong while choosing a destination: ${blindsResponse.code()} ${blindsResponse.message()}"
+                    )
+                    appError =
+                        SingleLineError("Something went wrong! Please wait while retrying...")
+                    _state.value = State.ERROR
+                    // TODO stop the infinite recursion loop?
+                    calculateDestination()
+                    return@launch
                 }
-                _state.value = State.NORMAL
-                return@launch
             }
             // Navigate to LoginActivity if the user is confirmed
             if (token.isNotEmpty() && !isConfirmed) {

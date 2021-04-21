@@ -1,9 +1,6 @@
 package com.mohamed.medhat.sanad.networking
 
-import com.mohamed.medhat.sanad.model.LoginUser
-import com.mohamed.medhat.sanad.model.MentorProfile
-import com.mohamed.medhat.sanad.model.NewUser
-import com.mohamed.medhat.sanad.model.Token
+import com.mohamed.medhat.sanad.model.*
 import okhttp3.MultipartBody
 import retrofit2.Response
 import retrofit2.http.*
@@ -60,4 +57,10 @@ interface WebApi {
         @Part("illnesses") illnesses: List<String>,
         @Part profilePicture: MultipartBody.Part
     ): Response<Any>
+
+    /**
+     * A get request that fetches the blind profiles mentored by the currently logged in mentor.
+     */
+    @GET("/Api/Mentority/Blinds")
+    suspend fun getBlinds(): Response<List<BlindMiniProfile>>
 }
