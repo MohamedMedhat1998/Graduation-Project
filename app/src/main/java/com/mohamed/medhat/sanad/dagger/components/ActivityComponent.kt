@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.dagger.components
 import com.mohamed.medhat.sanad.dagger.ViewModelFactory
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
+import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationViewModel
@@ -12,6 +13,7 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
+import com.mohamed.medhat.sanad.ui.promotion_video_activity.PromotionVideoActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
@@ -41,6 +43,7 @@ interface ActivityComponent {
     fun inject(qrActivity: QRActivity)
     fun inject(scannerActivity: ScannerActivity)
     fun inject(addBlindActivity: AddBlindActivity)
+    fun inject(promotionVideoActivity: PromotionVideoActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -49,4 +52,5 @@ interface ActivityComponent {
     fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
     fun splashNavViewModel(): ViewModelFactory<SplashNavViewModel>
     fun addBlindViewModel(): ViewModelFactory<AddBlindViewModel>
+    fun addBlindNavViewModel(): ViewModelFactory<AddBlindNavViewModel>
 }

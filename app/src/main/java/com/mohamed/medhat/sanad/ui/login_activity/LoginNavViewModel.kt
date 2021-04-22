@@ -16,7 +16,6 @@ import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
-import com.mohamed.medhat.sanad.utils.PREFS_IS_MENTORING_SOMEONE
 import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import com.mohamed.medhat.sanad.utils.TAG_LOGIN
 import kotlinx.coroutines.launch

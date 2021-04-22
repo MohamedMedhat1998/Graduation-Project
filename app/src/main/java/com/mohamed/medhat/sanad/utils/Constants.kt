@@ -13,10 +13,13 @@ const val TAG_APP_ERROR_FAMILY = "APP_ERROR"
 const val TAG_SPLASH = "SPLASH"
 const val TAG_LOGIN = "LOGIN"
 const val TAG_SCANNER = "SCANNER"
+const val TAG_ADD_BLIND = "ADD_BLIND"
 
 // Networking
 const val NETWORK_BASE_URL = "https://sanad.azurewebsites.net/api/"
 const val NETWORK_CONNECTION_TIMEOUT: Long = 30
+// TODO update the website to be the buy the product website.
+const val NETWORK_BUY_PRODUCT_URL = "https://www.google.com"
 
 // Shared preferences
 const val PREFS_FILE_NAME = "cache"

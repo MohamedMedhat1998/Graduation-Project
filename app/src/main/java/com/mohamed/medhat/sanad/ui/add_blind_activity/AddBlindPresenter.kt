@@ -40,6 +40,7 @@ class AddBlindPresenter @Inject constructor() :
 
     private lateinit var addBlindView: AddBlindView
     private lateinit var addBlindViewModel: AddBlindViewModel
+    private lateinit var addBlindNavViewModel: AddBlindNavViewModel
     private lateinit var addBlindActivity: AddBlindActivity
     private lateinit var rvIllnesses: RecyclerView
     private lateinit var illnessesAdapter: IllnessesAdapter
@@ -68,6 +69,15 @@ class AddBlindPresenter @Inject constructor() :
                 addBlindView.navigateToThenFinish(LoginActivity::class.java)
             }
         }
+        addBlindViewModel.isSuccessfulRegistration.observe(addBlindActivity) {
+            if (it) {
+                addBlindView.displayToast("Successfully registered!")
+                addBlindNavViewModel.calculateDestination()
+            }
+        }
+        addBlindNavViewModel.destination.observe(addBlindActivity) {
+            addBlindView.navigateToThenFinish(it)
+        }
     }
 
     override fun setView(view: AddBlindView) {
@@ -77,6 +87,10 @@ class AddBlindPresenter @Inject constructor() :
 
     override fun setViewModel(viewModel: AddBlindViewModel) {
         addBlindViewModel = viewModel
+    }
+
+    fun setNavigationViewModel(navViewModel: AddBlindNavViewModel) {
+        addBlindNavViewModel = navViewModel
     }
 
     fun onPickFromGalleryClicked() {
@@ -123,6 +137,7 @@ class AddBlindPresenter @Inject constructor() :
                     Log.d("Picture", "Result of from camera")
                     val picture =
                         File("${addBlindActivity.getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
+                    Log.d("Picture", "Size: ${picture.length()/1024.0}KB")
                     imageUri = Uri.fromFile(picture)
                     addBlindActivity.updateProfilePreviewImage(imageUri)
                 } else {
