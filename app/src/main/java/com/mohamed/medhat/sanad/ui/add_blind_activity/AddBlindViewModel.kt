@@ -30,6 +30,11 @@ class AddBlindViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel(
     val shouldReLogin: LiveData<Boolean>
         get() = _shouldReLogin
 
+    private val _isSuccessfulRegistration = MutableLiveData<Boolean>()
+
+    val isSuccessfulRegistration: LiveData<Boolean>
+        get() = _isSuccessfulRegistration
+
     /**
      * Registers a new blind to the server's database.
      * @param blindPost A data object containing all the attributes of the blind to register.
@@ -52,8 +57,10 @@ class AddBlindViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel(
             )
             if (response.isSuccessful) {
                 appError = NoError()
+                _isSuccessfulRegistration.postValue(true)
                 _state.postValue(State.NORMAL)
             } else {
+                _isSuccessfulRegistration.postValue(false)
                 when (response.code()) {
                     400 -> {
                         withContext(IO) {

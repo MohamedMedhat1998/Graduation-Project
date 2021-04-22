@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.ui.base.SimplePresenter
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
+import com.mohamed.medhat.sanad.utils.NETWORK_BUY_PRODUCT_URL
 import com.mohamed.medhat.sanad.utils.PERMISSION_QR_ACTIVITY_CAMERA
 import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import javax.inject.Inject
@@ -50,7 +51,6 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs) : SimplePres
     }
 
     fun onNoDeviceClicked() {
-        // TODO update the website to be the buy the product website.
-        qrView.navigateToWebsite("https://www.google.com")
+        qrView.navigateToWebsite(NETWORK_BUY_PRODUCT_URL)
     }
 }

@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.login_activity
 import android.os.Bundle
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
+import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.LoginUser
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
@@ -15,7 +16,8 @@ import javax.inject.Inject
  * An mvp presenter for [LoginActivity].
  */
 @ActivityScope
-class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginViewModel>() {
+class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
+    AdvancedPresenter<LoginView, LoginViewModel>() {
 
     private lateinit var loginView: LoginView
     private lateinit var loginViewModel: LoginViewModel
@@ -31,6 +33,7 @@ class LoginPresenter @Inject constructor() : AdvancedPresenter<LoginView, LoginV
     }
 
     override fun start(savedInstanceState: Bundle?) {
+        sharedPrefs.clearAll()
         activity = (loginView as LoginActivity)
         loginViewModel.token.observe(activity) {
             loginView.apply {

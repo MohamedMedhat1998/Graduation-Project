@@ -27,12 +27,18 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
             .get(AddBlindViewModel::class.java)
     }
 
+    private val addBlindNavViewModel: AddBlindNavViewModel by lazy {
+        ViewModelProviders.of(this, activityComponent.addBlindNavViewModel())
+            .get(AddBlindNavViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_blind)
         activityComponent.inject(this)
         addBlindPresenter.setView(this)
         addBlindPresenter.setViewModel(addBlindViewModel)
+        addBlindPresenter.setNavigationViewModel(addBlindNavViewModel)
         addBlindPresenter.start(savedInstanceState)
         btn_add_blind_pick_from_gallery.setOnClickListener {
             addBlindPresenter.onPickFromGalleryClicked()
