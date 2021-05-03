@@ -63,4 +63,11 @@ interface WebApi {
      */
     @GET("/Api/Mentority/Blinds")
     suspend fun getBlinds(): Response<List<BlindMiniProfile>>
+
+    /**
+     * A get function that returns the blind's last known location on the map.
+     * @param serialNumber Which blind to get its location.
+     */
+    @GET("/Api/GPS/LastNode/{serialNumber}")
+    suspend fun getLastNode(@Path("serialNumber") serialNumber: String): Response<GpsNode>
 }
