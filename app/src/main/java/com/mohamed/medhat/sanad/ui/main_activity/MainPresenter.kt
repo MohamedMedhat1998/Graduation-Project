@@ -15,6 +15,8 @@ import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindsAdapter
+import com.mohamed.medhat.sanad.ui.main_activity.features.FeaturesBottomFragment
+import com.mohamed.medhat.sanad.utils.TAG_FRAGMENT_FEATURES
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -78,7 +80,12 @@ class MainPresenter @Inject constructor() :
      * Initializes the recycler view of the blinds list.
      */
     private fun initializeBlindsRecyclerView() {
-        blindsAdapter = BlindsAdapter(mutableListOf())
+        blindsAdapter = BlindsAdapter(mutableListOf()) {
+            FeaturesBottomFragment.newInstance(it).show(
+                activity.supportFragmentManager,
+                TAG_FRAGMENT_FEATURES
+            )
+        }
         blindsRecyclerView = activity.rv_main_blinds_list
         blindsRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)

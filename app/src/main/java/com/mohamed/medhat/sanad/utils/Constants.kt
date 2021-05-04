@@ -18,6 +18,7 @@ const val TAG_ADD_BLIND = "ADD_BLIND"
 // Networking
 const val NETWORK_BASE_URL = "https://sanad.azurewebsites.net/api/"
 const val NETWORK_CONNECTION_TIMEOUT: Long = 30
+
 // TODO update the website to be the buy the product website.
 const val NETWORK_BUY_PRODUCT_URL = "https://www.google.com"
 
@@ -36,3 +37,9 @@ const val EXTRA_SCANNED_SERIAL = "scanned-serial"
 // Gender
 const val GENDER_MALE = 1
 const val GENDER_FEMALE = 0
+
+// Fragment bundles
+const val FRAGMENT_FEATURES_SERIAL_NUMBER = "serial-number"
+
+// Fragment Tags
+const val TAG_FRAGMENT_FEATURES = "features-bottom-fragment"

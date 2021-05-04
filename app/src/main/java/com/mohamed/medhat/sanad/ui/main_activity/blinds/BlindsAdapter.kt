@@ -14,7 +14,10 @@ import kotlinx.android.synthetic.main.item_blind_holder.view.*
 /**
  * A [RecyclerView.Adapter] for the blinds list in the [MainActivity].
  */
-class BlindsAdapter(private var blinds: MutableList<BlindMiniProfile>) :
+class BlindsAdapter(
+    private var blinds: MutableList<BlindMiniProfile>,
+    val onProfileClicked: (serial: String) -> Unit
+) :
     RecyclerView.Adapter<BlindsAdapter.BlindViewHolder>() {
     lateinit var context: Context
 
@@ -55,6 +58,7 @@ class BlindsAdapter(private var blinds: MutableList<BlindMiniProfile>) :
     inner class BlindViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
             itemView.setOnClickListener {
+                onProfileClicked.invoke(blinds[adapterPosition].userName)
                 // TODO find a way to display the FragmentBottomSheet that contains the blind details.
                 // TODO distinguish between the normal item click and the add blind click
             }
