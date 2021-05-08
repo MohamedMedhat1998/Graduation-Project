@@ -7,6 +7,7 @@ import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.LoginUser
 import com.mohamed.medhat.sanad.model.Token
 import com.mohamed.medhat.sanad.model.error.NoError
+import com.mohamed.medhat.sanad.networking.FakeApi
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State
@@ -22,7 +23,7 @@ import javax.inject.Inject
  * A ViewModel for the [LoginActivity].
  */
 @ActivityScope
-class LoginViewModel @Inject constructor(val api: WebApi, val tokenManager: TokenManager) :
+class LoginViewModel @Inject constructor(val api: FakeApi, val tokenManager: TokenManager) :
     BaseViewModel() {
 
     init {

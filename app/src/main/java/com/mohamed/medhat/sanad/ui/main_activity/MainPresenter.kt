@@ -201,7 +201,8 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         Glide.with(activity)
             .asBitmap()
             .load(url)
-            .into(object : CustomTarget<Bitmap>() {
+            .circleCrop()
+            .into(object : CustomTarget<Bitmap>(56,56) {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     this@updateImageFromUrl.setIcon(BitmapDescriptorFactory.fromBitmap(resource))
                 }

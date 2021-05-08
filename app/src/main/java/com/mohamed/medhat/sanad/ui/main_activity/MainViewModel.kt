@@ -31,7 +31,8 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
 
     init {
         viewModelScope.launch {
-            val blindListResponse = webApi.getBlinds()
+            // TODO update to a real api
+            val blindListResponse = fakeApi.getBlinds()
             if (blindListResponse.isSuccessful) {
                 _blinds.postValue(blindListResponse.body())
             } else {

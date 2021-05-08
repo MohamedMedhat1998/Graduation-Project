@@ -10,6 +10,7 @@ import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.MentorProfile
 import com.mohamed.medhat.sanad.model.error.NoError
 import com.mohamed.medhat.sanad.model.error.SingleLineError
+import com.mohamed.medhat.sanad.networking.FakeApi
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
@@ -28,7 +29,7 @@ import javax.inject.Inject
 /**
  * A [ViewModel] that decides which activity should [SplashActivity] navigate to based on some conditions.
  */
-class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs: SharedPrefs) :
+class SplashNavViewModel @Inject constructor(val webApi: FakeApi, val sharedPrefs: SharedPrefs) :
     BaseViewModel() {
 
     private val token: String

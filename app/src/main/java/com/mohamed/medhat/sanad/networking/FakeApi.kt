@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.networking
 
 import android.util.Log
+import com.google.gson.Gson
 import com.mohamed.medhat.sanad.model.*
 import okhttp3.MultipartBody
 import retrofit2.Response
@@ -40,7 +41,15 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun login(loginUser: LoginUser): Response<Token> {
-        TODO("Not yet implemented")
+        val token = Gson().fromJson(
+            "{\n" +
+                    "  \"token\": \"dfgwqesfasadas\",\n" +
+                    "  \"expiration\": \"2025-05-08T21:09:41.943Z\",\n" +
+                    "  \"refreshToken\": \"asdfwfaddsawawefasdd\",\n" +
+                    "  \"refreshTokenExpiration\": \"2025-05-08T21:09:41.943Z\"\n" +
+                    "}", Token::class.java
+        )
+        return Response.success(token)
     }
 
     override suspend fun confirmEmail(confirmationCode: String): Response<Any> {
@@ -48,7 +57,23 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun getMentorProfile(): Response<MentorProfile> {
-        TODO("Not yet implemented")
+        val profile = Gson().fromJson(
+            "{\n" +
+                    "  \"firstName\": \"Mohamed\",\n" +
+                    "  \"lastName\": \"Medhat\",\n" +
+                    "  \"profilePicture\": \"https://i2.wp.com/batman-news.com/wp-content/uploads/2021/02/Superman-Shield-Featured.jpg\",\n" +
+                    "  \"gender\": 1,\n" +
+                    "  \"age\": 23,\n" +
+                    "  \"dateCreated\": \"2021-05-08T21:16:04.820Z\",\n" +
+                    "  \"dateModified\": \"2021-05-08T21:16:04.820Z\",\n" +
+                    "  \"email\": \"abomed7at55@gmail.com\",\n" +
+                    "  \"emailConfirmed\": true,\n" +
+                    "  \"phoneNumber\": \"01063863298\",\n" +
+                    "  \"phoneNumberConfirmed\": true,\n" +
+                    "  \"twoFactorEnabled\": true\n" +
+                    "}", MentorProfile::class.java
+        )
+        return Response.success(profile)
     }
 
     override suspend fun addBlind(
@@ -67,7 +92,28 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun getBlinds(): Response<List<BlindMiniProfile>> {
-        TODO("Not yet implemented")
+        val blinds = mutableListOf<BlindMiniProfile>()
+        val blindA = Gson().fromJson(
+            "  {\n" +
+                    "    \"firstName\": \"Ahmed\",\n" +
+                    "    \"lastName\": \"Yousef\",\n" +
+                    "    \"profilePicture\": \"https://scontent.fcai1-2.fna.fbcdn.net/v/t1.18169-9/20258460_347482965681417_6805177405156473465_n.jpg?_nc_cat=103&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeFpYNoSZdljbzm6wK21vMxteTg6SZhjFYh5ODpJmGMViDDwnqQYO1CQsXkgXrelR9Ze9dKOk5VYh1rF65niyqpf&_nc_ohc=pz_r3sWDJUMAX_Lad7Z&_nc_ht=scontent.fcai1-2.fna&oh=c1c145efb4761ee2fc2dadfc9a522916&oe=60BB9CC8\",\n" +
+                    "    \"userName\": \"$a\"\n" +
+                    "  }\n", BlindMiniProfile::class.java
+        )
+        val blindB = Gson().fromJson(
+            "  {\n" +
+                    "    \"firstName\": \"Sherif\",\n" +
+                    "    \"lastName\": \"Eldeeb\",\n" +
+                    "    \"profilePicture\": \"https://scontent.fcai1-2.fna.fbcdn.net/v/t1.6435-9/102437671_2606665179551391_742514619700266850_n.jpg?_nc_cat=110&ccb=1-3&_nc_sid=09cbfe&_nc_eui2=AeF2GBC8Oh6i7P0h1raUFjV7-oQx8XhGKAv6hDHxeEYoC5mWMbIhOgFhZa4396Juu4a8jCt56EcqmYcxbDQIr30B&_nc_ohc=iNTzFeBsqHYAX901sBo&_nc_ht=scontent.fcai1-2.fna&oh=14d7740ad3b2f7c36c6fd5c1fafef2eb&oe=60BAC57E\",\n" +
+                    "    \"userName\": \"$b\"\n" +
+                    "  }\n", BlindMiniProfile::class.java
+        )
+        blinds.apply {
+            add(blindA)
+            add(blindB)
+        }
+        return Response.success(blinds)
     }
 
     override suspend fun getLastNode(serialNumber: String): Response<GpsNode> {
@@ -98,43 +144,73 @@ class FakeApi @Inject constructor() : WebApi {
         when (tempInitial) {
             aInitial -> {
                 aInitial = modifiedLocation
-                Log.d("Location", "a ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "a ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             bInitial -> {
                 bInitial = modifiedLocation
-                Log.d("Location", "b ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "b ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             cInitial -> {
                 cInitial = modifiedLocation
-                Log.d("Location", "c ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "c ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             dInitial -> {
                 dInitial = modifiedLocation
-                Log.d("Location", "d ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "d ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             eInitial -> {
                 eInitial = modifiedLocation
-                Log.d("Location", "e ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "e ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             fInitial -> {
                 fInitial = modifiedLocation
-                Log.d("Location", "f ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "f ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             gInitial -> {
                 gInitial = modifiedLocation
-                Log.d("Location", "g ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "g ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             hInitial -> {
                 hInitial = modifiedLocation
-                Log.d("Location", "h ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "h ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             iInitial -> {
                 iInitial = modifiedLocation
-                Log.d("Location", "i ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "i ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
             jInitial -> {
                 jInitial = modifiedLocation
-                Log.d("Location", "j ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}")
+                Log.d(
+                    "Location",
+                    "j ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
             }
         }
         return Response.success(modifiedLocation)

@@ -51,4 +51,4 @@ const val VIEW_TYPE_MAIN_ADD_PROFILE = 2
 
 // MAP
 // TODO update the zoom level
-const val MAP_CAMERA_ZOOM_LEVEL = 14f
+const val MAP_CAMERA_ZOOM_LEVEL = 18f
