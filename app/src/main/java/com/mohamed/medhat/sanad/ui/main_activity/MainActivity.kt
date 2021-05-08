@@ -1,6 +1,8 @@
 package com.mohamed.medhat.sanad.ui.main_activity
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -52,5 +54,15 @@ class MainActivity : BaseActivity(), MainView {
             map = p0
             mainPresenter.handleOnMapReady(map)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        mainPresenter.handleOnCreateOptionsMenu(menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        mainPresenter.handleOnOptionItemSelected(item)
+        return super.onOptionsItemSelected(item)
     }
 }

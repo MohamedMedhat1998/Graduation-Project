@@ -1,22 +1,35 @@
 package com.mohamed.medhat.sanad.ui.main_activity
 
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
+import com.mohamed.medhat.sanad.local.SharedPrefs
+import com.mohamed.medhat.sanad.model.BlindAddProfile
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
+import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
+import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindItem
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindsAdapter
 import com.mohamed.medhat.sanad.ui.main_activity.features.FeaturesBottomFragment
+import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
+import com.mohamed.medhat.sanad.utils.MAP_CAMERA_ZOOM_LEVEL
 import com.mohamed.medhat.sanad.utils.TAG_FRAGMENT_FEATURES
+import com.mohamed.medhat.sanad.utils.TAG_MARKER_ICON
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -29,7 +42,7 @@ import javax.inject.Inject
  * An mvp presenter for the main screen.
  */
 @ActivityScope
-class MainPresenter @Inject constructor() :
+class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     AdvancedPresenter<MainView, MainViewModel>() {
 
     private lateinit var mainView: MainView
@@ -47,7 +60,10 @@ class MainPresenter @Inject constructor() :
         initializeBlindsRecyclerView()
         mainViewModel.blinds.observe(activity) {
             runPositionsThread(it)
-            blindsAdapter.updateBlindsList(it)
+            val listWithAddButton = mutableListOf<BlindItem>()
+            listWithAddButton.addAll(it)
+            listWithAddButton.add(BlindAddProfile())
+            blindsAdapter.updateBlindsList(listWithAddButton)
         }
         mainViewModel.position.observe(activity) {
             drawMarkers(it)
@@ -80,7 +96,17 @@ class MainPresenter @Inject constructor() :
      * Initializes the recycler view of the blinds list.
      */
     private fun initializeBlindsRecyclerView() {
-        blindsAdapter = BlindsAdapter(mutableListOf()) {
+        blindsAdapter = BlindsAdapter(mutableListOf(), {
+            // TODO update the blind list item when returning from this activity.
+            // TODO Maybe use "startActivityForResult"?
+            mainView.navigateTo(ScannerActivity::class.java)
+        }) {
+            map.animateCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    positions[it]?.position,
+                    MAP_CAMERA_ZOOM_LEVEL
+                )
+            )
             FeaturesBottomFragment.newInstance(it).show(
                 activity.supportFragmentManager,
                 TAG_FRAGMENT_FEATURES
@@ -107,7 +133,7 @@ class MainPresenter @Inject constructor() :
      * @param blindsNodes A map contains [BlindMiniProfile] as a key and its corresponding location [GpsNode] as a value.
      */
     private fun drawMarkers(blindsNodes: Map<BlindMiniProfile, GpsNode?>) {
-        blindsNodes.entries.forEach {
+        blindsNodes.entries.forEachIndexed { index, it ->
             val blindProfile = it.key
             val gpsNode = it.value
             if (!positions.containsKey(blindProfile.userName)) {
@@ -123,7 +149,18 @@ class MainPresenter @Inject constructor() :
                                 )
                             ).title("${blindProfile.firstName} ${blindProfile.lastName}")
                         )
+                        marker.updateImageFromUrl(blindProfile.profilePicture)
                         positions[blindProfile.userName] = marker
+                        if (index == 0) {
+                            // Moving camera to the first item.
+                            map.animateCamera(
+                                CameraUpdateFactory.newLatLngZoom(
+                                    marker.position,
+                                    MAP_CAMERA_ZOOM_LEVEL
+                                )
+                            )
+                        }
+
                     } // TODO handle null cases
                 }
             } else {
@@ -141,5 +178,40 @@ class MainPresenter @Inject constructor() :
                 } // TODO handle null cases
             }
         }
+    }
+
+    fun handleOnCreateOptionsMenu(menu: Menu?) {
+        activity.menuInflater.inflate(R.menu.menu_main, menu)
+    }
+
+    fun handleOnOptionItemSelected(item: MenuItem) {
+        when (item.itemId) {
+            R.id.mi_main_logout -> {
+                sharedPrefs.clearAll()
+                mainView.startActivityAsRoot(LoginActivity::class.java)
+            }
+        }
+    }
+
+    /**
+     * An extension function to download an image from a url and display it for the marker.
+     * @param url The link of the image.
+     */
+    fun Marker.updateImageFromUrl(url: String) {
+        Glide.with(activity)
+            .asBitmap()
+            .load(url)
+            .into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    this@updateImageFromUrl.setIcon(BitmapDescriptorFactory.fromBitmap(resource))
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                    Log.e(
+                        TAG_MARKER_ICON,
+                        "Failed to retrieve the user icon... using the default marker instead."
+                    )
+                }
+            })
     }
 }

@@ -48,6 +48,16 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         finish()
     }
 
+    override fun startActivityAsRoot(activity: Class<*>, bundle: Bundle?) {
+        val rootActivityIntent = Intent(this, activity)
+        if (bundle != null) {
+            rootActivityIntent.putExtras(bundle)
+        }
+        rootActivityIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        rootActivityIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        startActivity(rootActivityIntent)
+    }
+
     override fun displayToast(text: String) {
         Toast.makeText(this, text, Toast.LENGTH_SHORT).show()
     }

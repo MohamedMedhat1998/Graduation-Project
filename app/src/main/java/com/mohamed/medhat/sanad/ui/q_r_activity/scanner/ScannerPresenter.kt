@@ -59,6 +59,8 @@ class ScannerPresenter @Inject constructor() : SimplePresenter<ScannerView>() {
         val extras = Bundle()
         extras.putString(EXTRA_SCANNED_SERIAL, scannedText)
         scannerView.displayToast("Successfully scanned the QR code!")
+        // TODO check whether the device exist or not before proceeding
+        // TODO check whether the device is registered before or not, based on that, navigate to either Bind or Register
         scannerView.navigateTo(AddBlindActivity::class.java, extras)
     }
 
