@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.item_blind_holder.view.*
 class BlindsAdapter(
     private var blinds: MutableList<BlindItem>,
     val onAddBlindClicked: () -> Unit,
-    val onProfileClicked: (serial: String) -> Unit
+    val onProfileClicked: (profile: BlindMiniProfile) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var context: Context
 
@@ -84,7 +84,7 @@ class BlindsAdapter(
     inner class BlindViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
             itemView.setOnClickListener {
-                onProfileClicked.invoke((blinds[adapterPosition] as BlindMiniProfile).userName)
+                onProfileClicked.invoke((blinds[adapterPosition] as BlindMiniProfile))
             }
         }
     }

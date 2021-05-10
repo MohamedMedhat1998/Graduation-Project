@@ -97,19 +97,28 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
      */
     private fun initializeBlindsRecyclerView() {
         blindsAdapter = BlindsAdapter(mutableListOf(), {
-            // TODO update the blind list item when returning from this activity.
-            // TODO Maybe use "startActivityForResult"?
             mainView.navigateTo(ScannerActivity::class.java)
         }) {
             map.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    positions[it]?.position,
+                    positions[it.userName]?.position,
                     MAP_CAMERA_ZOOM_LEVEL
-                )
-            )
-            FeaturesBottomFragment.newInstance(it).show(
-                activity.supportFragmentManager,
-                TAG_FRAGMENT_FEATURES
+                ), object: GoogleMap.CancelableCallback {
+                    override fun onFinish() {
+                        FeaturesBottomFragment.newInstance(it).show(
+                            activity.supportFragmentManager,
+                            TAG_FRAGMENT_FEATURES
+                        )
+                    }
+
+                    override fun onCancel() {
+                        FeaturesBottomFragment.newInstance(it).show(
+                            activity.supportFragmentManager,
+                            TAG_FRAGMENT_FEATURES
+                        )
+                    }
+
+                }
             )
         }
         blindsRecyclerView = activity.rv_main_blinds_list
@@ -200,8 +209,9 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     fun Marker.updateImageFromUrl(url: String) {
         Glide.with(activity)
             .asBitmap()
+            .circleCrop()
             .load(url)
-            .into(object : CustomTarget<Bitmap>() {
+            .into(object : CustomTarget<Bitmap>(60, 60) {
                 override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                     this@updateImageFromUrl.setIcon(BitmapDescriptorFactory.fromBitmap(resource))
                 }

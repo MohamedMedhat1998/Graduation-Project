@@ -1,5 +1,7 @@
 package com.mohamed.medhat.sanad.ui.main_activity.features
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
-import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_SERIAL_NUMBER
+import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
+import kotlinx.android.synthetic.main.fragment_main_features.view.*
 
 /**
  * This fragment is shown in the [MainActivity] when a user profile is clicked.
@@ -16,15 +20,15 @@ import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_SERIAL_NUMBER
  */
 class FeaturesBottomFragment : BottomSheetDialogFragment() {
 
-    private lateinit var serialNumber: String
+    private lateinit var blindMiniProfile: BlindMiniProfile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val args = arguments
         if (args != null) {
-            val serial = args.getString(FRAGMENT_FEATURES_SERIAL_NUMBER)
-            if (serial != null) {
-                serialNumber = serial
+            val profile = args.getSerializable(FRAGMENT_FEATURES_BLIND_PROFILE)
+            if (profile != null) {
+                blindMiniProfile = profile as BlindMiniProfile
             }
         }
     }
@@ -35,20 +39,43 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_features, container, false)
-        // TODO implement the mvp-mvvm approach to send a request to the backend server to get the blind full profile.
-        Toast.makeText(context, serialNumber, Toast.LENGTH_SHORT).show()
+        view.tv_features_name.text = getString(
+            R.string.blind_profile_name_holder,
+            blindMiniProfile.firstName,
+            blindMiniProfile.lastName
+        )
+        // TODO populate battery percentage
+        // TODO populate isOnline icon
+        view.btn_features_call.setOnClickListener {
+            val intent = Intent(Intent.ACTION_DIAL)
+            // TODO use the real mobile number from the back-end
+            intent.data = Uri.parse("tel:01063863298")
+            startActivity(intent)
+        }
+        view.btn_features_chat.setOnClickListener {
+            // TODO navigate to chat screen
+            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+        view.btn_features_gps.setOnClickListener {
+            // TODO navigate to gps screen
+            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+        }
+        view.btn_features_people.setOnClickListener {
+            // TODO navigate to people screen
+            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+        }
         return view
     }
 
     companion object {
         /**
          * Returns a new instance of [FeaturesBottomFragment].
-         * @param serialNumber The serial number of the blind associated with these features.
+         * @param blindMiniProfile The blind mini profile object that will be used in this fragment.
          */
         @JvmStatic
-        fun newInstance(serialNumber: String): FeaturesBottomFragment {
+        fun newInstance(blindMiniProfile: BlindMiniProfile): FeaturesBottomFragment {
             val args = Bundle()
-            args.putString(FRAGMENT_FEATURES_SERIAL_NUMBER, serialNumber)
+            args.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
             val fragment = FeaturesBottomFragment()
             fragment.arguments = args
             return fragment
