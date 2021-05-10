@@ -13,7 +13,6 @@ import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
 import com.mohamed.medhat.sanad.model.gps_errors.GpsError
 import com.mohamed.medhat.sanad.model.gps_errors.GpsNoLocationError
 import com.mohamed.medhat.sanad.model.gps_errors.GpsTrackingError
-import com.mohamed.medhat.sanad.networking.FakeApi
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State
@@ -25,7 +24,7 @@ import javax.inject.Inject
  * An mvvm [ViewModel] for the main screen.
  */
 @ActivityScope
-class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi) :
+class MainViewModel @Inject constructor(val webApi: WebApi) :
     BaseViewModel() {
 
     init {
@@ -49,15 +48,16 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
     val shouldReLogin: LiveData<Boolean>
         get() = _shouldReLogin
 
-    // TODO create an endpoint for that.
+    /**
+     * Fetches the gps coordinates of the followed blinds list.
+     * @param blindMiniProfiles The list of the blinds to get their locations.
+     */
     fun updatePositions(blindMiniProfiles: List<BlindMiniProfile>) {
         viewModelScope.launch {
             val positionsMap = mutableMapOf<BlindMiniProfile, GpsNode?>()
             val gpsErrorsMap = mutableMapOf<String, GpsError>()
             blindMiniProfiles.forEach {
-                // TODO handle error cases
-                // TODO use [WebApi] instead of [FakeApi].
-                val response = fakeApi.getLastNode(it.userName)
+                val response = webApi.getLastNode(it.userName)
                 if (response.isSuccessful) {
                     val gpsNode = response.body()
                     positionsMap[it] = gpsNode
@@ -127,7 +127,7 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
                         _state.postValue(State.ERROR)
                     }
                 }
-                Log.d("Main", "Something went wrong while retrieving blind profiles!")
+                Log.d(TAG_MAIN, "Something went wrong while retrieving blind profiles!")
             }
         }
     }

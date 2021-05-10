@@ -90,7 +90,7 @@ class BlindsAdapter(
 
     /**
      * Sets an error text associated with a specific blind user item.
-     * @param blindMiniProfile The target blind profile to set an error for.
+     * @param username The target blind profile username to set an error for.
      * @param error The error to display.
      */
     fun setEntityError(username: String, error: String) {
