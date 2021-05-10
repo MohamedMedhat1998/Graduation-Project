@@ -29,18 +29,6 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
     val position: LiveData<Map<BlindMiniProfile, GpsNode?>>
         get() = _positions
 
-    init {
-        viewModelScope.launch {
-            val blindListResponse = webApi.getBlinds()
-            if (blindListResponse.isSuccessful) {
-                _blinds.postValue(blindListResponse.body())
-            } else {
-                // TODO handle error cases
-                Log.d("Main", "Something went wrong while retrieving blind profiles!")
-            }
-        }
-    }
-
     // TODO create an endpoint for that.
     fun updatePositions(blindMiniProfiles: List<BlindMiniProfile>) {
         viewModelScope.launch {
@@ -52,6 +40,21 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
                 positionsMap[it] = gpsNode
             }
             _positions.postValue(positionsMap)
+        }
+    }
+
+    /**
+     * Fetches the blind profiles from the remote server.
+     */
+    fun reloadBlindProfiles() {
+        viewModelScope.launch {
+            val blindListResponse = webApi.getBlinds()
+            if (blindListResponse.isSuccessful) {
+                _blinds.postValue(blindListResponse.body())
+            } else {
+                // TODO handle error cases
+                Log.d("Main", "Something went wrong while retrieving blind profiles!")
+            }
         }
     }
 }

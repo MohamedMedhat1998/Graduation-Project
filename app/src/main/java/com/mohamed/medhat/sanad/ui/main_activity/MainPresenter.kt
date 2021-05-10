@@ -21,6 +21,7 @@ import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.BlindAddProfile
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
+import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindItem
@@ -58,6 +59,12 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         activity = mainView as MainActivity
         loadMap()
         initializeBlindsRecyclerView()
+        NetworkState.isConnected.observe(activity) {
+            shouldTerminate = !it
+            if (it) {
+                mainViewModel.reloadBlindProfiles()
+            }
+        }
         mainViewModel.blinds.observe(activity) {
             runPositionsThread(it)
             val listWithAddButton = mutableListOf<BlindItem>()
