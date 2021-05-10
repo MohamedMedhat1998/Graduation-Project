@@ -23,6 +23,7 @@ import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
+import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindItem
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindsAdapter
@@ -31,6 +32,7 @@ import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.utils.MAP_CAMERA_ZOOM_LEVEL
 import com.mohamed.medhat.sanad.utils.TAG_FRAGMENT_FEATURES
 import com.mohamed.medhat.sanad.utils.TAG_MARKER_ICON
+import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -75,6 +77,16 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         mainViewModel.position.observe(activity) {
             drawMarkers(it)
         }
+        mainViewModel.shouldReLogin.observe(activity) {
+            if (it) {
+                mainView.startActivityAsRoot(LoginActivity::class.java)
+            }
+        }
+        mainViewModel.state.observe(activity) {
+            val textErrorViewer = TextErrorViewer(mainViewModel.appError, activity.tv_main_error)
+            mainView.setAppErrorViewer(textErrorViewer)
+            handleLoadingState(activity, it)
+        }
     }
 
     override fun setView(view: MainView) {
@@ -110,7 +122,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 CameraUpdateFactory.newLatLngZoom(
                     positions[it.userName]?.position,
                     MAP_CAMERA_ZOOM_LEVEL
-                ), object: GoogleMap.CancelableCallback {
+                ), object : GoogleMap.CancelableCallback {
                     override fun onFinish() {
                         FeaturesBottomFragment.newInstance(it).show(
                             activity.supportFragmentManager,

@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.main_activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -10,6 +11,7 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 /**
@@ -54,6 +56,22 @@ class MainActivity : BaseActivity(), MainView {
             map = p0
             mainPresenter.handleOnMapReady(map)
         }
+    }
+
+    override fun showLoadingIndicator() {
+        pb_main_loading.visibility = View.VISIBLE
+    }
+
+    override fun hideLoadingIndicator() {
+        pb_main_loading.visibility = View.INVISIBLE
+    }
+
+    override fun showError() {
+        displayAppError()
+    }
+
+    override fun hideError() {
+        hideAppError()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
