@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.ui.base
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.widget.EditText
 import com.mohamed.medhat.sanad.model.error.AppError
@@ -25,6 +26,14 @@ interface BaseView {
      * @param bundle The bundle object to pass to the next activity.
      */
     fun navigateToThenFinish(activity: Class<*>, bundle: Bundle? = null)
+
+    /**
+     * This function starts a new activity as a root activity by using the two flags [Intent.FLAG_ACTIVITY_NEW_TASK]
+     * and [Intent.FLAG_ACTIVITY_CLEAR_TASK].
+     * @param activity The class of the destination activity.
+     * @param bundle The bundle object to pass to the next activity.
+     */
+    fun startActivityAsRoot(activity: Class<*>, bundle: Bundle? = null)
 
     /**
      * A function that is used to display a toast message on the screen.

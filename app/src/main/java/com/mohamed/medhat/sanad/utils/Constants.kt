@@ -14,10 +14,13 @@ const val TAG_SPLASH = "SPLASH"
 const val TAG_LOGIN = "LOGIN"
 const val TAG_SCANNER = "SCANNER"
 const val TAG_ADD_BLIND = "ADD_BLIND"
+const val TAG_MARKER_ICON = "MARKER_ICON"
+const val TAG_MAIN = "MAIN"
 
 // Networking
 const val NETWORK_BASE_URL = "https://sanad.azurewebsites.net/api/"
 const val NETWORK_CONNECTION_TIMEOUT: Long = 30
+
 // TODO update the website to be the buy the product website.
 const val NETWORK_BUY_PRODUCT_URL = "https://www.google.com"
 
@@ -36,3 +39,17 @@ const val EXTRA_SCANNED_SERIAL = "scanned-serial"
 // Gender
 const val GENDER_MALE = 1
 const val GENDER_FEMALE = 0
+
+// Fragment bundles
+const val FRAGMENT_FEATURES_BLIND_PROFILE = "blind-profile"
+
+// Fragment Tags
+const val TAG_FRAGMENT_FEATURES = "features-bottom-fragment"
+
+// View Types
+const val VIEW_TYPE_MAIN_BLIND_PROFILE = 1
+const val VIEW_TYPE_MAIN_ADD_PROFILE = 2
+
+// MAP
+// TODO update the zoom level
+const val MAP_CAMERA_ZOOM_LEVEL = 18f

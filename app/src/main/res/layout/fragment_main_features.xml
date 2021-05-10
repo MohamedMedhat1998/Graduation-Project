@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_features_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="عمر"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_features_is_online"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_features_name"
+        app:layout_constraintEnd_toStartOf="@+id/tv_features_name"
+        app:layout_constraintTop_toTopOf="@+id/tv_features_name"
+        app:srcCompat="@drawable/on_boarding_tab_active" />
+
+    <TextView
+        android:id="@+id/tv_features_battery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="78%"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_features_call"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="64dp"
+        android:text="اتصال"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_features_name" />
+
+    <Button
+        android:id="@+id/btn_features_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="دردشة"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_features_call"
+        app:layout_constraintEnd_toStartOf="@+id/btn_features_call"
+        app:layout_constraintTop_toTopOf="@+id/btn_features_call" />
+
+    <Button
+        android:id="@+id/btn_features_gps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="GPS"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_features_people"
+        app:layout_constraintStart_toEndOf="@+id/btn_features_people"
+        app:layout_constraintTop_toTopOf="@+id/btn_features_people" />
+
+    <Button
+        android:id="@+id/btn_features_people"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="أشخاص"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_features_battery" />
+</androidx.constraintlayout.widget.ConstraintLayout>

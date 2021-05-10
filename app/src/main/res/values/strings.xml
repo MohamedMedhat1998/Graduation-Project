@@ -4,4 +4,6 @@
     <string name="successfully_logged_in">Successfully logged in!</string>
     <string name="no_internet_title">No Internet Connection!</string>
     <string name="no_internet_message">Please connect to the internet to continue using our app!</string>
+    <string name="logout">Logout</string>
+    <string name="add_blind">Add Blind</string>
 </resources>
