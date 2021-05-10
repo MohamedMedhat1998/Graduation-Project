@@ -3,7 +3,9 @@ package com.mohamed.medhat.sanad.networking
 import android.util.Log
 import com.google.gson.Gson
 import com.mohamed.medhat.sanad.model.*
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
+import okhttp3.ResponseBody.Companion.toResponseBody
 import retrofit2.Response
 import java.util.*
 import javax.inject.Inject
@@ -210,6 +212,22 @@ class FakeApi @Inject constructor() : WebApi {
                 Log.d(
                     "Location",
                     "j ${modifiedLocation.latitude}  -  ${modifiedLocation.longitude}"
+                )
+            }
+        }
+        val rand = Random().nextInt()
+        Log.d("Fake API", "rand location response: $rand")
+        when {
+            rand % 5 == 0 -> {
+                return Response.error(
+                    422,
+                    "Tracking Error".toResponseBody("text/plain".toMediaType())
+                )
+            }
+            rand % 2 == 0 -> {
+                return Response.error(
+                    404,
+                    "Device Error".toResponseBody("text/plain".toMediaType())
                 )
             }
         }

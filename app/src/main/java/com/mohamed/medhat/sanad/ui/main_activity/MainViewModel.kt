@@ -10,10 +10,14 @@ import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
 import com.mohamed.medhat.sanad.model.error.NoError
 import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
+import com.mohamed.medhat.sanad.model.gps_errors.GpsError
+import com.mohamed.medhat.sanad.model.gps_errors.GpsNoLocationError
+import com.mohamed.medhat.sanad.model.gps_errors.GpsTrackingError
 import com.mohamed.medhat.sanad.networking.FakeApi
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State
+import com.mohamed.medhat.sanad.utils.TAG_MAIN
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -37,6 +41,10 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
     val position: LiveData<Map<BlindMiniProfile, GpsNode?>>
         get() = _positions
 
+    private val _gpsErrors = MutableLiveData<Map<String, GpsError>>()
+    val gpsErrors: LiveData<Map<String, GpsError>>
+        get() = _gpsErrors
+
     private val _shouldReLogin = MutableLiveData<Boolean>()
     val shouldReLogin: LiveData<Boolean>
         get() = _shouldReLogin
@@ -45,12 +53,44 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
     fun updatePositions(blindMiniProfiles: List<BlindMiniProfile>) {
         viewModelScope.launch {
             val positionsMap = mutableMapOf<BlindMiniProfile, GpsNode?>()
+            val gpsErrorsMap = mutableMapOf<String, GpsError>()
             blindMiniProfiles.forEach {
                 // TODO handle error cases
                 // TODO use [WebApi] instead of [FakeApi].
-                val gpsNode = fakeApi.getLastNode(it.userName).body()
-                positionsMap[it] = gpsNode
+                val response = fakeApi.getLastNode(it.userName)
+                if (response.isSuccessful) {
+                    val gpsNode = response.body()
+                    positionsMap[it] = gpsNode
+                    gpsErrorsMap.remove(it.userName)
+                } else {
+                    when (response.code()) {
+                        401 -> { // Unauthorized, navigate to login screen.
+                            _shouldReLogin.postValue(true)
+                        }
+                        408 -> { // Timed out, log the error but don't tell the user.
+                            Log.e(
+                                TAG_MAIN,
+                                "Request timed out while fetching the position of: ${it.firstName} ${it.lastName}"
+                            )
+                        }
+                        in 500..511 -> { // Internal server error, log the error but don't tell the user.
+                            Log.e(
+                                TAG_MAIN,
+                                "Internal server error while fetching the position of: ${it.firstName} ${it.lastName}"
+                            )
+                        }
+                        422 -> { // Tracking disabled
+                            gpsErrorsMap[it.userName] = GpsTrackingError()
+                            _gpsErrors.postValue(gpsErrorsMap)
+                        }
+                        404 -> { // No locations for this device
+                            gpsErrorsMap[it.userName] = GpsNoLocationError()
+                            _gpsErrors.postValue(gpsErrorsMap)
+                        }
+                    }
+                }
             }
+            _gpsErrors.postValue(gpsErrorsMap)
             _positions.postValue(positionsMap)
         }
     }
@@ -82,7 +122,7 @@ class MainViewModel @Inject constructor(val webApi: WebApi, val fakeApi: FakeApi
                         )
                         _state.postValue(State.ERROR)
                     }
-                    in 500..511 -> {
+                    in 500..511 -> { // Internal server error, tell the user about that.
                         appError = SimpleConnectionError("Something went wrong!", "Server error")
                         _state.postValue(State.ERROR)
                     }

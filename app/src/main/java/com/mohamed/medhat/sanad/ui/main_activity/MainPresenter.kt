@@ -21,6 +21,9 @@ import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.BlindAddProfile
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
+import com.mohamed.medhat.sanad.model.gps_errors.GpsError
+import com.mohamed.medhat.sanad.model.gps_errors.GpsNoLocationError
+import com.mohamed.medhat.sanad.model.gps_errors.GpsTrackingError
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
@@ -87,6 +90,10 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             mainView.setAppErrorViewer(textErrorViewer)
             handleLoadingState(activity, it)
         }
+        mainViewModel.gpsErrors.observe(activity) {
+            Log.d("GPS_ERRORS", "observed, ${it.entries.size} items")
+            updateGpsErrors(it)
+        }
     }
 
     override fun setView(view: MainView) {
@@ -124,19 +131,13 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     MAP_CAMERA_ZOOM_LEVEL
                 ), object : GoogleMap.CancelableCallback {
                     override fun onFinish() {
+                        positions[it.userName]?.showInfoWindow()
                         FeaturesBottomFragment.newInstance(it).show(
                             activity.supportFragmentManager,
                             TAG_FRAGMENT_FEATURES
                         )
                     }
-
-                    override fun onCancel() {
-                        FeaturesBottomFragment.newInstance(it).show(
-                            activity.supportFragmentManager,
-                            TAG_FRAGMENT_FEATURES
-                        )
-                    }
-
+                    override fun onCancel() {}
                 }
             )
         }
@@ -158,7 +159,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
 
     /**
      * Adds location markers on the map if they don't exist and updates the current markers if they exist.
-     * @param blindsNodes A map contains [BlindMiniProfile] as a key and its corresponding location [GpsNode] as a value.
+     * @param blindsNodes A map that contains [BlindMiniProfile] as a key and its corresponding location [GpsNode] as a value.
      */
     private fun drawMarkers(blindsNodes: Map<BlindMiniProfile, GpsNode?>) {
         blindsNodes.entries.forEachIndexed { index, it ->
@@ -166,7 +167,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             val gpsNode = it.value
             if (!positions.containsKey(blindProfile.userName)) {
                 Log.d("Marker", "New")
-                // Draw a new marker if there was a marker before.
+                // Draw a new marker if there were no markers before.
                 if (::map.isInitialized) {
                     if (gpsNode != null) {
                         val marker = map.addMarker(
@@ -188,7 +189,6 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                                 )
                             )
                         }
-
                     } // TODO handle null cases
                 }
             } else {
@@ -200,10 +200,30 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                         Log.d("Marker", "Marker from the map is NOT null")
                         marker.position =
                             LatLng(gpsNode.latitude.toDouble(), gpsNode.longitude.toDouble())
+                        marker.title = "${blindProfile.firstName} ${blindProfile.lastName}"
+                        blindsAdapter.resetEntityError(blindProfile.userName)
                     } else {
                         Log.d("Marker", "Marker from the map is null")
                     }
                 } // TODO handle null cases
+            }
+        }
+    }
+
+    /**
+     * Displays a suitable error if there was a problem with the gps location.
+     *@param gpsErrors A map that contains [BlindMiniProfile.userName] as a key and its corresponding error [GpsError].
+     */
+    private fun updateGpsErrors(gpsErrors: Map<String, GpsError>) {
+        gpsErrors.entries.forEach {
+            val username = it.key
+            when (val gpsError = it.value) {
+                is GpsTrackingError -> {
+                    blindsAdapter.setEntityError(username, gpsError.error)
+                }
+                is GpsNoLocationError -> {
+                    blindsAdapter.setEntityError(username, gpsError.error)
+                }
             }
         }
     }

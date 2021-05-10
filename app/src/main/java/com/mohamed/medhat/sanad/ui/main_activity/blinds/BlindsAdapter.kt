@@ -23,6 +23,7 @@ class BlindsAdapter(
     val onProfileClicked: (profile: BlindMiniProfile) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var context: Context
+    private val errorsMap = mutableMapOf<String, String>()
 
     override fun getItemViewType(position: Int): Int {
         return when (blinds[position]) {
@@ -61,6 +62,12 @@ class BlindsAdapter(
                     .circleCrop()
                     .placeholder(R.drawable.on_boarding_tab_normal)
                     .into(holder.itemView.iv_item_blind_profile_pic)
+                if (!errorsMap[data.userName].isNullOrEmpty()) {
+                    holder.itemView.tv_item_blind_error.text = errorsMap[data.userName]
+                    holder.itemView.tv_item_blind_error.visibility = View.VISIBLE
+                } else {
+                    holder.itemView.tv_item_blind_error.visibility = View.INVISIBLE
+                }
             }
             is AddBlindViewHolder -> {
                 // TODO decide whether to bind something or to keep it a static view.
@@ -78,6 +85,21 @@ class BlindsAdapter(
      */
     fun updateBlindsList(newBlinds: List<BlindItem>) {
         blinds = newBlinds as MutableList<BlindItem>
+        notifyDataSetChanged()
+    }
+
+    /**
+     * Sets an error text associated with a specific blind user item.
+     * @param blindMiniProfile The target blind profile to set an error for.
+     * @param error The error to display.
+     */
+    fun setEntityError(username: String, error: String) {
+        errorsMap[username] = error
+        notifyDataSetChanged()
+    }
+
+    fun resetEntityError(username: String) {
+        errorsMap.remove(username)
         notifyDataSetChanged()
     }
 
