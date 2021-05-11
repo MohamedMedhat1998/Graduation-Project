@@ -49,6 +49,8 @@ const val TAG_FRAGMENT_FEATURES = "features-bottom-fragment"
 // View Types
 const val VIEW_TYPE_MAIN_BLIND_PROFILE = 1
 const val VIEW_TYPE_MAIN_ADD_PROFILE = 2
+const val VIEW_TYPE_KNOWN_PERSON = 1
+const val VIEW_TYPE_KNOWN_PERSON_ADD = 2
 
 // MAP
 // TODO update the zoom level
