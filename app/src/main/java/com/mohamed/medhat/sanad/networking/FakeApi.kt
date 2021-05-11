@@ -233,4 +233,83 @@ class FakeApi @Inject constructor() : WebApi {
         }
         return Response.success(modifiedLocation)
     }
+
+    override suspend fun getKnownPersons(blindUsername: String): Response<List<KnownPerson>> {
+        val list = mutableListOf<KnownPerson>()
+        //--------------------------
+        val aPictures = mutableListOf<PersonPicturesItem>()
+        aPictures.add(
+            PersonPicturesItem(
+                "",
+                "",
+                "https://images.unsplash.com/photo-1583195764036-6dc248ac07d9?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1055&q=80"
+            )
+        )
+        val a = KnownPerson(
+            name = "Emory Foster",
+            reminderAbout = "College mate.",
+            dateCreated = "",
+            dateModified = "",
+            id = "",
+            personPictures = aPictures
+        )
+        //--------------------------
+        val bPictures = mutableListOf<PersonPicturesItem>()
+        bPictures.add(
+            PersonPicturesItem(
+                "",
+                "",
+                "https://images.unsplash.com/photo-1573007974656-b958089e9f7b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1050&q=80"
+            )
+        )
+        val b = KnownPerson(
+            name = "George Rian",
+            reminderAbout = "A neighbour.",
+            dateCreated = "",
+            dateModified = "",
+            id = "",
+            personPictures = bPictures
+        )
+        //--------------------------
+        val cPictures = mutableListOf<PersonPicturesItem>()
+        cPictures.add(
+            PersonPicturesItem(
+                "",
+                "",
+                "https://images.unsplash.com/photo-1499996860823-5214fcc65f8f?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=402&q=80"
+            )
+        )
+        val c = KnownPerson(
+            name = "Ellery Oswald",
+            reminderAbout = "A brother.",
+            dateCreated = "",
+            dateModified = "",
+            id = "",
+            personPictures = cPictures
+        )
+        //--------------------------
+        val dPictures = mutableListOf<PersonPicturesItem>()
+        dPictures.add(
+            PersonPicturesItem(
+                "",
+                "",
+                "https://images.unsplash.com/photo-1463453091185-61582044d556?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
+            )
+        )
+        val d = KnownPerson(
+            name = "Piers Noah",
+            reminderAbout = "A mentor.",
+            dateCreated = "",
+            dateModified = "",
+            id = "",
+            personPictures = dPictures
+        )
+        list.apply {
+            add(a)
+            add(b)
+            add(c)
+            add(d)
+        }
+        return Response.success(list)
+    }
 }

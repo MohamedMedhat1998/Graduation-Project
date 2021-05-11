@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.item_person_holder.view.*
 /**
  * A [RecyclerView.Adapter] that is responsible for populating the [KnownPerson]s list.
  */
-class PersonsAdapter(val persons: List<PersonItem>) :
+class PersonsAdapter(private var persons: List<PersonItem> = listOf()) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var context: Context
 
@@ -65,6 +65,15 @@ class PersonsAdapter(val persons: List<PersonItem>) :
 
     override fun getItemCount(): Int {
         return persons.size
+    }
+
+    /**
+     * Refreshes the recycler view with the new data.
+     * @param newPersons The new data to be used inside the recycler view.
+     */
+    fun update(newPersons: List<PersonItem>) {
+        persons = newPersons
+        notifyDataSetChanged()
     }
 
     inner class KnownPersonHolder(view: View) : RecyclerView.ViewHolder(view) {

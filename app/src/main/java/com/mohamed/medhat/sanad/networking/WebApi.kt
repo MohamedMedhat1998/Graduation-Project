@@ -66,8 +66,15 @@ interface WebApi {
 
     /**
      * A get function that returns the blind's last known location on the map.
-     * @param serialNumber Which blind to get its location.
+     * @param serialNumber Which blind to get his/her location.
      */
     @GET("/Api/GPS/LastNode/{serialNumber}")
     suspend fun getLastNode(@Path("serialNumber") serialNumber: String): Response<GpsNode>
+
+    /**
+     * @param blindUsername Which blind to fetch his/her [KnownPerson]s.
+     * @return A list of the [KnownPerson]s of the blind.
+     */
+    @GET("/Api/BlindKnownPersons/{blindUsername}")
+    suspend fun getKnownPersons(@Path("blindUsername") blindUsername: String): Response<List<KnownPerson>>
 }

@@ -55,3 +55,6 @@ const val VIEW_TYPE_KNOWN_PERSON_ADD = 2
 // MAP
 // TODO update the zoom level
 const val MAP_CAMERA_ZOOM_LEVEL = 18f
+
+// Span counts
+const val SPAN_KNOWN_PERSONS = 3
