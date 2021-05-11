@@ -13,6 +13,8 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
+import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
+import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerViewModel
 import com.mohamed.medhat.sanad.ui.promotion_video_activity.PromotionVideoActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
@@ -44,6 +46,7 @@ interface ActivityComponent {
     fun inject(scannerActivity: ScannerActivity)
     fun inject(addBlindActivity: AddBlindActivity)
     fun inject(promotionVideoActivity: PromotionVideoActivity)
+    fun inject(personsManagerActivity: PersonsManagerActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -53,4 +56,5 @@ interface ActivityComponent {
     fun splashNavViewModel(): ViewModelFactory<SplashNavViewModel>
     fun addBlindViewModel(): ViewModelFactory<AddBlindViewModel>
     fun addBlindNavViewModel(): ViewModelFactory<AddBlindNavViewModel>
+    fun personsManagerViewModel(): ViewModelFactory<PersonsManagerViewModel>
 }
