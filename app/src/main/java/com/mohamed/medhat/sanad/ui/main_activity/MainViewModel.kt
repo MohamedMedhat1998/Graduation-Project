@@ -57,37 +57,41 @@ class MainViewModel @Inject constructor(val webApi: WebApi) :
             val positionsMap = mutableMapOf<BlindMiniProfile, GpsNode?>()
             val gpsErrorsMap = mutableMapOf<String, GpsError>()
             blindMiniProfiles.forEach {
-                val response = webApi.getLastNode(it.userName)
-                if (response.isSuccessful) {
-                    val gpsNode = response.body()
-                    positionsMap[it] = gpsNode
-                    gpsErrorsMap.remove(it.userName)
-                } else {
-                    when (response.code()) {
-                        401 -> { // Unauthorized, navigate to login screen.
-                            _shouldReLogin.postValue(true)
-                        }
-                        408 -> { // Timed out, log the error but don't tell the user.
-                            Log.e(
-                                TAG_MAIN,
-                                "Request timed out while fetching the position of: ${it.firstName} ${it.lastName}"
-                            )
-                        }
-                        in 500..511 -> { // Internal server error, log the error but don't tell the user.
-                            Log.e(
-                                TAG_MAIN,
-                                "Internal server error while fetching the position of: ${it.firstName} ${it.lastName}"
-                            )
-                        }
-                        422 -> { // Tracking disabled
-                            gpsErrorsMap[it.userName] = GpsTrackingError()
-                            _gpsErrors.postValue(gpsErrorsMap)
-                        }
-                        404 -> { // No locations for this device
-                            gpsErrorsMap[it.userName] = GpsNoLocationError()
-                            _gpsErrors.postValue(gpsErrorsMap)
+                try {
+                    val response = webApi.getLastNode(it.userName)
+                    if (response.isSuccessful) {
+                        val gpsNode = response.body()
+                        positionsMap[it] = gpsNode
+                        gpsErrorsMap.remove(it.userName)
+                    } else {
+                        when (response.code()) {
+                            401 -> { // Unauthorized, navigate to login screen.
+                                _shouldReLogin.postValue(true)
+                            }
+                            408 -> { // Timed out, log the error but don't tell the user.
+                                Log.e(
+                                    TAG_MAIN,
+                                    "Request timed out while fetching the position of: ${it.firstName} ${it.lastName}"
+                                )
+                            }
+                            in 500..511 -> { // Internal server error, log the error but don't tell the user.
+                                Log.e(
+                                    TAG_MAIN,
+                                    "Internal server error while fetching the position of: ${it.firstName} ${it.lastName}"
+                                )
+                            }
+                            422 -> { // Tracking disabled
+                                gpsErrorsMap[it.userName] = GpsTrackingError()
+                                _gpsErrors.postValue(gpsErrorsMap)
+                            }
+                            404 -> { // No locations for this device
+                                gpsErrorsMap[it.userName] = GpsNoLocationError()
+                                _gpsErrors.postValue(gpsErrorsMap)
+                            }
                         }
                     }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
             _gpsErrors.postValue(gpsErrorsMap)
