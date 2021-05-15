@@ -16,6 +16,7 @@ const val TAG_SCANNER = "SCANNER"
 const val TAG_ADD_BLIND = "ADD_BLIND"
 const val TAG_MARKER_ICON = "MARKER_ICON"
 const val TAG_MAIN = "MAIN"
+const val TAG_PERSONS = "PERSONS"
 
 // Networking
 const val NETWORK_BASE_URL = "https://sanad.azurewebsites.net/api/"
@@ -49,7 +50,12 @@ const val TAG_FRAGMENT_FEATURES = "features-bottom-fragment"
 // View Types
 const val VIEW_TYPE_MAIN_BLIND_PROFILE = 1
 const val VIEW_TYPE_MAIN_ADD_PROFILE = 2
+const val VIEW_TYPE_KNOWN_PERSON = 1
+const val VIEW_TYPE_KNOWN_PERSON_ADD = 2
 
 // MAP
 // TODO update the zoom level
 const val MAP_CAMERA_ZOOM_LEVEL = 18f
+
+// Span counts
+const val SPAN_KNOWN_PERSONS = 3

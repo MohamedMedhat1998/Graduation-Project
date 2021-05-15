@@ -11,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
+import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
 import kotlinx.android.synthetic.main.fragment_main_features.view.*
 
@@ -39,6 +40,8 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_main_features, container, false)
+        val extras = Bundle()
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
         view.tv_features_name.text = getString(
             R.string.blind_profile_name_holder,
             blindMiniProfile.firstName,
@@ -61,8 +64,9 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
             Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
         }
         view.btn_features_people.setOnClickListener {
-            // TODO navigate to people screen
-            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(activity, PersonsManagerActivity::class.java).apply {
+                putExtras(extras)
+            })
         }
         return view
     }

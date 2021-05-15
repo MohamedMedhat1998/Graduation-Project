@@ -125,21 +125,28 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         blindsAdapter = BlindsAdapter(mutableListOf(), {
             mainView.navigateTo(ScannerActivity::class.java)
         }) {
-            map.animateCamera(
-                CameraUpdateFactory.newLatLngZoom(
-                    positions[it.userName]?.position,
-                    MAP_CAMERA_ZOOM_LEVEL
-                ), object : GoogleMap.CancelableCallback {
-                    override fun onFinish() {
-                        positions[it.userName]?.showInfoWindow()
-                        FeaturesBottomFragment.newInstance(it).show(
-                            activity.supportFragmentManager,
-                            TAG_FRAGMENT_FEATURES
-                        )
+            if (positions.containsKey(it.userName)) {
+                map.animateCamera(
+                    CameraUpdateFactory.newLatLngZoom(
+                        positions[it.userName]?.position,
+                        MAP_CAMERA_ZOOM_LEVEL
+                    ), object : GoogleMap.CancelableCallback {
+                        override fun onFinish() {
+                            positions[it.userName]?.showInfoWindow()
+                            FeaturesBottomFragment.newInstance(it).show(
+                                activity.supportFragmentManager,
+                                TAG_FRAGMENT_FEATURES
+                            )
+                        }
+                        override fun onCancel() {}
                     }
-                    override fun onCancel() {}
-                }
-            )
+                )
+            } else {
+                FeaturesBottomFragment.newInstance(it).show(
+                    activity.supportFragmentManager,
+                    TAG_FRAGMENT_FEATURES
+                )
+            }
         }
         blindsRecyclerView = activity.rv_main_blinds_list
         blindsRecyclerView.layoutManager =
