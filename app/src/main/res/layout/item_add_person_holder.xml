@@ -27,5 +27,5 @@
         app:layout_constraintEnd_toEndOf="@+id/iv_item_add_person_icon"
         app:layout_constraintStart_toStartOf="@+id/iv_item_add_person_icon"
         app:layout_constraintTop_toBottomOf="@+id/iv_item_add_person_icon"
-        tools:text="Person Name" />
+        android:text="Add Person" />
 </androidx.constraintlayout.widget.ConstraintLayout>

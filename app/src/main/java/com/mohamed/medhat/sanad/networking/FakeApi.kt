@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.networking
 import android.util.Log
 import com.google.gson.Gson
 import com.mohamed.medhat.sanad.model.*
+import kotlinx.coroutines.delay
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.ResponseBody.Companion.toResponseBody
@@ -235,6 +236,7 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun getKnownPersons(blindUsername: String): Response<List<KnownPerson>> {
+        delay(1000)
         val list = mutableListOf<KnownPerson>()
         //--------------------------
         val aPictures = mutableListOf<PersonPicturesItem>()
@@ -310,6 +312,30 @@ class FakeApi @Inject constructor() : WebApi {
             add(c)
             add(d)
         }
-        return Response.success(list)
+        val rand = Random().nextInt(100)
+        Log.d("RAND_PERSONS", rand.toString())
+        when (rand) {
+            in 0..10 -> {
+                return Response.success(list)
+            }
+            in 11..20 -> {
+                return Response.error(
+                    401, "Unauthorized".toResponseBody("text/plain".toMediaType())
+                )
+            }
+            in 21..30 -> {
+                return Response.error(
+                    408, "Timed out".toResponseBody("text/plain".toMediaType())
+                )
+            }
+            in 31..40 -> {
+                return Response.error(
+                    500, "Internal server error".toResponseBody("text/plain".toMediaType())
+                )
+            }
+            else -> {
+                return Response.success(list)
+            }
+        }
     }
 }

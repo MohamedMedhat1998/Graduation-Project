@@ -6,10 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.gps_errors.KnownPersonAdd
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
+import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
+import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.persons.PersonItem
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.persons.PersonsAdapter
 import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
 import com.mohamed.medhat.sanad.utils.SPAN_KNOWN_PERSONS
+import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_persons_manager.*
 import javax.inject.Inject
 
@@ -37,6 +40,22 @@ class PersonsManagerPresenter @Inject constructor() :
             newList.addAll(it)
             newList.add(addItem)
             personsAdapter.update(newList)
+            if (it.isEmpty()) {
+                personsManagerView.displayEmptyListHint()
+            } else {
+                personsManagerView.hideEmptyListHint()
+            }
+        }
+        personsManagerViewModel.shouldReLogin.observe(activity) {
+            if (it) {
+                personsManagerView.startActivityAsRoot(LoginActivity::class.java)
+            }
+        }
+        personsManagerViewModel.state.observe(activity) {
+            val errorViewer =
+                TextErrorViewer(personsManagerViewModel.appError, activity.tv_persons_manager_error)
+            personsManagerView.setAppErrorViewer(errorViewer)
+            handleLoadingState(personsManagerView, it)
         }
     }
 
