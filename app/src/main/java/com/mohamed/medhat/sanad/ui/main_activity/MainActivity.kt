@@ -83,4 +83,14 @@ class MainActivity : BaseActivity(), MainView {
         mainPresenter.handleOnOptionItemSelected(item)
         return super.onOptionsItemSelected(item)
     }
+
+    override fun onPause() {
+        super.onPause()
+        mainPresenter.pausePositionUpdates()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainPresenter.resumePositionUpdates()
+    }
 }

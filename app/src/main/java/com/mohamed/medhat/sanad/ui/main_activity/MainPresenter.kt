@@ -59,6 +59,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     private lateinit var map: GoogleMap
     private var shouldTerminate = false
     private var positions = mutableMapOf<String, Marker>()
+    private lateinit var blindsList: List<BlindMiniProfile>
 
     override fun start(savedInstanceState: Bundle?) {
         activity = mainView as MainActivity
@@ -71,6 +72,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             }
         }
         mainViewModel.blinds.observe(activity) {
+            blindsList = it
             runPositionsThread(it)
             val listWithAddButton = mutableListOf<BlindItem>()
             listWithAddButton.addAll(it)
@@ -138,6 +140,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                                 TAG_FRAGMENT_FEATURES
                             )
                         }
+
                         override fun onCancel() {}
                     }
                 )
@@ -269,5 +272,24 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     )
                 }
             })
+    }
+
+    /**
+     * Pauses the positions updates of the followed blinds.
+     */
+    fun pausePositionUpdates() {
+        shouldTerminate = true
+    }
+
+    /**
+     * Resumes the position updates of the followed blinds.
+     */
+    fun resumePositionUpdates() {
+        if (NetworkState.isConnected.value == true) {
+            shouldTerminate = false
+            if (::blindsList.isInitialized) {
+                runPositionsThread(blindsList)
+            }
+        }
     }
 }

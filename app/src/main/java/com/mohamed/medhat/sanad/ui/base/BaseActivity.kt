@@ -48,6 +48,11 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         finish()
     }
 
+    override fun finishWithResult(resultCode: Int) {
+        setResult(resultCode)
+        finish()
+    }
+
     override fun startActivityAsRoot(activity: Class<*>, bundle: Bundle?) {
         val rootActivityIntent = Intent(this, activity)
         if (bundle != null) {
@@ -128,9 +133,10 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         startActivityForResult(Intent.createChooser(intent, title), requestCode)
     }
 
-    override fun takePhoto(requestCode: Int) {
+    override fun takePhoto(requestCode: Int, fileName: String) {
         val takePicture = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val uri = Uri.parse("file://${getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
+        val uri =
+            Uri.parse("file://${getExternalFilesDir(Environment.DIRECTORY_DCIM)}/$fileName.png")
         takePicture.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(takePicture, requestCode)
     }

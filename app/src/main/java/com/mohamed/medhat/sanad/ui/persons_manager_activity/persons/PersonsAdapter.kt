@@ -16,7 +16,10 @@ import kotlinx.android.synthetic.main.item_person_holder.view.*
 /**
  * A [RecyclerView.Adapter] that is responsible for populating the [KnownPerson]s list.
  */
-class PersonsAdapter(private var persons: List<PersonItem> = listOf()) :
+class PersonsAdapter(
+    private var persons: List<PersonItem> = listOf(),
+    private val onAddPersonClicked: () -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     lateinit var context: Context
 
@@ -51,11 +54,19 @@ class PersonsAdapter(private var persons: List<PersonItem> = listOf()) :
             is KnownPersonHolder -> {
                 val person = persons[position] as KnownPerson
                 holder.itemView.tv_item_person_name.text = person.name
-                Glide.with(context)
-                    .load(person.personPictures[0].uri)
-                    .circleCrop()
-                    .placeholder(R.drawable.on_boarding_tab_normal)
-                    .into(holder.itemView.iv_item_person_pic)
+                if (person.personPictures.isNotEmpty()) {
+                    Glide.with(context)
+                        .load(person.personPictures[0].uri)
+                        .circleCrop()
+                        .placeholder(R.drawable.on_boarding_tab_normal)
+                        .into(holder.itemView.iv_item_person_pic)
+                } else {
+                    Glide.with(context)
+                        .load(R.drawable.on_boarding_tab_normal)
+                        .circleCrop()
+                        .placeholder(R.drawable.on_boarding_tab_normal)
+                        .into(holder.itemView.iv_item_person_pic)
+                }
             }
             is AddPersonHolder -> {
                 // TODO decide whether to do something or to keep it a static view.
@@ -81,6 +92,10 @@ class PersonsAdapter(private var persons: List<PersonItem> = listOf()) :
     }
 
     inner class AddPersonHolder(view: View) : RecyclerView.ViewHolder(view) {
-        // TODO handle on click
+        init {
+            itemView.setOnClickListener {
+                onAddPersonClicked.invoke()
+            }
+        }
     }
 }

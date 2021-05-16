@@ -19,6 +19,7 @@ import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.utils.EXTRA_SCANNED_SERIAL
 import com.mohamed.medhat.sanad.utils.PERMISSION_ADD_BLIND_ACTIVITY_CAMERA
+import com.mohamed.medhat.sanad.utils.generators.PictureNameGenerator
 import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_add_blind.*
 import okhttp3.MediaType.Companion.toMediaType
@@ -45,6 +46,7 @@ class AddBlindPresenter @Inject constructor() :
     private lateinit var rvIllnesses: RecyclerView
     private lateinit var illnessesAdapter: IllnessesAdapter
     private var imageUri: Uri? = null
+    private var pictureName = ""
 
     override fun start(savedInstanceState: Bundle?) {
         rvIllnesses = addBlindActivity.rv_add_blind_illnesses
@@ -103,7 +105,8 @@ class AddBlindPresenter @Inject constructor() :
             message = "The app wants to access the camera to take a picture.",
             permissionCode = PERMISSION_ADD_BLIND_ACTIVITY_CAMERA
         ) {
-            addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO)
+            pictureName = PictureNameGenerator.getNewPictureName()
+            addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO, pictureName)
         }
     }
 
@@ -114,7 +117,8 @@ class AddBlindPresenter @Inject constructor() :
     ) {
         if (requestCode == PERMISSION_ADD_BLIND_ACTIVITY_CAMERA) {
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO)
+                pictureName = PictureNameGenerator.getNewPictureName()
+                addBlindView.takePhoto(ADD_BLIND_TAKE_PHOTO, pictureName)
             } else {
                 addBlindView.displayToast("Unable to proceed without the permission.")
             }
@@ -136,8 +140,8 @@ class AddBlindPresenter @Inject constructor() :
                 if (resultCode == RESULT_OK) {
                     Log.d("Picture", "Result of from camera")
                     val picture =
-                        File("${addBlindActivity.getExternalFilesDir(Environment.DIRECTORY_DCIM)}/photo.png")
-                    Log.d("Picture", "Size: ${picture.length()/1024.0}KB")
+                        File("${addBlindActivity.getExternalFilesDir(Environment.DIRECTORY_DCIM)}/$pictureName.png")
+                    Log.d("Picture", "Name: $pictureName Size: ${picture.length() / 1024.0}KB")
                     imageUri = Uri.fromFile(picture)
                     addBlindActivity.updateProfilePreviewImage(imageUri)
                 } else {

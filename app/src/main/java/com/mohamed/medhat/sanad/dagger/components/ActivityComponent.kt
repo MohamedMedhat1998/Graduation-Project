@@ -5,6 +5,8 @@ import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
+import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonActivity
+import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonViewModel
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -47,6 +49,7 @@ interface ActivityComponent {
     fun inject(addBlindActivity: AddBlindActivity)
     fun inject(promotionVideoActivity: PromotionVideoActivity)
     fun inject(personsManagerActivity: PersonsManagerActivity)
+    fun inject(addPersonActivity: AddPersonActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -57,4 +60,5 @@ interface ActivityComponent {
     fun addBlindViewModel(): ViewModelFactory<AddBlindViewModel>
     fun addBlindNavViewModel(): ViewModelFactory<AddBlindNavViewModel>
     fun personsManagerViewModel(): ViewModelFactory<PersonsManagerViewModel>
+    fun addPersonViewModel(): ViewModelFactory<AddPersonViewModel>
 }

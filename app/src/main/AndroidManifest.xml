@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GraduationProject">
-        <activity android:name=".ui.persons_manager_activity.PersonsManagerActivity"></activity>
+        <activity android:name=".ui.add_person_activity.AddPersonActivity" />
+        <activity android:name=".ui.persons_manager_activity.PersonsManagerActivity" />
         <activity android:name=".ui.promotion_video_activity.PromotionVideoActivity" />
         <activity android:name=".ui.add_blind_activity.AddBlindActivity" />
         <activity android:name=".ui.q_r_activity.scanner.ScannerActivity" />

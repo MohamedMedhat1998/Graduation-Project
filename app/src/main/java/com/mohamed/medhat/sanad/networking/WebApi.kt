@@ -77,4 +77,20 @@ interface WebApi {
      */
     @GET("/Api/BlindKnownPersons/{blindUsername}")
     suspend fun getKnownPersons(@Path("blindUsername") blindUsername: String): Response<List<KnownPerson>>
+
+    /**
+     * Adds a new known person to the blind.
+     * @param knownPersonData An object that contains the data of that person.
+     * @return An object with the details of the newly added person.
+     */
+    @POST("/Api/BlindKnownPersons")
+    suspend fun addKnownPerson(@Body knownPersonData: KnownPersonData): Response<KnownPerson>
+
+    @Multipart
+    @POST("/Api/BlindKnownPersons/PersonPicture")
+    suspend fun addNewPictureForKnownPerson(
+        @Part blindUsername: MultipartBody.Part,
+        @Part personId: MultipartBody.Part,
+        @Part picture: MultipartBody.Part
+    ): Response<Any>
 }
