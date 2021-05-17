@@ -31,6 +31,7 @@ class RegistrationPresenter @Inject constructor() :
         registrationViewModel.token.observe(activity) {
             // TODO save token in the shared prefs
             registrationView.apply {
+                // TODO fix the destination, login directly and cache user's data
                 navigateToThenFinish(LoginActivity::class.java)
                 displayToast(activity.getString(R.string.successfully_registered))
             }
@@ -149,7 +150,10 @@ class RegistrationPresenter @Inject constructor() :
                         "Should Include Uppercase\n" +
                         "Should Include Lowercase\n" +
                         "Should Include Special Characters"
-                registrationView.showInputError(activity.et_registration_password,passwordMatchingError)
+                registrationView.showInputError(
+                    activity.et_registration_password,
+                    passwordMatchingError
+                )
             }
         }
         return okFlag

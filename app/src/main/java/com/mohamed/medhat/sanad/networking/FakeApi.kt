@@ -338,4 +338,16 @@ class FakeApi @Inject constructor() : WebApi {
             }
         }
     }
+
+    override suspend fun addKnownPerson(knownPersonData: KnownPersonData): Response<KnownPerson> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun addNewPictureForKnownPerson(
+        blindUsername: MultipartBody.Part,
+        personId: MultipartBody.Part,
+        picture: MultipartBody.Part
+    ): Response<Any> {
+        TODO("Not yet implemented")
+    }
 }

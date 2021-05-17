@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
@@ -68,11 +69,11 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
     }
 
     override fun updateProfilePreviewImage(uriImage: Uri?) {
-        iv_add_blind_profile_preview.setImageURI(uriImage)
+        Glide.with(this).load(uriImage).into(iv_add_blind_profile_preview)
     }
 
     override fun updateProfilePreviewImage(bitmapImage: Bitmap?) {
-        iv_add_blind_profile_preview.setImageBitmap(bitmapImage)
+        Glide.with(this).load(bitmapImage).into(iv_add_blind_profile_preview)
     }
 
     override fun getOtherIllness(): String {

@@ -29,6 +29,7 @@ const val NETWORK_BUY_PRODUCT_URL = "https://www.google.com"
 const val PREFS_FILE_NAME = "cache"
 const val PREFS_IS_USER_CONFIRMED = "is-user-confirmed"
 const val PREFS_USER_FIRST_NAME = "user-first-name"
+const val PREFS_USER_EMAIL = "user-email"
 
 // Permission codes
 const val PERMISSION_QR_ACTIVITY_CAMERA = 1
@@ -36,6 +37,8 @@ const val PERMISSION_ADD_BLIND_ACTIVITY_CAMERA = 2
 
 // Bundle extras
 const val EXTRA_SCANNED_SERIAL = "scanned-serial"
+const val EXTRA_BLIND_PROFILE = "blind-profile"
+const val EXTRA_PICTURE_NAME = "picture-name"
 
 // Gender
 const val GENDER_MALE = 1

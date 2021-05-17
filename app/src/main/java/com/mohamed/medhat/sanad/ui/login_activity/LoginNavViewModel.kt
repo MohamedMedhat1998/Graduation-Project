@@ -16,6 +16,7 @@ import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
+import com.mohamed.medhat.sanad.utils.PREFS_USER_EMAIL
 import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
 import com.mohamed.medhat.sanad.utils.TAG_LOGIN
 import kotlinx.coroutines.launch
@@ -50,6 +51,7 @@ class LoginNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs:
             if (response.isSuccessful) {
                 val profile = response.body() as MentorProfile
                 sharedPrefs.write(PREFS_USER_FIRST_NAME, profile.firstName)
+                sharedPrefs.write(PREFS_USER_EMAIL, profile.email)
                 if (profile.emailConfirmed) {
                     // If the email is confirmed, we have two choices: QRActivity or MainActivity
                     val blindsResponse = webApi.getBlinds()

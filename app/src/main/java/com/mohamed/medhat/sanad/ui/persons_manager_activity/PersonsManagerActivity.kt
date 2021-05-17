@@ -1,5 +1,6 @@
 package com.mohamed.medhat.sanad.ui.persons_manager_activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -29,6 +30,11 @@ class PersonsManagerActivity : BaseActivity(), PersonsManagerView {
         personsManagerPresenter.setView(this)
         personsManagerPresenter.setViewModel(personsManagerViewModel)
         personsManagerPresenter.start(savedInstanceState)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        personsManagerPresenter.handleOnActivityResult(requestCode, resultCode, data)
     }
 
     override fun displayEmptyListHint() {

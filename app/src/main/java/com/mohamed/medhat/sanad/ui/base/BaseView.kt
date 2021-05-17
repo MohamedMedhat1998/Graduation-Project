@@ -28,6 +28,12 @@ interface BaseView {
     fun navigateToThenFinish(activity: Class<*>, bundle: Bundle? = null)
 
     /**
+     * Finishes the current activity with the passed `resultCode`.
+     * @param resultCode The code to return to the calling activity.
+     */
+    fun finishWithResult(resultCode: Int)
+
+    /**
      * This function starts a new activity as a root activity by using the two flags [Intent.FLAG_ACTIVITY_NEW_TASK]
      * and [Intent.FLAG_ACTIVITY_CLEAR_TASK].
      * @param activity The class of the destination activity.
@@ -112,8 +118,9 @@ interface BaseView {
     /**
      * Launches the camera app to take a picture.
      * @param requestCode A request code to be caught in `onActivityResult`.
+     * @param fileName The name of the file of the created picture.
      */
-    fun takePhoto(requestCode: Int)
+    fun takePhoto(requestCode: Int, fileName: String)
 
     /**
      * @return Bundle extras that was passed from the calling intent.

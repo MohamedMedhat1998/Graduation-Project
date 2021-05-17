@@ -1,20 +1,26 @@
 package com.mohamed.medhat.sanad.ui.persons_manager_activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.gps_errors.KnownPersonAdd
+import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonActivity
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.persons.PersonItem
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.persons.PersonsAdapter
+import com.mohamed.medhat.sanad.utils.EXTRA_BLIND_PROFILE
 import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
 import com.mohamed.medhat.sanad.utils.SPAN_KNOWN_PERSONS
 import com.mohamed.medhat.sanad.utils.handleLoadingState
 import kotlinx.android.synthetic.main.activity_persons_manager.*
 import javax.inject.Inject
+
+private const val ADD_PERSON = 1
 
 /**
  * An mvp presenter for the [PersonsManagerActivity].
@@ -75,8 +81,27 @@ class PersonsManagerPresenter @Inject constructor() :
      */
     private fun initPersonsRecyclerView() {
         personsRecyclerView = activity.rv_persons_manager_known_persons
-        personsAdapter = PersonsAdapter()
+        personsAdapter = PersonsAdapter {
+            activity.startActivityForResult(
+                Intent(activity, AddPersonActivity::class.java).apply {
+                    putExtra(EXTRA_BLIND_PROFILE, blindMiniProfile)
+                },
+                ADD_PERSON
+            )
+        }
         personsRecyclerView.layoutManager = GridLayoutManager(activity, SPAN_KNOWN_PERSONS)
         personsRecyclerView.adapter = personsAdapter
+    }
+
+    fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        when (requestCode) {
+            ADD_PERSON -> {
+                if (resultCode == Activity.RESULT_OK) {
+                    personsManagerViewModel.loadKnownPersons(blindMiniProfile)
+                } else {
+                    personsManagerView.displayToast("Couldn't add person")
+                }
+            }
+        }
     }
 }
