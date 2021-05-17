@@ -68,8 +68,12 @@ class PersonsManagerPresenter @Inject constructor() :
     override fun setView(view: PersonsManagerView) {
         personsManagerView = view
         activity = view as PersonsManagerActivity
-        blindMiniProfile =
-            activity.intent.extras?.getSerializable(FRAGMENT_FEATURES_BLIND_PROFILE) as BlindMiniProfile
+        try {
+            blindMiniProfile =
+                activity.intent.extras?.getSerializable(FRAGMENT_FEATURES_BLIND_PROFILE) as BlindMiniProfile
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun setViewModel(viewModel: PersonsManagerViewModel) {

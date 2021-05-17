@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.dagger
 
 import android.app.Application
+import android.app.Service
 import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
@@ -9,17 +10,24 @@ import com.mohamed.medhat.sanad.dagger.components.AppComponent
 import com.mohamed.medhat.sanad.dagger.components.DaggerAppComponent
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.utils.TAG_INTERNET
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasServiceInjector
+import javax.inject.Inject
 
 /**
  * A dagger application.
  */
-class DaggerApplication : Application() {
+class DaggerApplication : Application(), HasServiceInjector {
     // Instance of the AppComponent that will be used by all the Activities in the project
     val appComponent: AppComponent by lazy {
         // Creates an instance of AppComponent using its Factory constructor
         // We pass the applicationContext that will be used as Context in the graph
         DaggerAppComponent.factory().create(applicationContext)
     }
+
+    @Inject
+    lateinit var androidInjector : DispatchingAndroidInjector<Service>
 
     override fun onCreate() {
         super.onCreate()
@@ -50,5 +58,9 @@ class DaggerApplication : Application() {
                 NetworkState.isConnected.postValue(false)
             }
         }.start()
+    }
+
+    override fun serviceInjector(): AndroidInjector<Service> {
+        TODO("UNIMPLEMENTED")
     }
 }

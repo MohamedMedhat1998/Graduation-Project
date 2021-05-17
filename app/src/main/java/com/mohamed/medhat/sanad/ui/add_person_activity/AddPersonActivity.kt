@@ -41,6 +41,16 @@ class AddPersonActivity : BaseActivity(), AddPersonView {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.handleOnResume()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        presenter.handleOnPause()
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         presenter.handleOnActivityResult(requestCode, resultCode, data)

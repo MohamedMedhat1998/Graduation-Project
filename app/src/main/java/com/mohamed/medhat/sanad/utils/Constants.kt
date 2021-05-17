@@ -38,7 +38,13 @@ const val PERMISSION_ADD_BLIND_ACTIVITY_CAMERA = 2
 // Bundle extras
 const val EXTRA_SCANNED_SERIAL = "scanned-serial"
 const val EXTRA_BLIND_PROFILE = "blind-profile"
-const val EXTRA_PICTURE_NAME = "picture-name"
+const val EXTRA_KNOWN_PERSON_DATA = "known-person-data"
+const val EXTRA_PICTURES_LIST = "pictures-list"
+const val EXTRA_ERROR = "error"
+const val EXTRA_STATE = "state"
+const val EXTRA_FAILED_PICTURES = "failed-pictures"
+const val EXTRA_ADD_PERSON_SUCCESS = "add-person-success"
+const val EXTRA_SHOULD_LOGIN = "should-login"
 
 // Gender
 const val GENDER_MALE = 1
@@ -62,3 +68,6 @@ const val MAP_CAMERA_ZOOM_LEVEL = 18f
 
 // Span counts
 const val SPAN_KNOWN_PERSONS = 3
+
+// Intent Actions
+const val ACTION_ADD_KNOWN_PERSON = "com.mohamed.medhat.sanad.service.ServiceRegisterKnownPerson"

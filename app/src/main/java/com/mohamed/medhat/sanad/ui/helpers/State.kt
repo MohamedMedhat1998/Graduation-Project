@@ -2,6 +2,7 @@ package com.mohamed.medhat.sanad.ui.helpers
 
 import androidx.lifecycle.ViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State.*
+import java.io.Serializable
 
 /**
  * Used to indicate the state of the current [ViewModel].
@@ -10,7 +11,7 @@ import com.mohamed.medhat.sanad.ui.helpers.State.*
  * 2. [ERROR]: indicates that something went wrong.
  * 3. [LOADING]: indicates that something is loading.
  */
-sealed class State {
+sealed class State : Serializable {
     /**
      * A [State] that indicates that nothing is loading and no errors exist.
      */

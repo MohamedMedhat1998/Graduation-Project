@@ -153,7 +153,8 @@ class AddPersonViewModel @Inject constructor(val webApi: WebApi) :
                         }
                     }
                     else -> { // Unknown error, tell the user about it.
-                        SimpleConnectionError("Unknown Error!", "Please try again later.")
+                        appError =
+                            SimpleConnectionError("Unknown Error!", "Please try again later.")
                         _state.postValue(State.ERROR)
                     }
                 }

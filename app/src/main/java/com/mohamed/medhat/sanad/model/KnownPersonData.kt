@@ -1,6 +1,7 @@
 package com.mohamed.medhat.sanad.model
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 /**
  * A class representing the **POST** body of the endpoint that registers new known persons for a blind.
@@ -21,4 +22,4 @@ data class KnownPersonData(
 
     @field:SerializedName("blindUsername")
     val blindUsername: String
-)
+) : Serializable
