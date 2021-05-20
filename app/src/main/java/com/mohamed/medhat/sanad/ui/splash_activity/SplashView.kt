@@ -20,4 +20,12 @@ interface SplashView : BaseView, LoadingFeatureOwner {
         duration: Long = 1000,
         onRotationFinished: () -> Unit
     )
+    fun scaleAppLogo(onComplete: () -> Unit)
+    fun scaleCircle1(onComplete: () -> Unit)
+    fun hideFirstLogo()
+    fun showSecondLogo()
+    fun scaleCircle2(onComplete: () -> Unit)
+    fun scaleAppLogo2()
+    fun scaleCircle3(onComplete: () -> Unit)
+    fun squeezeAppLogo()
 }

@@ -5,8 +5,12 @@ import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.SimplePresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.ToastErrorViewer
+import com.mohamed.medhat.sanad.utils.Checklist
 import com.mohamed.medhat.sanad.utils.handleLoadingState
 import javax.inject.Inject
+
+private const val CHECKLIST_DESTINATION = "checklist-destination"
+private const val CHECKLIST_ANIMATION = "checklist-animation"
 
 /**
  * An mvp presenter for the [SplashActivity].
@@ -18,6 +22,11 @@ class SplashPresenter @Inject constructor() :
     private lateinit var splashView: SplashView
     private lateinit var splashActivity: SplashActivity
     private lateinit var splashNavViewModel: SplashNavViewModel
+    private lateinit var destination: Class<*>
+
+    private val checklist = Checklist {
+        splashView.navigateToThenFinish(destination)
+    }
 
     override fun setView(view: SplashView) {
         splashView = view
@@ -29,9 +38,13 @@ class SplashPresenter @Inject constructor() :
     }
 
     override fun start(savedInstanceState: Bundle?) {
+        checklist.register(CHECKLIST_DESTINATION)
+        checklist.register(CHECKLIST_ANIMATION)
+        playAnimations()
         splashNavViewModel.destination.observe(splashActivity) {
             if (it != null) {
-                splashView.navigateToThenFinish(it)
+                destination = it
+                checklist.check(CHECKLIST_DESTINATION)
             }
         }
 
@@ -46,6 +59,22 @@ class SplashPresenter @Inject constructor() :
         }
         NetworkState.isConnected.observe(splashActivity) {
             splashNavViewModel.calculateDestination()
+        }
+    }
+
+    private fun playAnimations() {
+        splashView.scaleAppLogo {
+            splashView.hideFirstLogo()
+            splashView.showSecondLogo()
+            splashView.scaleCircle1 {
+                splashView.scaleAppLogo2()
+                splashView.scaleCircle2 {
+                    splashView.squeezeAppLogo()
+                    splashView.scaleCircle3 {
+                        checklist.check(CHECKLIST_ANIMATION)
+                    }
+                }
+            }
         }
     }
 }
