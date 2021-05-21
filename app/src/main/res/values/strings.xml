@@ -11,4 +11,16 @@
     <string name="on_boarding_skip">تخطي</string>
     <string name="on_boarding_message_2">متابعة موقع ذوي البصيرة بشكل لحظي</string>
     <string name="on_boarding_message_3">اجراء المكالمات والمحادثات النصية</string>
+    <string name="login_title">تسجيل الدخول</string>
+    <string name="login_message">أدخل بياناتك لتسجيل الدخول</string>
+    <string name="login_email_hint">بريدك الإلكتروني</string>
+    <string name="login_password_hint">كلمـة المـرور</string>
+    <string name="login">دخول</string>
+    <string name="login_forget_password"><u>هل نسيت كلمة المرور ؟</u></string>
+    <string name="login_using">أو سجل دخول باستخدام</string>
+    <string name="login_facebook">سجل دخول باستخدام فيسبوك</string>
+    <string name="login_google">سجل دخول باستخدام جوجل</string>
+    <string name="login_no_account">لا تمتلك حساب ؟</string>
+    <string name="login_register"><u>سجل الان</u></string>
+    <string name="in_development">قيد التطوير!</string>
 </resources>
