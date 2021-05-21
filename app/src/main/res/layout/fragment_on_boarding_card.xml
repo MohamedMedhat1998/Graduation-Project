@@ -59,7 +59,7 @@
         android:textDirection="rtl"
         android:layout_marginTop="48dp"
         android:layoutDirection="rtl"
-        style="@style/SanadRegularFont"
+        style="@style/SanadRegularText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline2"

@@ -40,6 +40,15 @@ class LoginActivity : BaseActivity(), LoginView {
         btn_login_register.setOnClickListener {
             loginPresenter.onRegisterClicked()
         }
+        btn_login_facebook.setOnClickListener {
+            loginPresenter.onFacebookClicked()
+        }
+        btn_login_google.setOnClickListener {
+            loginPresenter.onGoogleClicked()
+        }
+        tv_login_forget_password.setOnClickListener {
+            loginPresenter.onForgetPasswordClicked()
+        }
     }
 
     override fun getEmail(): String {
