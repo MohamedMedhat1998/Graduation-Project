@@ -24,10 +24,28 @@ class OnBoardingActivity : BaseActivity(), OnBoardingView {
         activityComponent.inject(this)
         presenter.setView(this)
         presenter.start(savedInstanceState)
+        btn_on_boarding_next.setOnClickListener {
+            presenter.onNextClicked()
+        }
+        btn_on_boarding_skip.setOnClickListener {
+            presenter.onSkipClicked()
+        }
     }
 
     override fun loadCards(cards: List<OnBoardingCard>) {
         vp_on_boarding_cards.adapter = OnBoardingViewPagerAdapter(this, cards)
         TabLayoutMediator(tl_on_boarding_indicator, vp_on_boarding_cards) { _, _ -> }.attach()
+    }
+
+    override fun setCurrentItem(item: Int) {
+        vp_on_boarding_cards.setCurrentItem(item, true)
+    }
+
+    override fun getCurrentItem(): Int {
+        return vp_on_boarding_cards.currentItem
+    }
+
+    override fun getCardsCount(): Int {
+        return vp_on_boarding_cards.adapter!!.itemCount
     }
 }

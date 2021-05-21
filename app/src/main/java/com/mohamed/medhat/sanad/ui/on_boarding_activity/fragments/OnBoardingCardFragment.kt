@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.OnBoardingCard
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -35,13 +36,11 @@ class OnBoardingCardFragment : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_on_boarding_card, container, false)
         if (onBoardingCard != null) {
-            view.iv_on_boarding_card_image.setImageResource(onBoardingCard!!.imageId)
+            Glide.with(this)
+                .load(onBoardingCard!!.imageId)
+                .circleCrop()
+                .into(view.iv_on_boarding_card_image)
             view.tv_on_boarding_card_text.text = onBoardingCard!!.text
-            view.btn_on_boarding_finish.visibility =
-                if (onBoardingCard!!.isTheLastCard) View.VISIBLE else View.INVISIBLE
-            view.btn_on_boarding_finish.setOnClickListener {
-                (activity as OnBoardingActivity).navigateToThenFinish(LoginActivity::class.java)
-            }
         } else {
             Log.e(TAG_REPORT_ERROR, getString(R.string.null_on_boarding_card))
         }
