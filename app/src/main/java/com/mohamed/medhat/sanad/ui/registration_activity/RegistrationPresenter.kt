@@ -27,7 +27,6 @@ class RegistrationPresenter @Inject constructor() :
     // TODO implement add picture
     override fun start(savedInstanceState: Bundle?) {
         activity = (registrationView as RegistrationActivity)
-        registrationView.displayToast("RegistrationActivity")
         registrationViewModel.token.observe(activity) {
             // TODO save token in the shared prefs
             registrationView.apply {
@@ -56,8 +55,8 @@ class RegistrationPresenter @Inject constructor() :
         registrationViewModel = viewModel
     }
 
-    fun onAddPictureClicked() {
-        registrationView.displayToast("AddPicture")
+    fun onLoginClicked() {
+        registrationView.navigateToThenFinish(LoginActivity::class.java)
     }
 
     fun onSubmitClicked() {

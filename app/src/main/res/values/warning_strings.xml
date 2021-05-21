@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="password_matching_warning">Passwords didn\'t match!</string>
-    <string name="empty_field_warning">This field can\'t be empty!</string>
-    <string name="invalid_email_warning">Invalid email address!</string>
+    <string name="password_matching_warning">كلمات المرور غير متطابقة!</string>
+    <string name="empty_field_warning">لا يمكن ترك هذا الحقل فارغًا!</string>
+    <string name="invalid_email_warning">بريد الكتروني غير صحيح!</string>
 </resources>
