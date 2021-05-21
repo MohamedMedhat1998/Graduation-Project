@@ -1,12 +1,12 @@
 <resources>
     <string name="app_name">سند | Sanad</string>
-    <string name="successfully_registered">"Successfully registered!\nPlease, login to use the app!"</string>
-    <string name="successfully_logged_in">Successfully logged in!</string>
-    <string name="no_internet_title">No Internet Connection!</string>
-    <string name="no_internet_message">Please connect to the internet to continue using our app!</string>
-    <string name="logout">Logout</string>
-    <string name="add_blind">Add Blind</string>
-    <string name="on_boarding_message_1">! نظارة سند تمكن ذوي البصيرة من الرؤية</string>
+    <string name="successfully_registered">"تم التسجيل بنجاح!"</string>
+    <string name="successfully_logged_in">تم تسجيل الدخول بنجاح!</string>
+    <string name="no_internet_title">لا يوجد اتصال بالانترنت!</string>
+    <string name="no_internet_message">من فضلك تحقق من وجود اتصال بالانترنت للاستمرار في استخدام التطبيق!</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="add_blind">اضافة ذو البصيرة</string>
+    <string name="on_boarding_message_1">نظارة سند تمكن ذوي البصيرة من الرؤية!</string>
     <string name="on_boarding_next">التالي</string>
     <string name="on_boarding_skip">تخطي</string>
     <string name="on_boarding_message_2">متابعة موقع ذوي البصيرة بشكل لحظي</string>
@@ -23,4 +23,14 @@
     <string name="login_no_account">لا تمتلك حساب ؟</string>
     <string name="login_register"><u>سجل الان</u></string>
     <string name="in_development">قيد التطوير!</string>
+    <string name="registration_title">إنشاء حساب</string>
+    <string name="registration_message">أدخل بياناتك لإنشاء حساب جديد</string>
+    <string name="name">الاسم</string>
+    <string name="nickname">اللقب</string>
+    <string name="email">البريدك الإلكتروني</string>
+    <string name="password">كلمـة المـرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="register">تسجيل</string>
+    <string name="already_registered">لديك حساب بالفعل؟</string>
+    <string name="registration_login"><u>تسجيل الدخول</u></string>
 </resources>

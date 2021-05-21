@@ -28,8 +28,8 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
         registrationPresenter.setView(this)
         registrationPresenter.setViewModel(registrationViewModel)
         registrationPresenter.start(savedInstanceState)
-        btn_registration_add_picture.setOnClickListener {
-            registrationPresenter.onAddPictureClicked()
+        tv_registration_login.setOnClickListener {
+            registrationPresenter.onLoginClicked()
         }
         btn_registration_submit.setOnClickListener {
             registrationPresenter.onSubmitClicked()
