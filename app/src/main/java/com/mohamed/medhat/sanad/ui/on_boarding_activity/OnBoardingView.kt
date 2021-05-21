@@ -12,4 +12,7 @@ interface OnBoardingView : BaseView {
      * @param cards the cards to be displayed.
      */
     fun loadCards(cards: List<OnBoardingCard>)
+    fun setCurrentItem(item: Int)
+    fun getCurrentItem(): Int
+    fun getCardsCount(): Int
 }

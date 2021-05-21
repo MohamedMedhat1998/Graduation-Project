@@ -6,4 +6,9 @@
     <string name="no_internet_message">Please connect to the internet to continue using our app!</string>
     <string name="logout">Logout</string>
     <string name="add_blind">Add Blind</string>
+    <string name="on_boarding_message_1">! نظارة سند تمكن ذوي البصيرة من الرؤية</string>
+    <string name="on_boarding_next">التالي</string>
+    <string name="on_boarding_skip">تخطي</string>
+    <string name="on_boarding_message_2">متابعة موقع ذوي البصيرة بشكل لحظي</string>
+    <string name="on_boarding_message_3">اجراء المكالمات والمحادثات النصية</string>
 </resources>
