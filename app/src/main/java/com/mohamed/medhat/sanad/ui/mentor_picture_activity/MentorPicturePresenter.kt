@@ -139,12 +139,11 @@ class MentorPicturePresenter @Inject constructor() :
             mentorPictureView.displayToast("Please select an image")
             return
         }
-        // TODO create a multipart request!
         val imageInputStream = activity.contentResolver.openInputStream(imageUri!!)
         val profilePictureBody =
             imageInputStream!!.readBytes().toRequestBody("application/octet-stream".toMediaType())
         val profilePicturePart =
-            MultipartBody.Part.createFormData("File", pictureName, profilePictureBody)
+            MultipartBody.Part.createFormData("File", "$pictureName.png", profilePictureBody)
         mentorPictureViewModel.uploadProfilePicture(profilePicturePart)
     }
 }

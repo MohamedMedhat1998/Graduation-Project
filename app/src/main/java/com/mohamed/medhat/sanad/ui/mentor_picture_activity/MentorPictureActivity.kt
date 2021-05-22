@@ -47,6 +47,7 @@ class MentorPictureActivity : BaseActivity(), MentorPictureView {
     }
 
     override fun updateProfilePicturePreview(image: Uri?) {
+        iv_mentor_picture_preview.setPadding(0, 0, 0, 0)
         Glide.with(this)
             .load(image)
             .circleCrop()
