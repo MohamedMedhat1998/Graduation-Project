@@ -93,4 +93,8 @@ interface WebApi {
         @Part personId: MultipartBody.Part,
         @Part picture: MultipartBody.Part
     ): Response<Any>
+
+    @Multipart
+    @POST("/Api/Accounts/Profile/UploadProfilePicture")
+    suspend fun uploadMentorPicture(@Part profilePicture: MultipartBody.Part): Response<Any>
 }

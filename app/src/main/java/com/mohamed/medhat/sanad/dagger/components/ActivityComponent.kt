@@ -14,6 +14,9 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginNavViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginViewModel
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
+import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureActivity
+import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureNavViewModel
+import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerViewModel
@@ -50,6 +53,7 @@ interface ActivityComponent {
     fun inject(promotionVideoActivity: PromotionVideoActivity)
     fun inject(personsManagerActivity: PersonsManagerActivity)
     fun inject(addPersonActivity: AddPersonActivity)
+    fun inject(mentorPictureActivity: MentorPictureActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -61,4 +65,6 @@ interface ActivityComponent {
     fun addBlindNavViewModel(): ViewModelFactory<AddBlindNavViewModel>
     fun personsManagerViewModel(): ViewModelFactory<PersonsManagerViewModel>
     fun addPersonViewModel(): ViewModelFactory<AddPersonViewModel>
+    fun mentorPictureViewModel(): ViewModelFactory<MentorPictureViewModel>
+    fun mentorPictureNavViewModel(): ViewModelFactory<MentorPictureNavViewModel>
 }
