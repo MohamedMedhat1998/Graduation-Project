@@ -55,7 +55,13 @@ class MentorPicturePresenter @Inject constructor() :
             }
         }
         mentorPictureNavViewModel.destination.observe(activity) {
-            mentorPictureView.navigateToThenFinish(it)
+            mentorPictureView.startActivityAsRoot(it)
+        }
+        mentorPictureNavViewModel.state.observe(activity) {
+            val errorViewer =
+                TextErrorViewer(mentorPictureViewModel.appError, activity.tv_mentor_picture_error)
+            mentorPictureView.setAppErrorViewer(errorViewer)
+            handleLoadingState(mentorPictureView, it)
         }
     }
 

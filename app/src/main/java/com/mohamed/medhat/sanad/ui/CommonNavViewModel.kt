@@ -45,6 +45,10 @@ class CommonNavViewModel @Inject constructor(
             // Making sure that only one instance of this function is running.
             return
         }
+        if (tokenManager.getToken().isEmpty()) {
+            _destination.postValue(OnBoardingActivity::class.java)
+            return
+        }
         if (NetworkState.isConnected.value == false) {
             appError = SimpleConnectionError(
                 "No Internet Connection!",
@@ -52,10 +56,6 @@ class CommonNavViewModel @Inject constructor(
             )
             _destination.postValue(null)
             _state.postValue(State.ERROR)
-            return
-        }
-        if (tokenManager.getToken().isEmpty()) {
-            _destination.postValue(OnBoardingActivity::class.java)
             return
         }
         _state.postValue(State.LOADING)
