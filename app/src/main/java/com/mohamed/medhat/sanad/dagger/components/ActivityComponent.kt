@@ -2,6 +2,7 @@ package com.mohamed.medhat.sanad.dagger.components
 
 import com.mohamed.medhat.sanad.dagger.ViewModelFactory
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
@@ -67,4 +68,5 @@ interface ActivityComponent {
     fun addPersonViewModel(): ViewModelFactory<AddPersonViewModel>
     fun mentorPictureViewModel(): ViewModelFactory<MentorPictureViewModel>
     fun mentorPictureNavViewModel(): ViewModelFactory<MentorPictureNavViewModel>
+    fun commonNavViewModel(): ViewModelFactory<CommonNavViewModel>
 }

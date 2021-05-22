@@ -7,6 +7,7 @@ import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.LoginUser
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
@@ -23,7 +24,7 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
 
     private lateinit var loginView: LoginView
     private lateinit var loginViewModel: LoginViewModel
-    private lateinit var loginNavViewModel: LoginNavViewModel
+    private lateinit var commonNavViewModel: CommonNavViewModel
     private lateinit var activity: LoginActivity
 
     override fun setView(view: LoginView) {
@@ -31,8 +32,8 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         activity = (loginView as LoginActivity)
     }
 
-    fun setNavigationViewModel(loginNavViewModel: LoginNavViewModel) {
-        this.loginNavViewModel = loginNavViewModel
+    fun setNavigationViewModel(commonNavViewModel: CommonNavViewModel) {
+        this.commonNavViewModel = commonNavViewModel
     }
 
     override fun start(savedInstanceState: Bundle?) {
@@ -41,7 +42,7 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         loginViewModel.token.observe(activity) {
             loginView.apply {
                 displayToast(activity.getString(R.string.successfully_logged_in))
-                loginNavViewModel.calculateDestination()
+                commonNavViewModel.calculateDestination()
             }
         }
         loginViewModel.state.observe(activity) {
@@ -49,8 +50,15 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             loginView.setAppErrorViewer(textErrorViewer)
             handleLoadingState(loginView, it)
         }
-        loginNavViewModel.destination.observe(activity) {
-            loginView.navigateToThenFinish(it)
+        commonNavViewModel.state.observe(activity) {
+            val textErrorViewer = TextErrorViewer(loginViewModel.appError, activity.tv_login_error)
+            loginView.setAppErrorViewer(textErrorViewer)
+            handleLoadingState(loginView, it)
+        }
+        commonNavViewModel.destination.observe(activity) {
+            if (it != null) {
+                loginView.navigateToThenFinish(it)
+            }
         }
     }
 

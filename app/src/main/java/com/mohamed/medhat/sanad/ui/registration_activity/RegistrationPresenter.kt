@@ -1,15 +1,18 @@
 package com.mohamed.medhat.sanad.ui.registration_activity
 
 import android.os.Bundle
-import android.util.Log
 import android.util.Patterns
+import android.view.Gravity
+import androidx.core.widget.addTextChangedListener
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.NewUser
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.utils.handleLoadingState
+import com.mohamed.medhat.sanad.utils.managers.TokenManager
 import kotlinx.android.synthetic.main.activity_registration.*
 import javax.inject.Inject
 
@@ -17,26 +20,37 @@ import javax.inject.Inject
  * An mvp presenter for the [RegistrationActivity].
  */
 @ActivityScope
-class RegistrationPresenter @Inject constructor() :
+class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) :
     AdvancedPresenter<RegistrationView, RegistrationViewModel>() {
 
     private lateinit var registrationView: RegistrationView
     private lateinit var registrationViewModel: RegistrationViewModel
     private lateinit var activity: RegistrationActivity
+    private lateinit var commonNavViewModel: CommonNavViewModel
 
-    // TODO implement add picture
     override fun start(savedInstanceState: Bundle?) {
+        fixPasswordGravity()
         activity = (registrationView as RegistrationActivity)
         registrationViewModel.token.observe(activity) {
-            // TODO save token in the shared prefs
-            registrationView.apply {
-                // TODO fix the destination, login directly and cache user's data
-                navigateToThenFinish(LoginActivity::class.java)
-                displayToast(activity.getString(R.string.successfully_registered))
+            tokenManager.save(it)
+            registrationView.displayToast(activity.getString(R.string.successfully_registered))
+            commonNavViewModel.calculateDestination()
+        }
+        commonNavViewModel.destination.observe(activity) {
+            if (it != null) {
+                registrationView.startActivityAsRoot(it)
             }
-            Log.d("TOKEN", "Success, your token is: ${it.token}")
         }
         registrationViewModel.state.observe(activity) {
+            registrationView.setAppErrorViewer(
+                TextErrorViewer(
+                    registrationViewModel.appError,
+                    activity.tv_registration_error
+                )
+            )
+            handleLoadingState(registrationView, it)
+        }
+        commonNavViewModel.state.observe(activity) {
             registrationView.setAppErrorViewer(
                 TextErrorViewer(
                     registrationViewModel.appError,
@@ -53,6 +67,10 @@ class RegistrationPresenter @Inject constructor() :
 
     override fun setViewModel(viewModel: RegistrationViewModel) {
         registrationViewModel = viewModel
+    }
+
+    fun setNavigationViewModel(commonNavViewModel: CommonNavViewModel) {
+        this.commonNavViewModel = commonNavViewModel
     }
 
     fun onLoginClicked() {
@@ -184,6 +202,23 @@ class RegistrationPresenter @Inject constructor() :
             resetInputError(activity.et_registration_email)
             resetInputError(activity.et_registration_password)
             resetInputError(activity.et_registration_confirm_password)
+        }
+    }
+
+    private fun fixPasswordGravity() {
+        activity.et_registration_password.addTextChangedListener {
+            if (it.toString().isEmpty()) {
+                activity.et_registration_password.gravity = Gravity.END or Gravity.CENTER
+            } else {
+                activity.et_registration_password.gravity = Gravity.START or Gravity.CENTER
+            }
+        }
+        activity.et_registration_confirm_password.addTextChangedListener {
+            if (it.toString().isEmpty()) {
+                activity.et_registration_confirm_password.gravity = Gravity.END or Gravity.CENTER
+            } else {
+                activity.et_registration_confirm_password.gravity = Gravity.START or Gravity.CENTER
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_registration.*
 import javax.inject.Inject
@@ -21,12 +22,18 @@ class RegistrationActivity : BaseActivity(), RegistrationView {
             .get(RegistrationViewModel::class.java)
     }
 
+    private val commonNavViewModel by lazy {
+        ViewModelProviders.of(this, activityComponent.commonNavViewModel())
+            .get(CommonNavViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_registration)
         activityComponent.inject(this)
         registrationPresenter.setView(this)
         registrationPresenter.setViewModel(registrationViewModel)
+        registrationPresenter.setNavigationViewModel(commonNavViewModel)
         registrationPresenter.start(savedInstanceState)
         tv_registration_login.setOnClickListener {
             registrationPresenter.onLoginClicked()

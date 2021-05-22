@@ -28,6 +28,7 @@ import javax.inject.Inject
 /**
  * A [ViewModel] that decides which activity should [SplashActivity] navigate to based on some conditions.
  */
+@Deprecated("Use CommonNavViewModel instead.")
 class SplashNavViewModel @Inject constructor(val webApi: WebApi, val sharedPrefs: SharedPrefs) :
     BaseViewModel() {
 

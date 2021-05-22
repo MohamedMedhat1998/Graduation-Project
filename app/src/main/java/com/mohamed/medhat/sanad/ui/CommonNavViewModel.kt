@@ -1,8 +1,9 @@
-package com.mohamed.medhat.sanad.ui.mentor_picture_activity
+package com.mohamed.medhat.sanad.ui
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.networking.WebApi
@@ -11,22 +12,32 @@ import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.helpers.State
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
+import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureActivity
+import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.ui.splash_activity.SplashActivity
+import com.mohamed.medhat.sanad.utils.PREFS_USER_EMAIL
+import com.mohamed.medhat.sanad.utils.PREFS_USER_FIRST_NAME
+import com.mohamed.medhat.sanad.utils.managers.TokenManager
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * A ViewModel that figures out the next destination screen for the [MentorPictureActivity].
+ * This view model calculates the destination from the very beginning of the app to the [MainActivity].
  */
-class MentorPictureNavViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() {
+class CommonNavViewModel @Inject constructor(
+    val webApi: WebApi,
+    val sharedPrefs: SharedPrefs,
+    val tokenManager: TokenManager
+) :
+    BaseViewModel() {
 
     init {
-        _state.value = State.NORMAL
+        _state.postValue(State.NORMAL)
     }
 
-    private val _destination = MutableLiveData<Class<*>>()
-    val destination: LiveData<Class<*>>
+    private val _destination = MutableLiveData<Class<*>?>()
+    val destination: LiveData<Class<*>?>
         get() = _destination
 
     fun calculateDestination() {
@@ -34,10 +45,16 @@ class MentorPictureNavViewModel @Inject constructor(val webApi: WebApi) : BaseVi
             // Making sure that only one instance of this function is running.
             return
         }
+        if (tokenManager.getToken().isEmpty()) {
+            _destination.postValue(OnBoardingActivity::class.java)
+            return
+        }
         if (NetworkState.isConnected.value == false) {
-            _destination.value = null
-            appError =
-                SimpleConnectionError("No Internet Connection!", "Please connect to the internet.")
+            appError = SimpleConnectionError(
+                "No Internet Connection!",
+                "Please connect to the internet and try again."
+            )
+            _destination.postValue(null)
             _state.postValue(State.ERROR)
             return
         }
@@ -46,7 +63,13 @@ class MentorPictureNavViewModel @Inject constructor(val webApi: WebApi) : BaseVi
             val profileResponse = webApi.getMentorProfile()
             if (profileResponse.isSuccessful) {
                 val mentorProfile = profileResponse.body()!!
-                if (!mentorProfile.emailConfirmed) { // Email not confirmed, navigate to ConfirmationActivity.
+                sharedPrefs.write(PREFS_USER_FIRST_NAME, mentorProfile.firstName)
+                sharedPrefs.write(PREFS_USER_EMAIL, mentorProfile.email)
+                if (mentorProfile.profilePicture.isNullOrEmpty() || mentorProfile.profilePicture == "null") { // No profile picture, navigate to MentorPictureActivity.
+                    _destination.postValue(MentorPictureActivity::class.java)
+                    _state.postValue(State.NORMAL)
+                    return@launch
+                } else if (!mentorProfile.emailConfirmed) { // Email not confirmed, navigate to ConfirmationActivity.
                     _destination.postValue(ConfirmationActivity::class.java)
                     _state.postValue(State.NORMAL)
                     return@launch

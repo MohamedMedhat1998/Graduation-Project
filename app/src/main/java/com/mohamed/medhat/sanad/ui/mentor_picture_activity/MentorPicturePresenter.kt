@@ -55,7 +55,13 @@ class MentorPicturePresenter @Inject constructor() :
             }
         }
         mentorPictureNavViewModel.destination.observe(activity) {
-            mentorPictureView.navigateToThenFinish(it)
+            mentorPictureView.startActivityAsRoot(it)
+        }
+        mentorPictureNavViewModel.state.observe(activity) {
+            val errorViewer =
+                TextErrorViewer(mentorPictureViewModel.appError, activity.tv_mentor_picture_error)
+            mentorPictureView.setAppErrorViewer(errorViewer)
+            handleLoadingState(mentorPictureView, it)
         }
     }
 
@@ -133,12 +139,11 @@ class MentorPicturePresenter @Inject constructor() :
             mentorPictureView.displayToast("Please select an image")
             return
         }
-        // TODO create a multipart request!
         val imageInputStream = activity.contentResolver.openInputStream(imageUri!!)
         val profilePictureBody =
             imageInputStream!!.readBytes().toRequestBody("application/octet-stream".toMediaType())
         val profilePicturePart =
-            MultipartBody.Part.createFormData("File", pictureName, profilePictureBody)
+            MultipartBody.Part.createFormData("File", "$pictureName.png", profilePictureBody)
         mentorPictureViewModel.uploadProfilePicture(profilePicturePart)
     }
 }
