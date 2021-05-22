@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import com.mohamed.medhat.sanad.ui.base.network_state_awareness.NetworkStateUnaware
 import com.mohamed.medhat.sanad.ui.custom_listeners.AnimationEndListener
@@ -20,9 +21,9 @@ class SplashActivity : BaseActivity(), SplashView {
     @Inject
     lateinit var splashPresenter: SplashPresenter
 
-    val splashNavViewModel: SplashNavViewModel by lazy {
-        ViewModelProviders.of(this, activityComponent.splashNavViewModel())
-            .get(SplashNavViewModel::class.java)
+    private val commonNavViewModel: CommonNavViewModel by lazy {
+        ViewModelProviders.of(this, activityComponent.commonNavViewModel())
+            .get(CommonNavViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,7 +32,7 @@ class SplashActivity : BaseActivity(), SplashView {
         setContentView(R.layout.activity_splash)
         activityComponent.inject(this)
         splashPresenter.setView(this)
-        splashPresenter.setSplashNaveViewModel(splashNavViewModel)
+        splashPresenter.setNavigationViewModel(commonNavViewModel)
         splashPresenter.start(savedInstanceState)
     }
 

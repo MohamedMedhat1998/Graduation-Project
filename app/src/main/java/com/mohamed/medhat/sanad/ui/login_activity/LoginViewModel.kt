@@ -46,8 +46,8 @@ class LoginViewModel @Inject constructor(val api: WebApi, val tokenManager: Toke
                 val response = api.login(loginUser)
                 if (response.isSuccessful) {
                     val token: Token = response.body()!!
-                    _token.value = token
                     tokenManager.save(token)
+                    _token.value = token
                     appError = NoError()
                     _state.value = State.NORMAL
                 } else {

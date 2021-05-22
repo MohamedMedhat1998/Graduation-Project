@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import javax.inject.Inject
@@ -21,9 +22,9 @@ class LoginActivity : BaseActivity(), LoginView {
             .get(LoginViewModel::class.java)
     }
 
-    private val loginNavViewModel by lazy {
-        ViewModelProviders.of(this, activityComponent.loginNavViewModel())
-            .get(LoginNavViewModel::class.java)
+    private val commonNavViewModel by lazy {
+        ViewModelProviders.of(this, activityComponent.commonNavViewModel())
+            .get(CommonNavViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,7 +33,7 @@ class LoginActivity : BaseActivity(), LoginView {
         activityComponent.inject(this)
         loginPresenter.setView(this)
         loginPresenter.setViewModel(loginViewModel)
-        loginPresenter.setNavigationViewModel(loginNavViewModel)
+        loginPresenter.setNavigationViewModel(commonNavViewModel)
         loginPresenter.start(savedInstanceState)
         btn_login_login.setOnClickListener {
             loginPresenter.onLoginClicked()

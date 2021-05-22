@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.splash_activity
 import android.os.Bundle
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.networking.NetworkState
+import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.base.SimplePresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.ToastErrorViewer
 import com.mohamed.medhat.sanad.utils.Checklist
@@ -21,11 +22,11 @@ class SplashPresenter @Inject constructor() :
 
     private lateinit var splashView: SplashView
     private lateinit var splashActivity: SplashActivity
-    private lateinit var splashNavViewModel: SplashNavViewModel
+    private lateinit var commonNavViewModel: CommonNavViewModel
     private lateinit var destination: Class<*>
 
     private val checklist = Checklist {
-        splashView.navigateToThenFinish(destination)
+        splashView.startActivityAsRoot(destination)
     }
 
     override fun setView(view: SplashView) {
@@ -33,32 +34,32 @@ class SplashPresenter @Inject constructor() :
         splashActivity = splashView as SplashActivity
     }
 
-    fun setSplashNaveViewModel(splashNavViewModel: SplashNavViewModel) {
-        this.splashNavViewModel = splashNavViewModel
+    fun setNavigationViewModel(commonNavViewModel: CommonNavViewModel) {
+        this.commonNavViewModel = commonNavViewModel
     }
 
     override fun start(savedInstanceState: Bundle?) {
         checklist.register(CHECKLIST_DESTINATION)
         checklist.register(CHECKLIST_ANIMATION)
         playAnimations()
-        splashNavViewModel.destination.observe(splashActivity) {
+        commonNavViewModel.destination.observe(splashActivity) {
             if (it != null) {
                 destination = it
                 checklist.check(CHECKLIST_DESTINATION)
             }
         }
 
-        splashNavViewModel.state.observe(splashActivity) {
+        commonNavViewModel.state.observe(splashActivity) {
             splashView.setAppErrorViewer(
                 ToastErrorViewer(
-                    splashNavViewModel.appError,
+                    commonNavViewModel.appError,
                     splashActivity
                 )
             )
             handleLoadingState(splashView, it)
         }
         NetworkState.isConnected.observe(splashActivity) {
-            splashNavViewModel.calculateDestination()
+            commonNavViewModel.calculateDestination()
         }
     }
 

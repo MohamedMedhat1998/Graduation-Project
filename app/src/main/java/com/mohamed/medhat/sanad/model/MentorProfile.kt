@@ -16,7 +16,7 @@ data class MentorProfile(
 	val lastName: String,
 
 	@field:SerializedName("profilePicture")
-	val profilePicture: String,
+	val profilePicture: String?,
 
 	@field:SerializedName("twoFactorEnabled")
 	val twoFactorEnabled: Boolean,
