@@ -49,6 +49,7 @@ class MentorPictureActivity : BaseActivity(), MentorPictureView {
     override fun updateProfilePicturePreview(image: Uri?) {
         Glide.with(this)
             .load(image)
+            .circleCrop()
             .into(iv_mentor_picture_preview)
     }
 

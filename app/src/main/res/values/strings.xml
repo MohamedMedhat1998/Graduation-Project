@@ -33,4 +33,8 @@
     <string name="register">تسجيل</string>
     <string name="already_registered">لديك حساب بالفعل؟</string>
     <string name="registration_login"><u>تسجيل الدخول</u></string>
+    <string name="profile_picture">الصورة الشخصية</string>
+    <string name="profile_picture_message">قم بالتقاط او برفع صورة شخصيه لك</string>
+    <string name="take_picture">التقاط صورة</string>
+    <string name="pick_from_gallery">اختيار صورة من المعرض</string>
 </resources>

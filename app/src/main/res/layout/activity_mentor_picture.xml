@@ -4,58 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/sanad_off_white"
     tools:context=".ui.mentor_picture_activity.MentorPictureActivity">
 
     <TextView
         android:id="@+id/textView12"
+        style="@style/SanadTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:layout_marginTop="44dp"
+        android:text="@string/profile_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView13"
-        android:layout_width="62dp"
+        style="@style/SanadRegularBlueText"
+        android:layout_width="wrap_content"
         android:layout_height="16dp"
-        android:text="TextView"
+        android:text="@string/profile_picture_message"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView12" />
 
     <ImageView
         android:id="@+id/iv_mentor_picture_preview"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="228dp"
+        android:layout_height="228dp"
+        android:layout_marginTop="32dp"
+        android:background="@drawable/mentor_profile_picture_background"
+        android:elevation="6dp"
+        android:paddingTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView13"
-        app:srcCompat="@drawable/google_button_background" />
+        app:srcCompat="@drawable/ic_profile_placeholder" />
 
     <Button
         android:id="@+id/btn_mentor_picture_take_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="take photo"
+        style="@style/SanadGreyButton"
+        android:layout_width="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:drawableLeft="@drawable/ic_camera"
+        android:paddingLeft="24dp"
+        android:text="@string/take_picture"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/iv_mentor_picture_preview" />
 
     <Button
         android:id="@+id/btn_mentor_picture_pick_from_gallery"
-        android:layout_width="wrap_content"
+        style="@style/SanadGreyButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="PickFromGallery"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="32dp"
+        android:drawableLeft="@drawable/ic_image"
+        android:paddingLeft="24dp"
+        android:text="@string/pick_from_gallery"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_mentor_picture_take_photo" />
 
     <Button
         android:id="@+id/btn_mentor_picture_next"
-        android:layout_width="wrap_content"
+        style="@style/SanadSubmitButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="Next"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="32dp"
+        android:drawableRight="@drawable/ic_arrow_right"
+        android:paddingRight="24dp"
+        android:text="@string/on_boarding_next"
+        app:backgroundTint="@null"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_mentor_picture_pick_from_gallery" />
@@ -65,6 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TextView"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btn_mentor_picture_next" />
@@ -74,6 +103,7 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_mentor_picture_error" />
