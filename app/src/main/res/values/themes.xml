@@ -16,6 +16,7 @@
 
     <style name="ActionBarBlackText" parent="Theme.GraduationProject">
         <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorPrimary">@color/sanad_yellow</item>
         <item name="android:windowLightStatusBar">true</item>
     </style>
 
@@ -64,11 +65,12 @@
         <item name="android:background">@drawable/login_et_background</item>
         <item name="android:maxLines">1</item>
         <item name="android:fontFamily">@font/cairo_regular</item>
+        <item name="android:drawablePadding">20dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColorHint">@color/sanad_grey_hint</item>
         <item name="android:layout_height">56dp</item>
-        <item name="android:paddingStart">32dp</item>
-        <item name="android:paddingEnd">32dp</item>
+        <item name="android:paddingRight">32dp</item>
+        <item name="android:paddingLeft">20dp</item>
     </style>
 
     <style name="SanadSubmitButton">

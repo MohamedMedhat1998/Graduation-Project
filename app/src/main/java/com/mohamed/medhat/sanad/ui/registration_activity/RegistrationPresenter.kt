@@ -30,7 +30,6 @@ class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) 
 
     override fun start(savedInstanceState: Bundle?) {
         fixPasswordGravity()
-        activity = (registrationView as RegistrationActivity)
         registrationViewModel.token.observe(activity) {
             tokenManager.save(it)
             registrationView.displayToast(activity.getString(R.string.successfully_registered))
@@ -38,7 +37,7 @@ class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) 
         }
         commonNavViewModel.destination.observe(activity) {
             if (it != null) {
-                registrationView.startActivityAsRoot(it)
+                registrationView.navigateToThenFinish(it)
             }
         }
         registrationViewModel.state.observe(activity) {
@@ -63,6 +62,7 @@ class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) 
 
     override fun setView(view: RegistrationView) {
         registrationView = view
+        activity = (registrationView as RegistrationActivity)
     }
 
     override fun setViewModel(viewModel: RegistrationViewModel) {
@@ -74,7 +74,7 @@ class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) 
     }
 
     fun onLoginClicked() {
-        registrationView.navigateToThenFinish(LoginActivity::class.java)
+        registrationView.navigateTo(LoginActivity::class.java)
     }
 
     fun onSubmitClicked() {

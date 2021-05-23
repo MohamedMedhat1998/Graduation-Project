@@ -11,13 +11,11 @@ import javax.inject.Inject
  */
 @ActivityScope
 class OnBoardingCardsProvider @Inject constructor(val context: Context) {
-    // TODO use real images
     val cards = listOf(
-        OnBoardingCard(
-            android.R.drawable.star_big_on,
+        OnBoardingCard(R.drawable.on_boarding_1,
             context.getString(R.string.on_boarding_message_1)
         ),
-        OnBoardingCard(android.R.drawable.sym_def_app_icon, context.getString(R.string.on_boarding_message_2)),
-        OnBoardingCard(R.mipmap.ic_launcher_round, context.getString(R.string.on_boarding_message_3))
+        OnBoardingCard(R.drawable.on_boarding_2, context.getString(R.string.on_boarding_message_2)),
+        OnBoardingCard(R.drawable.on_boarding_3, context.getString(R.string.on_boarding_message_3))
     )
 }

@@ -99,7 +99,7 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     }
 
     fun onRegisterClicked() {
-        loginView.navigateToThenFinish(RegistrationActivity::class.java)
+        loginView.navigateTo(RegistrationActivity::class.java)
     }
 
     private fun fixPasswordGravity() {

@@ -26,7 +26,7 @@ class SplashPresenter @Inject constructor() :
     private lateinit var destination: Class<*>
 
     private val checklist = Checklist {
-        splashView.startActivityAsRoot(destination)
+        splashView.navigateToThenFinish(destination)
     }
 
     override fun setView(view: SplashView) {

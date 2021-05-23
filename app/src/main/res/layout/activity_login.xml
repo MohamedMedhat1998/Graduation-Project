@@ -17,6 +17,7 @@
             android:layout_width="0dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="36dp"
+            android:drawableLeft="@drawable/ic_email"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/cairo_regular"
             android:hint="@string/login_email_hint"
@@ -29,6 +30,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_login_password"
             style="@style/SanadInputField"
+            android:drawableLeft="@drawable/ic_key"
             android:layout_width="0dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
@@ -141,11 +143,14 @@
             style="@style/SanadFacebookLogin"
             android:layout_width="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="52dp"
+            android:drawableRight="@drawable/ic_facebook"
             android:layout_marginEnd="32dp"
+            android:paddingRight="28dp"
             android:text="@string/login_facebook"
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -157,7 +162,9 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
             android:text="@string/login_google"
+            android:drawableRight="@drawable/ic_google"
             app:backgroundTint="@null"
+            android:paddingRight="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_login_facebook" />
