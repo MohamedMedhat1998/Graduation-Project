@@ -121,8 +121,8 @@ class SplashActivity : BaseActivity(), SplashView {
 
     override fun scaleAppLogo2() {
         iv_app_logo2.animate()
-            .scaleYBy(2f)
-            .scaleXBy(2f)
+            .scaleYBy(0.7f)
+            .scaleXBy(0.7f)
             .setDuration(300)
             .start()
     }
