@@ -14,6 +14,7 @@ import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindPost
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessItem
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
+import com.mohamed.medhat.sanad.ui.add_person_activity.pictures.PicturePreview
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -32,6 +33,7 @@ import javax.inject.Inject
 
 private const val ADD_BLIND_PICK_FROM_GALLERY = 1
 private const val ADD_BLIND_TAKE_PHOTO = 2
+private const val TAG_ADD_BLIND_PICTURE_PREVIEW = "add-blind-picture-preview"
 
 /**
  * An mvp presenter for [AddBlindActivity].
@@ -155,6 +157,23 @@ class AddBlindPresenter @Inject constructor() :
         illnessesAdapter.addIllness(IllnessItem(addBlindView.getOtherIllness(), true))
         rvIllnesses.smoothScrollToPosition(illnessesAdapter.itemCount - 1)
         addBlindView.clearOtherIllness()
+    }
+
+    fun onAddPictureClicked() {
+        if (addBlindView.getAddPictureAnimationProgress() == 0.0f) {
+            addBlindView.startAddPictureAnimation()
+            return
+        }
+        if (addBlindView.getAddPictureAnimationProgress() == 1.0f) {
+            addBlindView.reverseAddPictureAnimation()
+            return
+        }
+    }
+
+    fun onPreviewClicked() {
+        if (imageUri != null) {
+            PicturePreview(imageUri!!).show(addBlindActivity.supportFragmentManager, TAG_ADD_BLIND_PICTURE_PREVIEW)
+        }
     }
 
     fun onNextClicked() {

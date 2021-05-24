@@ -53,6 +53,12 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         btn_add_blind_next.setOnClickListener {
             addBlindPresenter.onNextClicked()
         }
+        iv_add_blind_add_picture.setOnClickListener {
+            addBlindPresenter.onAddPictureClicked()
+        }
+        iv_add_blind_profile_preview.setOnClickListener {
+            addBlindPresenter.onPreviewClicked()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -69,7 +75,8 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
     }
 
     override fun updateProfilePreviewImage(uriImage: Uri?) {
-        Glide.with(this).load(uriImage).into(iv_add_blind_profile_preview)
+        iv_add_blind_profile_preview.setPadding(0, 0, 0, 0)
+        Glide.with(this).load(uriImage).circleCrop().into(iv_add_blind_profile_preview)
     }
 
     override fun updateProfilePreviewImage(bitmapImage: Bitmap?) {
@@ -102,6 +109,18 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
 
     override fun getIllnesses(): List<String> {
         return (rv_add_blind_illnesses.adapter as IllnessesAdapter).getCheckedIllnesses()
+    }
+
+    override fun startAddPictureAnimation() {
+        add_blind_motion_layout.transitionToEnd()
+    }
+
+    override fun reverseAddPictureAnimation() {
+        add_blind_motion_layout.transitionToStart()
+    }
+
+    override fun getAddPictureAnimationProgress(): Float {
+        return add_blind_motion_layout.progress
     }
 
     override fun showLoadingIndicator() {

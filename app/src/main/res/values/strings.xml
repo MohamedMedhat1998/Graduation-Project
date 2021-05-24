@@ -50,4 +50,12 @@
     <string name="permission_denied_message">لا يمكن الاستمرار بدون إذن استخدام الكاميرا.</string>
     <string name="q_r_message">قم بمسح رمز QR الخاص بالجهاز الخاص بكم</string>
     <string name="no_device_message">لا تمتلك جهاز ؟</string>
+    <string name="add_blind_title">بيانات ذو البصيرة</string>
+    <string name="add_blind_message">قم بإدخال بيانات الشخص الكفيف بشكل دقيق وسليم</string>
+    <string name="pick_from_gallery_lite">اختيار من المعرض</string>
+    <string name="blind_name_label">الاسم:</string>
+    <string name="blind_age_label">السن:</string>
+    <string name="gender">النوع:</string>
+    <string name="male">ذكر</string>
+    <string name="female">أنثى</string>
 </resources>
