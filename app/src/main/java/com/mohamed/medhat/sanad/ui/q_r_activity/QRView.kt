@@ -7,4 +7,5 @@ import com.mohamed.medhat.sanad.ui.base.BaseView
  */
 interface QRView : BaseView {
     fun updateHelloMessage(message: String)
+    fun playRadarAnimation()
 }

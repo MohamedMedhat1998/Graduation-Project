@@ -22,6 +22,7 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs, val context:
     private lateinit var qrView: QRView
 
     override fun start(savedInstanceState: Bundle?) {
+        qrView.playRadarAnimation()
         qrView.updateHelloMessage(
             context.getString(
                 R.string.q_r_welcome_message,

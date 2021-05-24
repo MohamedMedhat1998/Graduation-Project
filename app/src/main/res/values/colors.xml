@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <!--Sanad Colors-->
     <color name="sanad_white_font">#EEEEEE</color>
+    <color name="sanad_grey_bg">#ebebee</color>
     <color name="sanad_off_white">#FDFDFD</color>
     <color name="sanad_grey_edit_text">#F5F5F5</color>
     <color name="sanad_grey_hint">#898989</color>
