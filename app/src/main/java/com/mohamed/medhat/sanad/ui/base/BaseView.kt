@@ -94,10 +94,10 @@ interface BaseView {
      */
     fun requestPermission(
         permission: String,
-        title: String = "Permission needed",
+        title: String = "مطلوب إذن",
         message: String = "This permission is needed to use this feature",
-        positiveButtonLabel: String = "Ok",
-        negativeButtonLabel: String = "Cancel",
+        positiveButtonLabel: String = "حسنًا",
+        negativeButtonLabel: String = "إلغاء",
         permissionCode: Int,
         onGranted: () -> Unit
     )

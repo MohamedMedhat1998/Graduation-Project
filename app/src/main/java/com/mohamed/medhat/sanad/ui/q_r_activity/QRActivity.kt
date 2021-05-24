@@ -1,5 +1,6 @@
 package com.mohamed.medhat.sanad.ui.q_r_activity
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
@@ -32,6 +33,28 @@ class QRActivity : BaseActivity(), QRView {
 
     override fun updateHelloMessage(message: String) {
         tv_q_r_welcome.text = message
+    }
+
+    override fun playRadarAnimation() {
+        val alphaAnimation = ValueAnimator.ofFloat(1f, 0f)
+        alphaAnimation.addUpdateListener {
+            iv_q_r_radar.alpha = it.animatedValue as Float
+        }
+        val scaleAnimation = ValueAnimator.ofFloat(1f, 1.17f)
+        scaleAnimation.addUpdateListener {
+            iv_q_r_radar.scaleX = it.animatedValue as Float
+            iv_q_r_radar.scaleY = it.animatedValue as Float
+        }
+        alphaAnimation.apply {
+            repeatCount = ValueAnimator.INFINITE
+            duration = 1200
+        }
+        scaleAnimation.apply {
+            repeatCount = ValueAnimator.INFINITE
+            duration = 1200
+        }
+        alphaAnimation.start()
+        scaleAnimation.start()
     }
 
     override fun onRequestPermissionsResult(

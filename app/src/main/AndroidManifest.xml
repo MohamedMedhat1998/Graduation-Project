@@ -19,14 +19,24 @@
         <activity android:name=".ui.promotion_video_activity.PromotionVideoActivity" />
         <activity android:name=".ui.add_blind_activity.AddBlindActivity" />
         <activity android:name=".ui.q_r_activity.scanner.ScannerActivity" />
-        <activity android:name=".ui.q_r_activity.QRActivity" />
-        <activity android:name=".ui.confirmation_activity.ConfirmationActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity android:name=".ui.main_activity.MainActivity" />
+        <activity
+            android:name=".ui.q_r_activity.QRActivity"
+            android:theme="@style/ActionBarBlackText" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.confirmation_activity.ConfirmationActivity"
+            android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.mentor_picture_activity.MentorPictureActivity"
             android:theme="@style/ActionBarBlackText" />
@@ -44,11 +54,7 @@
         <activity
             android:name=".ui.splash_activity.SplashActivity"
             android:theme="@style/ActionBarBlackText">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">سند | Sanad</string>
-    <string name="successfully_registered">"تم التسجيل بنجاح!"</string>
+    <string name="successfully_registered">تم التسجيل بنجاح!</string>
     <string name="successfully_logged_in">تم تسجيل الدخول بنجاح!</string>
     <string name="no_internet_title">لا يوجد اتصال بالانترنت!</string>
     <string name="no_internet_message">من فضلك تحقق من وجود اتصال بالانترنت للاستمرار في استخدام التطبيق!</string>
@@ -45,4 +45,9 @@
     <string name="resend_confirmation"><u>الإرسال مجددًا</u></string>
     <string name="resend_confirmation_wait_message">برجاء المحاولة بعد مرور %d ثانية</string>
     <string name="resend_success_message">تم إرسال كود التفعيل بنجاح!</string>
+    <string name="q_r_welcome_message">أهلاً %s</string>
+    <string name="q_r_camera_permission_message">يحتاج التطبيق الى استخدام الكاميرا لمسح ال QR كود.</string>
+    <string name="permission_denied_message">لا يمكن الاستمرار بدون إذن استخدام الكاميرا.</string>
+    <string name="q_r_message">قم بمسح رمز QR الخاص بالجهاز الخاص بكم</string>
+    <string name="no_device_message">لا تمتلك جهاز ؟</string>
 </resources>
