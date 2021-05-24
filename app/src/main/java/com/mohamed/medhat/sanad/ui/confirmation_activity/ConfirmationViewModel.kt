@@ -38,12 +38,21 @@ class ConfirmationViewModel @Inject constructor(val api: WebApi, val sharedPrefs
     val shouldReLogin: LiveData<Boolean>
         get() = _shouldReLogin
 
+    private val _resendSuccess = MutableLiveData<Boolean>()
+    val resendSuccess: LiveData<Boolean>
+        get() = _resendSuccess
+
     /**
      * Sends the confirmation code to the remote api to confirm the email address.
      * @param confirmationCode the confirmation code to send.
      */
     fun confirmEmail(confirmationCode: String) {
         if (NetworkState.isConnected.value != true) {
+            appError = SimpleConnectionError(
+                "لا يوجد اتصال بالانترنت!",
+                "من فضلك تأكد من وجود اتصال بالانترنت للإستمرار."
+            )
+            _state.value = State.ERROR
             return
         }
         if (_state.value == State.LOADING) {
@@ -70,10 +79,55 @@ class ConfirmationViewModel @Inject constructor(val api: WebApi, val sharedPrefs
                     _state.postValue(State.ERROR)
                     return@launch
                 } else {
-                    // TODO blocked on UI
                     appError =
                         SimpleConnectionError("Something went wrong!", response.message())
                     _state.postValue(State.ERROR)
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifies the server to resend the confirmation code again.
+     */
+    fun resendConfirmationCode() {
+        if (NetworkState.isConnected.value != true) {
+            appError = SimpleConnectionError(
+                "لا يوجد اتصال بالانترنت!",
+                "من فضلك تأكد من وجود اتصال بالانترنت للإستمرار."
+            )
+            _state.value = State.ERROR
+            return
+        }
+        if (_state.value == State.LOADING) {
+            // Making sure that only one instance of this function is running.
+            return
+        }
+        _state.value = State.LOADING
+        viewModelScope.launch {
+            val response = api.resendConfirmationCode()
+            if (response.isSuccessful) {
+                _state.postValue(State.NORMAL)
+                _resendSuccess.postValue(true)
+            } else {
+                when (response.code()) {
+                    408 -> { // Timed out, tell the user to retry.
+                        appError =
+                            SimpleConnectionError("Connection Timed Out!", "Please try again.")
+                        _state.postValue(State.ERROR)
+                    }
+                    401 -> { // Unauthorized, tell the user to re-login.
+                        _shouldReLogin.postValue(true)
+                    }
+                    in 500..511 -> { // Internal sever error, tell the user to retry.
+                        appError =
+                            SimpleConnectionError("Internal Server Error!", "Please try again.")
+                        _state.postValue(State.ERROR)
+                    }
+                    else -> {
+                        appError = SimpleConnectionError("Unknown Error!", "Something went wrong.")
+                        _state.postValue(State.ERROR)
+                    }
                 }
             }
         }

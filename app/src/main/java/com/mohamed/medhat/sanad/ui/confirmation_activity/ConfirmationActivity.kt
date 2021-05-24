@@ -2,6 +2,7 @@ package com.mohamed.medhat.sanad.ui.confirmation_activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.EditText
 import androidx.lifecycle.ViewModelProviders
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
@@ -31,10 +32,44 @@ class ConfirmationActivity : BaseActivity(), ConfirmationView {
         btn_confirmation_submit.setOnClickListener {
             confirmationPresenter.onSubmitClicked()
         }
+        tv_confirmation_resend.setOnClickListener {
+            confirmationPresenter.onResendClicked()
+        }
     }
 
     override fun getConfirmationCode(): String {
-        return et_confirmation_code.text.toString()
+        val n1 = c_1.text.toString()
+        val n2 = c_2.text.toString()
+        val n3 = c_3.text.toString()
+        val n4 = c_4.text.toString()
+        val n5 = c_5.text.toString()
+        val n6 = c_6.text.toString()
+        return "$n1$n2$n3$n4$n5$n6"
+    }
+
+    override fun getConfirmationViews(): List<EditText> {
+        val views = mutableListOf<EditText>()
+        views.apply {
+            add(c_1)
+            add(c_2)
+            add(c_3)
+            add(c_4)
+            add(c_5)
+            add(c_6)
+        }
+        return views
+    }
+
+    override fun updateWaitTime(secondsLeft: Int) {
+        tv_confirmation_wait_time.text = secondsLeft.toString()
+    }
+
+    override fun hideWaitTime() {
+        tv_confirmation_wait_time.visibility = View.INVISIBLE
+    }
+
+    override fun showWaitTime() {
+        tv_confirmation_wait_time.visibility = View.VISIBLE
     }
 
     override fun showLoadingIndicator() {

@@ -37,7 +37,7 @@ class RegistrationPresenter @Inject constructor(val tokenManager: TokenManager) 
         }
         commonNavViewModel.destination.observe(activity) {
             if (it != null) {
-                registrationView.navigateToThenFinish(it)
+                registrationView.startActivityAsRoot(it)
             }
         }
         registrationViewModel.state.observe(activity) {
