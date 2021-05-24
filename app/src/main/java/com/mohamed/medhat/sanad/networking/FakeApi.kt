@@ -354,4 +354,8 @@ class FakeApi @Inject constructor() : WebApi {
     override suspend fun uploadMentorPicture(profilePicture: MultipartBody.Part): Response<Any> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun resendConfirmationCode(): Response<Unit> {
+        TODO("Not yet implemented")
+    }
 }

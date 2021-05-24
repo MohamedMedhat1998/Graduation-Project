@@ -57,7 +57,7 @@ class LoginPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         }
         commonNavViewModel.destination.observe(activity) {
             if (it != null) {
-                loginView.navigateToThenFinish(it)
+                loginView.startActivityAsRoot(it)
             }
         }
     }

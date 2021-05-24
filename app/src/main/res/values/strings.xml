@@ -37,4 +37,12 @@
     <string name="profile_picture_message">قم بالتقاط او برفع صورة شخصيه لك</string>
     <string name="take_picture">التقاط صورة</string>
     <string name="pick_from_gallery">اختيار صورة من المعرض</string>
+    <string name="confirmation_title">تأكيد الحساب</string>
+    <string name="confirmation_message">فضلًا ادخل الرمز التأكيدي الذي قمنا بإرساله الى البريد الإلكتروني الذي قمت بإدخاله لتأكيد تفعيل الحساب الخاص بكم</string>
+    <string name="confirm">تأكيد</string>
+    <string name="confirmation_code_warning">من فضلك أدخل كود التفعيل كاملًا!</string>
+    <string name="no_code">لم يصلك الرمز ؟</string>
+    <string name="resend_confirmation"><u>الإرسال مجددًا</u></string>
+    <string name="resend_confirmation_wait_message">برجاء المحاولة بعد مرور %d ثانية</string>
+    <string name="resend_success_message">تم إرسال كود التفعيل بنجاح!</string>
 </resources>

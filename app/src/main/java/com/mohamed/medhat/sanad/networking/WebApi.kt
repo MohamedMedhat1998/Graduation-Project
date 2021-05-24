@@ -86,6 +86,12 @@ interface WebApi {
     @POST("/Api/BlindKnownPersons")
     suspend fun addKnownPerson(@Body knownPersonData: KnownPersonData): Response<KnownPerson>
 
+    /**
+     * Uploads a picture for a specific known person.
+     * @param blindUsername The id of the blind that the known person is associated with.
+     * @param personId The id of the person to upload a picture to.
+     * @param picture The picture png file to upload.
+     */
     @Multipart
     @POST("/Api/BlindKnownPersons/PersonPicture")
     suspend fun addNewPictureForKnownPerson(
@@ -94,7 +100,17 @@ interface WebApi {
         @Part picture: MultipartBody.Part
     ): Response<Any>
 
+    /**
+     * Uploads a profile picture for the mentor.
+     * @param profilePicture The picture png file to upload.
+     */
     @Multipart
     @POST("/Api/Accounts/Profile/UploadProfilePicture")
     suspend fun uploadMentorPicture(@Part profilePicture: MultipartBody.Part): Response<Any>
+
+    /**
+     * Notifies the server to resend the confirmation code to the email.
+     */
+    @POST("/Api/Accounts/ResendConfirmationEmail")
+    suspend fun resendConfirmationCode(): Response<Unit>
 }
