@@ -10,11 +10,4 @@
         <item>AB+</item>
         <item>AB-</item>
     </string-array>
-
-    <string-array name="illnesses">
-        <item>السكر</item>
-        <item>الضغط</item>
-        <item>ضعف السمع</item>
-        <item>الربو</item>
-    </string-array>
 </resources>

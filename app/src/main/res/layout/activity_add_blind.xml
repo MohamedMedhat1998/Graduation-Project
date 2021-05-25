@@ -58,7 +58,7 @@
             android:layout_marginEnd="52dp"
             android:text="@string/gender"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_add_blind_age" />
+            app:layout_constraintTop_toBottomOf="@id/et_add_blind_phone" />
 
         <RadioGroup
             android:id="@+id/rg_add_blind_gender"
@@ -100,6 +100,8 @@
             android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="28dp"
+            android:nestedScrollingEnabled="false"
+            android:overScrollMode="never"
             android:entries="@array/blood_types"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -122,10 +124,11 @@
             android:id="@+id/textView4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:text="Illnesses"
+            android:layout_marginStart="52dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="52dp"
+            style="@style/SanadAddBlindText"
+            android:text="@string/illnesses"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_blood_type" />
@@ -134,43 +137,38 @@
             android:id="@+id/rv_add_blind_illnesses"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="0dp"
+            android:layout_marginEnd="32dp"
             android:nestedScrollingEnabled="false"
             android:overScrollMode="never"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout11"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_add_blind_other_illness"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_add_illness"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_illnesses">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/et_add_blind_other_illness"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Other" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <Button
-            android:id="@+id/btn_add_blind_add_illness"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:text="Add"
-            app:layout_constraintBottom_toBottomOf="@+id/textInputLayout11"
+            android:layout_height="42dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginStart="32dp"
+            style="@style/SanadInputField"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textInputLayout11" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_illnesses" />
+
+        <ImageButton
+            android:id="@+id/btn_add_blind_add_illness"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginHorizontal="32dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/btn_add_illness_background"
+            android:src="@drawable/ic_plus_holo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_add_blind_other_illness" />
 
         <Button
             android:id="@+id/btn_add_blind_pick_from_gallery"
@@ -189,27 +187,16 @@
 
         <Button
             android:id="@+id/btn_add_blind_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
-            android:layout_marginBottom="24dp"
-            android:text="Next"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="0dp"
+            app:backgroundTint="@null"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            style="@style/SanadSubmitButton"
+            android:text="@string/on_boarding_next"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_pick_from_gallery" />
-
-        <Button
-            android:id="@+id/btn_add_blind_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="24dp"
-            android:text="Back"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_pick_from_gallery" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_illness" />
 
         <ImageView
             android:id="@+id/iv_add_blind_profile_preview"
@@ -225,14 +212,15 @@
 
         <ProgressBar
             android:id="@+id/pb_add_blind_loading"
-            style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
             android:visibility="invisible"
-            app:layout_constraintBottom_toTopOf="@+id/btn_add_blind_back"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btn_add_blind_pick_from_gallery"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout11" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_next" />
 
         <TextView
             android:id="@+id/tv_add_blind_error"
@@ -241,9 +229,10 @@
             android:text=""
             android:textColor="@android:color/holo_red_dark"
             android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_add_illness" />
+            app:layout_constraintTop_toBottomOf="@+id/btn_add_blind_next" />
 
         <Button
             android:id="@+id/btn_add_blind_take_photo"
@@ -305,6 +294,30 @@
             android:text="@string/blind_age_label"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/et_add_blind_name" />
+
+        <TextView
+            android:id="@+id/textView21"
+            style="@style/SanadAddBlindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="52dp"
+            android:text="@string/phone_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_add_blind_age" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_add_blind_phone"
+            style="@style/SanadInputField"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:drawableLeft="@drawable/ic_phone"
+            android:inputType="phone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView21" />
 
     </androidx.constraintlayout.motion.widget.MotionLayout>
 </ScrollView>

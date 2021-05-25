@@ -21,6 +21,7 @@ import com.mohamed.medhat.sanad.ui.add_person_activity.pictures.PicturePreview
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
+import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
 import com.mohamed.medhat.sanad.utils.EXTRA_SCANNED_SERIAL
 import com.mohamed.medhat.sanad.utils.PERMISSION_ADD_BLIND_ACTIVITY_CAMERA
 import com.mohamed.medhat.sanad.utils.generators.PictureNameGenerator
@@ -46,7 +47,6 @@ class AddBlindPresenter @Inject constructor() :
 
     private lateinit var addBlindView: AddBlindView
     private lateinit var addBlindViewModel: AddBlindViewModel
-    private lateinit var addBlindNavViewModel: AddBlindNavViewModel
     private lateinit var addBlindActivity: AddBlindActivity
     private lateinit var rvIllnesses: RecyclerView
     private lateinit var illnessesAdapter: IllnessesAdapter
@@ -74,12 +74,9 @@ class AddBlindPresenter @Inject constructor() :
         }
         addBlindViewModel.isSuccessfulRegistration.observe(addBlindActivity) {
             if (it) {
+                addBlindView.navigateToThenFinish(MainActivity::class.java)
                 addBlindView.displayToast("Successfully registered!")
-                addBlindNavViewModel.calculateDestination()
             }
-        }
-        addBlindNavViewModel.destination.observe(addBlindActivity) {
-            addBlindView.navigateToThenFinish(it)
         }
     }
 
@@ -92,21 +89,13 @@ class AddBlindPresenter @Inject constructor() :
         addBlindViewModel = viewModel
     }
 
-    fun setNavigationViewModel(navViewModel: AddBlindNavViewModel) {
-        addBlindNavViewModel = navViewModel
-    }
-
     /**
      * Sets up the initial configurations for the illnesses RecyclerView.
      */
     private fun initializeIllnessesRecyclerView() {
         rvIllnesses = addBlindActivity.rv_add_blind_illnesses
         rvIllnesses.layoutManager = LinearLayoutManager(addBlindActivity)
-        val illnesses = mutableListOf<IllnessItem>()
-        addBlindActivity.resources.getStringArray(R.array.illnesses).forEach {
-            illnesses.add(IllnessItem(it, false))
-        }
-        illnessesAdapter = IllnessesAdapter(illnesses)
+        illnessesAdapter = IllnessesAdapter(mutableListOf())
         rvIllnesses.adapter = illnessesAdapter
     }
 
@@ -185,9 +174,16 @@ class AddBlindPresenter @Inject constructor() :
     }
 
     fun onAddIllnessClicked() {
-        illnessesAdapter.addIllness(IllnessItem(addBlindView.getOtherIllness(), true))
-        rvIllnesses.smoothScrollToPosition(illnessesAdapter.itemCount - 1)
-        addBlindView.clearOtherIllness()
+        if (addBlindView.getOtherIllness().isNotEmpty()) {
+            illnessesAdapter.addIllness(IllnessItem(addBlindView.getOtherIllness(), true))
+            rvIllnesses.smoothScrollToPosition(illnessesAdapter.itemCount - 1)
+            addBlindView.clearOtherIllness()
+        } else {
+            addBlindView.showInputError(
+                addBlindActivity.et_add_blind_other_illness,
+                addBlindActivity.getString(R.string.empty_field_warning)
+            )
+        }
     }
 
     fun onAddPictureClicked() {
@@ -232,8 +228,19 @@ class AddBlindPresenter @Inject constructor() :
             }
             return
         }
+        if (addBlindActivity.et_add_blind_phone.text.toString().isEmpty()) {
+            addBlindView.showInputError(addBlindActivity.et_add_blind_phone, emptyFieldError)
+            addBlindActivity.add_blind_root.post {
+                addBlindActivity.add_blind_root.smoothScrollTo(
+                    0,
+                    addBlindActivity.et_add_blind_phone.top
+                )
+            }
+            return
+        }
         val name = addBlindView.getName()
         val age = addBlindView.getAge()
+        val phone = addBlindView.getPhoneNumber()
         val gender = addBlindView.getGender()
         val bloodType = addBlindView.getBloodType()
         val illnesses = addBlindView.getIllnesses()
@@ -258,15 +265,14 @@ class AddBlindPresenter @Inject constructor() :
                 "profile_ss_picture_$name.png",
                 profileRequestBody
             )
-            // TODO update constant values after the UI is done
+            // TODO update constant values.
             val lastNamePart =
                 MultipartBody.Part.createFormData("LastName", "last-name")
-            // TODO update constant values after the UI is done
+            // TODO update constant values.
             val emergencyPhoneNumberPart =
                 MultipartBody.Part.createFormData("EmergencyPhoneNumber", "01234567899")
-            // TODO update constant values after the UI is done
             val phoneNumberPart =
-                MultipartBody.Part.createFormData("PhoneNumber", "01234567809")
+                MultipartBody.Part.createFormData("PhoneNumber", phone)
             val serialNumberPart =
                 MultipartBody.Part.createFormData("SerialNumber", serialNumber)
             addBlindViewModel.addBlind(
@@ -284,8 +290,7 @@ class AddBlindPresenter @Inject constructor() :
                 )
             )
         } else {
-            // TODO fix error message
-            addBlindView.displayToast("Please add a picture")
+            addBlindView.displayToast(addBlindActivity.getString(R.string.add_blind_pic_warning))
         }
     }
 }
