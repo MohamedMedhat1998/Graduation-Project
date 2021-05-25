@@ -4,7 +4,6 @@ import com.mohamed.medhat.sanad.dagger.ViewModelFactory
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.ui.CommonNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
-import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindNavViewModel
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
 import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonActivity
 import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonViewModel
@@ -21,7 +20,6 @@ import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureViewMode
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerViewModel
-import com.mohamed.medhat.sanad.ui.promotion_video_activity.PromotionVideoActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
@@ -51,7 +49,6 @@ interface ActivityComponent {
     fun inject(qrActivity: QRActivity)
     fun inject(scannerActivity: ScannerActivity)
     fun inject(addBlindActivity: AddBlindActivity)
-    fun inject(promotionVideoActivity: PromotionVideoActivity)
     fun inject(personsManagerActivity: PersonsManagerActivity)
     fun inject(addPersonActivity: AddPersonActivity)
     fun inject(mentorPictureActivity: MentorPictureActivity)
@@ -63,7 +60,6 @@ interface ActivityComponent {
     fun confirmationViewModel(): ViewModelFactory<ConfirmationViewModel>
     fun splashNavViewModel(): ViewModelFactory<SplashNavViewModel>
     fun addBlindViewModel(): ViewModelFactory<AddBlindViewModel>
-    fun addBlindNavViewModel(): ViewModelFactory<AddBlindNavViewModel>
     fun personsManagerViewModel(): ViewModelFactory<PersonsManagerViewModel>
     fun addPersonViewModel(): ViewModelFactory<AddPersonViewModel>
     fun mentorPictureViewModel(): ViewModelFactory<MentorPictureViewModel>

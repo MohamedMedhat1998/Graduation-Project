@@ -15,7 +15,11 @@ interface AddBlindView : BaseView, LoadingFeatureOwner {
     fun clearOtherIllness()
     fun getName(): String
     fun getAge(): Int
+    fun getPhoneNumber(): String
     fun getGender(): Int
     fun getBloodType(): String
     fun getIllnesses(): List<String>
+    fun startAddPictureAnimation()
+    fun reverseAddPictureAnimation()
+    fun getAddPictureAnimationProgress(): Float
 }

@@ -8,6 +8,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.ui.add_blind_activity.blood_type.BloodTypeAdapter
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import com.mohamed.medhat.sanad.utils.GENDER_FEMALE
@@ -28,18 +29,12 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
             .get(AddBlindViewModel::class.java)
     }
 
-    private val addBlindNavViewModel: AddBlindNavViewModel by lazy {
-        ViewModelProviders.of(this, activityComponent.addBlindNavViewModel())
-            .get(AddBlindNavViewModel::class.java)
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_blind)
         activityComponent.inject(this)
         addBlindPresenter.setView(this)
         addBlindPresenter.setViewModel(addBlindViewModel)
-        addBlindPresenter.setNavigationViewModel(addBlindNavViewModel)
         addBlindPresenter.start(savedInstanceState)
         btn_add_blind_pick_from_gallery.setOnClickListener {
             addBlindPresenter.onPickFromGalleryClicked()
@@ -52,6 +47,12 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         }
         btn_add_blind_next.setOnClickListener {
             addBlindPresenter.onNextClicked()
+        }
+        iv_add_blind_add_picture.setOnClickListener {
+            addBlindPresenter.onAddPictureClicked()
+        }
+        iv_add_blind_profile_preview.setOnClickListener {
+            addBlindPresenter.onPreviewClicked()
         }
     }
 
@@ -69,7 +70,8 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
     }
 
     override fun updateProfilePreviewImage(uriImage: Uri?) {
-        Glide.with(this).load(uriImage).into(iv_add_blind_profile_preview)
+        iv_add_blind_profile_preview.setPadding(0, 0, 0, 0)
+        Glide.with(this).load(uriImage).circleCrop().into(iv_add_blind_profile_preview)
     }
 
     override fun updateProfilePreviewImage(bitmapImage: Bitmap?) {
@@ -92,16 +94,32 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         return et_add_blind_age.text.toString().toInt()
     }
 
+    override fun getPhoneNumber(): String {
+        return et_add_blind_phone.text.toString()
+    }
+
     override fun getGender(): Int {
         return if (rb_add_blind_male.isChecked) GENDER_MALE else GENDER_FEMALE
     }
 
     override fun getBloodType(): String {
-        return sp_add_blind_blood_type.selectedItem.toString()
+        return (rv_add_blind_blood_type.adapter as BloodTypeAdapter).getCheckedItem().name
     }
 
     override fun getIllnesses(): List<String> {
         return (rv_add_blind_illnesses.adapter as IllnessesAdapter).getCheckedIllnesses()
+    }
+
+    override fun startAddPictureAnimation() {
+        add_blind_motion_layout.transitionToEnd()
+    }
+
+    override fun reverseAddPictureAnimation() {
+        add_blind_motion_layout.transitionToStart()
+    }
+
+    override fun getAddPictureAnimationProgress(): Float {
+        return add_blind_motion_layout.progress
     }
 
     override fun showLoadingIndicator() {
