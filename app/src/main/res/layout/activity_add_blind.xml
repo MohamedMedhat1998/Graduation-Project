@@ -93,13 +93,13 @@
                 android:text="@string/male" />
         </RadioGroup>
 
-        <Spinner
-            android:id="@+id/sp_add_blind_blood_type"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_add_blind_blood_type"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="28dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginEnd="28dp"
             android:entries="@array/blood_types"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,11 +108,12 @@
         <TextView
             android:id="@+id/textView2"
             android:layout_width="0dp"
+            style="@style/SanadAddBlindText"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
+            android:layout_marginStart="52dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:text="Blood Type"
+            android:layout_marginEnd="52dp"
+            android:text="@string/blood_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/rg_add_blind_gender" />
@@ -127,7 +128,7 @@
             android:text="Illnesses"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/sp_add_blind_blood_type" />
+            app:layout_constraintTop_toBottomOf="@+id/rv_add_blind_blood_type" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_add_blind_illnesses"

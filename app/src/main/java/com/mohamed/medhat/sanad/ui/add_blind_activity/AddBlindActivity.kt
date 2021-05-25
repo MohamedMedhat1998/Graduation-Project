@@ -8,6 +8,7 @@ import android.view.View
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.ui.add_blind_activity.blood_type.BloodTypeAdapter
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import com.mohamed.medhat.sanad.utils.GENDER_FEMALE
@@ -104,7 +105,7 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
     }
 
     override fun getBloodType(): String {
-        return sp_add_blind_blood_type.selectedItem.toString()
+        return (rv_add_blind_blood_type.adapter as BloodTypeAdapter).getCheckedItem().name
     }
 
     override fun getIllnesses(): List<String> {

@@ -8,10 +8,13 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindPost
+import com.mohamed.medhat.sanad.ui.add_blind_activity.blood_type.BloodType
+import com.mohamed.medhat.sanad.ui.add_blind_activity.blood_type.BloodTypeAdapter
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessItem
 import com.mohamed.medhat.sanad.ui.add_blind_activity.illnesses.IllnessesAdapter
 import com.mohamed.medhat.sanad.ui.add_person_activity.pictures.PicturePreview
@@ -47,18 +50,14 @@ class AddBlindPresenter @Inject constructor() :
     private lateinit var addBlindActivity: AddBlindActivity
     private lateinit var rvIllnesses: RecyclerView
     private lateinit var illnessesAdapter: IllnessesAdapter
+    private lateinit var rvBloodType: RecyclerView
+    private lateinit var bloodTypeAdapter: BloodTypeAdapter
     private var imageUri: Uri? = null
     private var pictureName = ""
 
     override fun start(savedInstanceState: Bundle?) {
-        rvIllnesses = addBlindActivity.rv_add_blind_illnesses
-        rvIllnesses.layoutManager = LinearLayoutManager(addBlindActivity)
-        val illnesses = mutableListOf<IllnessItem>()
-        addBlindActivity.resources.getStringArray(R.array.illnesses).forEach {
-            illnesses.add(IllnessItem(it, false))
-        }
-        illnessesAdapter = IllnessesAdapter(illnesses)
-        rvIllnesses.adapter = illnessesAdapter
+        initializeIllnessesRecyclerView()
+        initializeBloodTypeRecyclerView()
         addBlindViewModel.state.observe(addBlindActivity) {
             addBlindView.setAppErrorViewer(
                 TextErrorViewer(
@@ -95,6 +94,38 @@ class AddBlindPresenter @Inject constructor() :
 
     fun setNavigationViewModel(navViewModel: AddBlindNavViewModel) {
         addBlindNavViewModel = navViewModel
+    }
+
+    /**
+     * Sets up the initial configurations for the illnesses RecyclerView.
+     */
+    private fun initializeIllnessesRecyclerView() {
+        rvIllnesses = addBlindActivity.rv_add_blind_illnesses
+        rvIllnesses.layoutManager = LinearLayoutManager(addBlindActivity)
+        val illnesses = mutableListOf<IllnessItem>()
+        addBlindActivity.resources.getStringArray(R.array.illnesses).forEach {
+            illnesses.add(IllnessItem(it, false))
+        }
+        illnessesAdapter = IllnessesAdapter(illnesses)
+        rvIllnesses.adapter = illnessesAdapter
+    }
+
+    /**
+     * Sets up the initial configurations for the blood type RecyclerView.
+     */
+    private fun initializeBloodTypeRecyclerView() {
+        rvBloodType = addBlindActivity.rv_add_blind_blood_type
+        rvBloodType.layoutManager = GridLayoutManager(addBlindActivity, 2)
+        val bloodTypes = mutableListOf<BloodType>()
+        addBlindActivity.resources.getStringArray(R.array.blood_types).forEachIndexed { index, it ->
+            if (index == 0) {
+                bloodTypes.add(BloodType(it, true))
+            } else {
+                bloodTypes.add(BloodType(it, false))
+            }
+        }
+        bloodTypeAdapter = BloodTypeAdapter(bloodTypes)
+        rvBloodType.adapter = bloodTypeAdapter
     }
 
     fun onPickFromGalleryClicked() {
@@ -172,7 +203,10 @@ class AddBlindPresenter @Inject constructor() :
 
     fun onPreviewClicked() {
         if (imageUri != null) {
-            PicturePreview(imageUri!!).show(addBlindActivity.supportFragmentManager, TAG_ADD_BLIND_PICTURE_PREVIEW)
+            PicturePreview(imageUri!!).show(
+                addBlindActivity.supportFragmentManager,
+                TAG_ADD_BLIND_PICTURE_PREVIEW
+            )
         }
     }
 

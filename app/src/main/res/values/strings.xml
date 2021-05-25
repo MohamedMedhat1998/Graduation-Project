@@ -58,4 +58,5 @@
     <string name="gender">النوع:</string>
     <string name="male">ذكر</string>
     <string name="female">أنثى</string>
+    <string name="blood_type">فصيلة الدم:</string>
 </resources>
