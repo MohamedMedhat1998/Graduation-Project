@@ -2,10 +2,6 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group>
         <item
-            android:id="@+id/mi_main_profile"
-            android:icon="@drawable/ic_person"
-            android:title="@string/profile" />
-        <item
             android:id="@+id/mi_main_logout"
             android:icon="@drawable/ic_logout"
             android:title="@string/logout" />

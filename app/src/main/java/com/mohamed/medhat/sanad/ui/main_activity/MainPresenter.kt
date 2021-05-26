@@ -119,10 +119,6 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     mainView.startActivityAsRoot(LoginActivity::class.java)
                     true
                 }
-                R.id.mi_main_profile -> {
-                    // TODO start profile details activity
-                    true
-                }
                 else -> {
                     false
                 }
