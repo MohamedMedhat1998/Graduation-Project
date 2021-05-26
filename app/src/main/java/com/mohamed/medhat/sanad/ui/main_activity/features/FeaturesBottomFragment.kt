@@ -58,10 +58,7 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
         // TODO populate battery percentage
         // TODO populate isOnline icon
         view.btn_features_call.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL)
-            // TODO use the real mobile number from the back-end
-            intent.data = Uri.parse("tel:01063863298")
-            startActivity(intent)
+            (activity as MainActivity).mainPresenter.onCallClicked()
         }
         view.btn_features_chat.setOnClickListener {
             // TODO navigate to chat screen

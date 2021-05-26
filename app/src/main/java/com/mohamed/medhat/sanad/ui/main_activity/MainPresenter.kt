@@ -130,6 +130,17 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         }
     }
 
+    fun onCallClicked() {
+        mainView.requestPermission(
+            permission = Manifest.permission.CALL_PHONE,
+            message = activity.getString(R.string.call_permission_message),
+            permissionCode = MAIN_CALL_PERMISSION
+        ) {
+            // TODO use the real mobile number from the back-end
+            mainView.makePhoneCall("01063863298")
+        }
+    }
+
     fun onOptionsMenuButtonClicked() {
         optionsMenu.show()
     }
@@ -212,12 +223,20 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
-        when(requestCode) {
+        when (requestCode) {
             MAIN_CAMERA_PERMISSION -> {
                 if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     mainView.navigateTo(ScannerActivity::class.java)
                 } else {
                     mainView.displayToast(activity.getString(R.string.camera_permission_denied_message))
+                }
+            }
+            MAIN_CALL_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // TODO use the real mobile number from the back-end
+                    mainView.makePhoneCall("01063863298")
+                } else {
+                    mainView.displayToast(activity.getString(R.string.call_permission_denied))
                 }
             }
         }

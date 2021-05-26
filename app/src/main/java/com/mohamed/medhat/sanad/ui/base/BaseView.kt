@@ -109,6 +109,12 @@ interface BaseView {
     fun navigateToWebsite(url: String)
 
     /**
+     * Uses the phone app to make a phone call.
+     * @param number The number to call.
+     */
+    fun makePhoneCall(number: String)
+
+    /**
      * Opens the gallery to pick a picture from.
      * @param requestCode A request code to be caught in `onActivityResult`.
      * @param title An optional title for the image picker.
