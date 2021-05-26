@@ -126,6 +126,12 @@ open class BaseActivity : AppCompatActivity(), BaseView {
         startActivity(websiteIntent)
     }
 
+    override fun makePhoneCall(number: String) {
+        val callIntent = Intent(Intent.ACTION_CALL)
+        callIntent.data = Uri.parse("tel:$number")
+        startActivity(callIntent)
+    }
+
     override fun pickPictureFromGallery(requestCode: Int, title: String) {
         val intent = Intent()
         intent.type = "image/*"

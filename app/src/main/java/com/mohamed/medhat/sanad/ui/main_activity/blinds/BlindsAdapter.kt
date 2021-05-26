@@ -63,10 +63,9 @@ class BlindsAdapter(
                     .placeholder(R.drawable.on_boarding_tab_normal)
                     .into(holder.itemView.iv_item_blind_profile_pic)
                 if (!errorsMap[data.userName].isNullOrEmpty()) {
-                    holder.itemView.tv_item_blind_error.text = errorsMap[data.userName]
-                    holder.itemView.tv_item_blind_error.visibility = View.VISIBLE
+                    holder.itemView.iv_item_blind_profile_pic.setBackgroundResource(R.drawable.blind_disconnect_background)
                 } else {
-                    holder.itemView.tv_item_blind_error.visibility = View.INVISIBLE
+                    holder.itemView.iv_item_blind_profile_pic.setBackgroundResource(R.drawable.blind_connect_background)
                 }
             }
             is AddBlindViewHolder -> {

@@ -18,8 +18,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_main_blinds_list"
         android:layout_width="match_parent"
+        android:paddingTop="24dp"
+        android:elevation="10dp"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/main_blind_list_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -45,6 +47,15 @@
         android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:src="@drawable/ic_options_menu"
+        android:id="@+id/btn_main_options_menu"
+        android:background="@drawable/btn_main_options_menu_background"
+        android:layout_width="44dp"
+        android:layout_height="36dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

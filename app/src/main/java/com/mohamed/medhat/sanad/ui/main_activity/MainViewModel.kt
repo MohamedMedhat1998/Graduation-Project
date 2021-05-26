@@ -48,6 +48,8 @@ class MainViewModel @Inject constructor(val webApi: WebApi) :
     val shouldReLogin: LiveData<Boolean>
         get() = _shouldReLogin
 
+    var canUpdate = true
+
     /**
      * Fetches the gps coordinates of the followed blinds list.
      * @param blindMiniProfiles The list of the blinds to get their locations.
@@ -57,6 +59,9 @@ class MainViewModel @Inject constructor(val webApi: WebApi) :
             val positionsMap = mutableMapOf<BlindMiniProfile, GpsNode?>()
             val gpsErrorsMap = mutableMapOf<String, GpsError>()
             blindMiniProfiles.forEach {
+                if (!canUpdate) {
+                    return@launch
+                }
                 try {
                     val response = webApi.getLastNode(it.userName)
                     if (response.isSuccessful) {

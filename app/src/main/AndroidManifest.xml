@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 
     <application
         android:name=".dagger.DaggerApplication"
@@ -30,6 +31,7 @@
 
         <activity
             android:name=".ui.main_activity.MainActivity"
+            android:theme="@style/ActionBarBlackText"
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.add_blind_activity.AddBlindActivity"
@@ -53,12 +55,10 @@
             android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.registration_activity.RegistrationActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.login_activity.LoginActivity"
-            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlackText" />
         <activity

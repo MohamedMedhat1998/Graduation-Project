@@ -36,6 +36,18 @@ class MainActivity : BaseActivity(), MainView {
         mainPresenter.setView(this)
         mainPresenter.setViewModel(mainViewModel)
         mainPresenter.start(savedInstanceState)
+        btn_main_options_menu.setOnClickListener {
+            mainPresenter.onOptionsMenuButtonClicked()
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        mainPresenter.handleOnRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     override fun addPin(x: Double, y: Double) {
@@ -72,16 +84,6 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun hideError() {
         hideAppError()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        mainPresenter.handleOnCreateOptionsMenu(menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        mainPresenter.handleOnOptionItemSelected(item)
-        return super.onOptionsItemSelected(item)
     }
 
     override fun onPause() {

@@ -28,60 +28,65 @@ class NetworkInterceptor @Inject constructor(val tokenManager: TokenManager) : I
     // Check https://medium.com/tiendeo-tech/android-refreshing-token-proactively-with-okhttp-interceptors-e7b90c47f5e7
     // for reference.
     override fun intercept(chain: Interceptor.Chain): Response {
-        val rawRequest = chain.request()
-        if (requiresAuth(rawRequest)) {
-            // For requests that REQUIRE authentication
-            Log.d(
-                INTERCEPTOR_TAG,
-                "Authentication is required for the endpoint \"${rawRequest.url}\""
-            )
-            if (tokenManager.getToken().isEmpty()) {
-                // If no token was found, proceed without the token to get a 401 error.
-                Log.e(INTERCEPTOR_TAG, "Couldn't find a saved token!")
-                return chain.proceed(rawRequest)
-            }
-            val currentTime = getTime(chain, rawRequest)
-            if (currentTime != null) {
-                if (!tokenManager.isTokenExpired(currentTime.current)) {
-                    // Token is valid
-                    // Add headers
+        try {
+            val rawRequest = chain.request()
+            if (requiresAuth(rawRequest)) {
+                // For requests that REQUIRE authentication
+                Log.d(
+                    INTERCEPTOR_TAG,
+                    "Authentication is required for the endpoint \"${rawRequest.url}\""
+                )
+                if (tokenManager.getToken().isEmpty()) {
+                    // If no token was found, proceed without the token to get a 401 error.
+                    Log.e(INTERCEPTOR_TAG, "Couldn't find a saved token!")
+                    return chain.proceed(rawRequest)
+                }
+                val currentTime = getTime(chain, rawRequest)
+                if (currentTime != null) {
+                    if (!tokenManager.isTokenExpired(currentTime.current)) {
+                        // Token is valid
+                        // Add headers
+                        val newRequest = rawRequest.newBuilder()
+                            .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
+                            .build()
+                        return chain.proceed(newRequest)
+//---------------------------------------------------------------------------------------------------------------
+                    } else {
+                        // Token expired
+                        // Refresh token
+                        Log.e(INTERCEPTOR_TAG, "Token Expired!")
+                        return refreshToken(chain, rawRequest)
+                    }
+                } else {
+                    Log.e(INTERCEPTOR_TAG, "Couldn't fetch the current time from the server!")
+                    // Unexpected error because we were unable to get the time.
+                    // Just proceed with the new request with the headers.
                     val newRequest = rawRequest.newBuilder()
                         .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
                         .build()
-                    return chain.proceed(newRequest)
-//---------------------------------------------------------------------------------------------------------------
-                } else {
-                    // Token expired
-                    // Refresh token
-                    Log.e(INTERCEPTOR_TAG, "Token Expired!")
-                    return refreshToken(chain, rawRequest)
+                    val response = chain.proceed(newRequest)
+                    if (response.code == 401) {
+                        // Unauthorized
+                        // Refresh token
+                        return refreshToken(chain, rawRequest)
+                    } else {
+                        // Success
+                        return response
+                    }
                 }
             } else {
-                Log.e(INTERCEPTOR_TAG, "Couldn't fetch the current time from the server!")
-                // Unexpected error because we were unable to get the time.
-                // Just proceed with the new request with the headers.
-                val newRequest = rawRequest.newBuilder()
-                    .addHeader("Authorization", "Bearer ${tokenManager.getToken()}")
-                    .build()
-                val response = chain.proceed(newRequest)
-                if (response.code == 401) {
-                    // Unauthorized
-                    // Refresh token
-                    return refreshToken(chain, rawRequest)
-                } else {
-                    // Success
-                    return response
-                }
+                // For requests that don't require authentication, proceed with the original request
+                // without adding any token to the header.
+                Log.d(
+                    INTERCEPTOR_TAG,
+                    "No authentication required for the endpoint \"${rawRequest.url}\""
+                )
+                return chain.proceed(rawRequest)
             }
-        } else {
-            // For requests that don't require authentication, proceed with the original request
-            // without adding any token to the header.
-            Log.d(
-                INTERCEPTOR_TAG,
-                "No authentication required for the endpoint \"${rawRequest.url}\""
-            )
-            return chain.proceed(rawRequest)
+        } catch (e: Exception) {
+            e.printStackTrace()
         }
+        return chain.proceed(chain.request())
     }
 
     /**
