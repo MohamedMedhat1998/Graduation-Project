@@ -19,6 +19,9 @@
     <color name="sanad_grey_50">#464853</color>
     <color name="sanad_grey_100">#53555E</color>
     <color name="sanad_text_blue">#232632</color>
+    <color name="sanad_options_menu_background">@color/sanad_text_blue</color>
     <color name="sanad_blue_facebook">#367FC0</color>
     <color name="sanad_red_google">#DD4B39</color>
+    <color name="sanad_red_disconnect">#E70000</color>
+    <color name="sanad_green_connect">#47C300</color>
 </resources>

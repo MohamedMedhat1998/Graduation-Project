@@ -62,4 +62,10 @@
     <string name="illnesses">الأمراض التي يعاني منها:</string>
     <string name="add_blind_pic_warning">من فضلك قم بإضافة صورة لذي البصيرة</string>
     <string name="phone_number">رقم الهاتف</string>
+    <string name="profile">الملف الشخصي</string>
+    <string name="add_blinds">إضافة أشخاص</string>
+    <string name="feature_people">أشخاص</string>
+    <string name="feature_gps">تعقب</string>
+    <string name="feature_chat">دردشة</string>
+    <string name="feature_call">اتصال</string>
 </resources>

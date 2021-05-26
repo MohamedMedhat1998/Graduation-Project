@@ -4,8 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
+import android.widget.PopupMenu
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -58,12 +57,20 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     private lateinit var blindsAdapter: BlindsAdapter
     private lateinit var map: GoogleMap
     private var shouldTerminate = false
+        set(value) {
+            if (::mainViewModel.isInitialized) {
+                mainViewModel.canUpdate = !value
+            }
+            field = value
+        }
     private var positions = mutableMapOf<String, Marker>()
     private lateinit var blindsList: List<BlindMiniProfile>
+    private lateinit var optionsMenu: PopupMenu
+    private val markerOptions = MarkerOptions()
 
     override fun start(savedInstanceState: Bundle?) {
-        activity = mainView as MainActivity
         loadMap()
+        initializeOptionsMenu()
         initializeBlindsRecyclerView()
         NetworkState.isConnected.observe(activity) {
             shouldTerminate = !it
@@ -98,8 +105,34 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         }
     }
 
+    private fun initializeOptionsMenu() {
+        optionsMenu = PopupMenu(activity, activity.btn_main_options_menu)
+        optionsMenu.inflate(R.menu.menu_main)
+        optionsMenu.setOnMenuItemClickListener {
+            when (it.itemId) {
+                R.id.mi_main_logout -> {
+                    shouldTerminate = true
+                    mainView.startActivityAsRoot(LoginActivity::class.java)
+                    true
+                }
+                R.id.mi_main_profile -> {
+                    // TODO start profile details activity
+                    true
+                }
+                else -> {
+                    false
+                }
+            }
+        }
+    }
+
+    fun onOptionsMenuButtonClicked() {
+        optionsMenu.show()
+    }
+
     override fun setView(view: MainView) {
         mainView = view
+        activity = mainView as MainActivity
     }
 
     override fun setViewModel(viewModel: MainViewModel) {
@@ -128,22 +161,29 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             mainView.navigateTo(ScannerActivity::class.java)
         }) {
             if (positions.containsKey(it.userName)) {
-                map.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        positions[it.userName]?.position,
-                        MAP_CAMERA_ZOOM_LEVEL
-                    ), object : GoogleMap.CancelableCallback {
-                        override fun onFinish() {
-                            positions[it.userName]?.showInfoWindow()
-                            FeaturesBottomFragment.newInstance(it).show(
-                                activity.supportFragmentManager,
-                                TAG_FRAGMENT_FEATURES
-                            )
-                        }
+                if (positions[it.userName] != null) {
+                    map.animateCamera(
+                        CameraUpdateFactory.newLatLngZoom(
+                            positions[it.userName]!!.position,
+                            MAP_CAMERA_ZOOM_LEVEL
+                        ), object : GoogleMap.CancelableCallback {
+                            override fun onFinish() {
+                                positions[it.userName]!!.showInfoWindow()
+                                FeaturesBottomFragment.newInstance(it).show(
+                                    activity.supportFragmentManager,
+                                    TAG_FRAGMENT_FEATURES
+                                )
+                            }
 
-                        override fun onCancel() {}
-                    }
-                )
+                            override fun onCancel() {}
+                        }
+                    )
+                } else {
+                    FeaturesBottomFragment.newInstance(it).show(
+                        activity.supportFragmentManager,
+                        TAG_FRAGMENT_FEATURES
+                    )
+                }
             } else {
                 FeaturesBottomFragment.newInstance(it).show(
                     activity.supportFragmentManager,
@@ -160,7 +200,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     private fun runPositionsThread(blindsList: List<BlindMiniProfile>) {
         CoroutineScope(Dispatchers.IO).launch {
             while (!shouldTerminate) {
-                delay(2000)
+                delay(2000 + 100L * blindsList.size)
                 mainViewModel.updatePositions(blindsList)
                 Log.d("position", "updated!")
             }
@@ -181,7 +221,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 if (::map.isInitialized) {
                     if (gpsNode != null) {
                         val marker = map.addMarker(
-                            MarkerOptions().position(
+                            markerOptions.position(
                                 LatLng(
                                     gpsNode.latitude.toDouble(),
                                     gpsNode.longitude.toDouble()
@@ -234,19 +274,6 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 is GpsNoLocationError -> {
                     blindsAdapter.setEntityError(username, gpsError.error)
                 }
-            }
-        }
-    }
-
-    fun handleOnCreateOptionsMenu(menu: Menu?) {
-        activity.menuInflater.inflate(R.menu.menu_main, menu)
-    }
-
-    fun handleOnOptionItemSelected(item: MenuItem) {
-        when (item.itemId) {
-            R.id.mi_main_logout -> {
-                sharedPrefs.clearAll()
-                mainView.startActivityAsRoot(LoginActivity::class.java)
             }
         }
     }

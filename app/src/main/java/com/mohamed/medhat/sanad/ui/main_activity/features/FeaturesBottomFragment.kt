@@ -1,12 +1,15 @@
 package com.mohamed.medhat.sanad.ui.main_activity.features
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.bumptech.glide.Glide
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
@@ -25,6 +28,7 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme);
         val args = arguments
         if (args != null) {
             val profile = args.getSerializable(FRAGMENT_FEATURES_BLIND_PROFILE)
@@ -47,6 +51,10 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
             blindMiniProfile.firstName,
             blindMiniProfile.lastName
         )
+        Glide.with(this)
+            .load(blindMiniProfile.profilePicture)
+            .circleCrop()
+            .into(view.iv_features_profile_pic)
         // TODO populate battery percentage
         // TODO populate isOnline icon
         view.btn_features_call.setOnClickListener {
