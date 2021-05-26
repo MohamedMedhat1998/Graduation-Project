@@ -41,6 +41,15 @@ class MainActivity : BaseActivity(), MainView {
         }
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        mainPresenter.handleOnRequestPermissionResult(requestCode, permissions, grantResults)
+    }
+
     override fun addPin(x: Double, y: Double) {
         addPin(x, y, "")
     }

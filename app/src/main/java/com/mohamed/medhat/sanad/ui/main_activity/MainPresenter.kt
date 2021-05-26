@@ -1,5 +1,7 @@
 package com.mohamed.medhat.sanad.ui.main_activity
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -42,6 +44,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val MAIN_CAMERA_PERMISSION = 1
+private const val MAIN_CALL_PERMISSION = 2
 
 /**
  * An mvp presenter for the main screen.
@@ -158,7 +162,13 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
      */
     private fun initializeBlindsRecyclerView() {
         blindsAdapter = BlindsAdapter(mutableListOf(), {
-            mainView.navigateTo(ScannerActivity::class.java)
+            mainView.requestPermission(
+                permission = Manifest.permission.CAMERA,
+                message = activity.getString(R.string.q_r_camera_permission_message),
+                permissionCode = MAIN_CAMERA_PERMISSION
+            ) {
+                mainView.navigateTo(ScannerActivity::class.java)
+            }
         }) {
             if (positions.containsKey(it.userName)) {
                 if (positions[it.userName] != null) {
@@ -195,6 +205,22 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         blindsRecyclerView.layoutManager =
             LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
         blindsRecyclerView.adapter = blindsAdapter
+    }
+
+    fun handleOnRequestPermissionResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        when(requestCode) {
+            MAIN_CAMERA_PERMISSION -> {
+                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mainView.navigateTo(ScannerActivity::class.java)
+                } else {
+                    mainView.displayToast(activity.getString(R.string.camera_permission_denied_message))
+                }
+            }
+        }
     }
 
     private fun runPositionsThread(blindsList: List<BlindMiniProfile>) {

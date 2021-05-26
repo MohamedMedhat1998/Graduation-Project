@@ -47,7 +47,7 @@
     <string name="resend_success_message">تم إرسال كود التفعيل بنجاح!</string>
     <string name="q_r_welcome_message">أهلاً %s</string>
     <string name="q_r_camera_permission_message">يحتاج التطبيق الى استخدام الكاميرا لمسح ال QR كود.</string>
-    <string name="permission_denied_message">لا يمكن الاستمرار بدون إذن استخدام الكاميرا.</string>
+    <string name="camera_permission_denied_message">لا يمكن الاستمرار بدون إذن استخدام الكاميرا.</string>
     <string name="q_r_message">قم بمسح رمز QR الخاص بالجهاز الخاص بكم</string>
     <string name="no_device_message">لا تمتلك جهاز ؟</string>
     <string name="add_blind_title">بيانات ذو البصيرة</string>

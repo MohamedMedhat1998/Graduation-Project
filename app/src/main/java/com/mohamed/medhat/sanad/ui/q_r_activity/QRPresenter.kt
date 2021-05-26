@@ -54,7 +54,7 @@ class QRPresenter @Inject constructor(val sharedPrefs: SharedPrefs, val context:
             if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 qrView.navigateTo(ScannerActivity::class.java)
             } else {
-                qrView.displayToast(context.getString(R.string.permission_denied_message))
+                qrView.displayToast(context.getString(R.string.camera_permission_denied_message))
             }
         }
     }
