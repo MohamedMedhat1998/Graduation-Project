@@ -3,18 +3,14 @@ package com.mohamed.medhat.sanad.model
 import com.google.gson.annotations.SerializedName
 
 /**
- * A class representing the **GET** body of a single item of the endpoint that returns the favorite places of a blind
- *
+ * A data class used to represent the **Post** body when adding a favorite place.
  *
  * _This is a generated class from a json response._
  */
-data class FavoritePlace(
+data class FavoritePlacePost(
 
     @field:SerializedName("phoneNumber")
     val phoneNumber: String,
-
-    @field:SerializedName("dateCreated")
-    val dateCreated: String,
 
     @field:SerializedName("latitude")
     val latitude: Double,
@@ -24,9 +20,6 @@ data class FavoritePlace(
 
     @field:SerializedName("description")
     val description: String,
-
-    @field:SerializedName("id")
-    val id: String,
 
     @field:SerializedName("longitude")
     val longitude: Double

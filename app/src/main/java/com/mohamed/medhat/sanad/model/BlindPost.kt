@@ -4,6 +4,8 @@ import okhttp3.MultipartBody
 
 /**
  * A data class used to represent the **Post** body when adding a blind.
+ *
+ * _This is a generated class from a json response._
  */
 data class BlindPost(
 

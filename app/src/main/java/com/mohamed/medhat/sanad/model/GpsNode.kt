@@ -8,8 +8,8 @@ import com.google.gson.annotations.SerializedName
 data class GpsNode(
 
     @field:SerializedName("latitude")
-    val latitude: Float,
+    val latitude: Double,
 
     @field:SerializedName("longitude")
-    val longitude: Float
+    val longitude: Double
 )

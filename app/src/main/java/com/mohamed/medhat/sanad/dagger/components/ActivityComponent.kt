@@ -17,6 +17,9 @@ import com.mohamed.medhat.sanad.ui.main_activity.MainViewModel
 import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureActivity
 import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureNavViewModel
 import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureViewModel
+import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationActivity
+import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationPresenter
+import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerViewModel
@@ -55,6 +58,7 @@ interface ActivityComponent {
     fun inject(addPersonActivity: AddPersonActivity)
     fun inject(mentorPictureActivity: MentorPictureActivity)
     fun inject(placesActivity: PlacesActivity)
+    fun inject(newLocationActivity: NewLocationActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -69,4 +73,5 @@ interface ActivityComponent {
     fun mentorPictureNavViewModel(): ViewModelFactory<MentorPictureNavViewModel>
     fun commonNavViewModel(): ViewModelFactory<CommonNavViewModel>
     fun placesViewModel(): ViewModelFactory<PlacesViewModel>
+    fun newLocationViewModel(): ViewModelFactory<NewLocationViewModel>
 }

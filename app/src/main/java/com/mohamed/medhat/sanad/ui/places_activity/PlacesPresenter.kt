@@ -1,5 +1,7 @@
 package com.mohamed.medhat.sanad.ui.places_activity
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -24,10 +26,8 @@ import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
-import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
-import com.mohamed.medhat.sanad.utils.MAP_CAMERA_ZOOM_LEVEL
-import com.mohamed.medhat.sanad.utils.TAG_MARKER_ICON
-import com.mohamed.medhat.sanad.utils.handleLoadingState
+import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationActivity
+import com.mohamed.medhat.sanad.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_places.*
 import kotlinx.coroutines.CoroutineScope
@@ -35,6 +35,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+const val EXTRA_NEW_LOCATION_LAT = "new-location-lat"
+const val EXTRA_NEW_LOCATION_LONG = "new-location-long"
+const val NEW_LOCATION_REQUEST_CODE = 1
 
 /**
  * An mvp presenter for the [PlacesActivity].
@@ -51,6 +55,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
     private lateinit var location: GpsNode
     private var initialFavoriteLoad = true
     private val favoritePlacesMarkers = mutableMapOf<FavoritePlace, Marker>()
+    private var isSelectingLocation = false
 
     override fun start(savedInstanceState: Bundle?) {
         loadMap()
@@ -138,21 +143,21 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
         if (::marker.isInitialized) {
             // Update the marker location.
             marker.position =
-                LatLng(gpsNode.latitude.toDouble(), gpsNode.longitude.toDouble())
+                LatLng(gpsNode.latitude, gpsNode.longitude)
         } else {
             // Draw a new marker.
             marker = map.addMarker(
                 markerOptions.position(
                     LatLng(
-                        gpsNode.latitude.toDouble(),
-                        gpsNode.longitude.toDouble()
+                        gpsNode.latitude,
+                        gpsNode.longitude
                     )
                 ).title("${blindMiniProfile.firstName} ${blindMiniProfile.lastName}").snippet("")
             )
             marker.updateImageFromUrl(blindMiniProfile.profilePicture)
             map.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    LatLng(gpsNode.latitude.toDouble(), gpsNode.longitude.toDouble()),
+                    LatLng(gpsNode.latitude, gpsNode.longitude),
                     MAP_CAMERA_ZOOM_LEVEL
                 )
             )
@@ -196,7 +201,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
         if (::marker.isInitialized && ::location.isInitialized) {
             map.animateCamera(
                 CameraUpdateFactory.newLatLngZoom(
-                    LatLng(location.latitude.toDouble(), location.longitude.toDouble()),
+                    LatLng(location.latitude, location.longitude),
                     MAP_CAMERA_ZOOM_LEVEL
                 )
             )
@@ -214,11 +219,53 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
             favoritePlaces.forEach {
                 val marker = map.addMarker(
                     markerOptions.position(
-                        LatLng(it.latitude.toDouble(), it.longitude.toDouble())
+                        LatLng(it.latitude, it.longitude)
                     ).title(it.name).snippet(it.phoneNumber)
                         .icon(BitmapDescriptorFactory.fromBitmap(favoriteIcon))
                 )
                 favoritePlacesMarkers[it] = marker
+            }
+        }
+    }
+
+    fun onAddPlaceClicked() {
+        if (!isSelectingLocation) {
+            // Prepare for selecting a location.
+            placesView.hideBottomView()
+            placesView.showLocationPicker()
+            isSelectingLocation = true
+        }
+    }
+
+    fun onConfirmLocationClicked() {
+        val latLang = map.cameraPosition.target
+        Log.d(TAG_PLACES, "CameraPosition: $latLang")
+        val extras = Bundle()
+        extras.putDouble(EXTRA_NEW_LOCATION_LAT, latLang.latitude)
+        extras.putDouble(EXTRA_NEW_LOCATION_LONG, latLang.longitude)
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
+        val newLocationIntent = Intent(activity, NewLocationActivity::class.java)
+        newLocationIntent.putExtras(extras)
+        activity.startActivityForResult(newLocationIntent, NEW_LOCATION_REQUEST_CODE)
+    }
+
+    fun onDenyLocationClicked() {
+        // Close location selection.
+        isSelectingLocation = false
+        placesView.hideLocationPicker()
+        placesView.showBottomView()
+    }
+
+    fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == NEW_LOCATION_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                placesViewModel.loadFavoritePlaces(blindMiniProfile)
+                // Close location selection.
+                isSelectingLocation = false
+                placesView.hideLocationPicker()
+                placesView.showBottomView()
+            } else {
+                placesView.displayToast(activity.getString(R.string.new_location_failed))
             }
         }
     }

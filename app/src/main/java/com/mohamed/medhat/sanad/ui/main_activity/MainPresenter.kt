@@ -252,8 +252,8 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                         val marker = map.addMarker(
                             markerOptions.position(
                                 LatLng(
-                                    gpsNode.latitude.toDouble(),
-                                    gpsNode.longitude.toDouble()
+                                    gpsNode.latitude,
+                                    gpsNode.longitude
                                 )
                             ).title("${blindProfile.firstName} ${blindProfile.lastName}")
                         )
@@ -278,7 +278,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     if (marker != null) {
                         Log.d("Marker", "Marker from the map is NOT null")
                         marker.position =
-                            LatLng(gpsNode.latitude.toDouble(), gpsNode.longitude.toDouble())
+                            LatLng(gpsNode.latitude, gpsNode.longitude)
                         marker.title = "${blindProfile.firstName} ${blindProfile.lastName}"
                         blindsAdapter.resetEntityError(blindProfile.userName)
                     } else {
