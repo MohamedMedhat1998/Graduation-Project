@@ -3,6 +3,7 @@ package com.mohamed.medhat.sanad.ui.mentor_picture_activity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.networking.WebApi
@@ -18,6 +19,7 @@ import javax.inject.Inject
 /**
  * An mvvm ViewModel for [MentorPictureActivity].
  */
+@ActivityScope
 class MentorPictureViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() {
 
     init {

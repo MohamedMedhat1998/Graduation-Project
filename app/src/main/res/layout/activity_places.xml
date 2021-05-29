@@ -3,29 +3,34 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@android:color/transparent"
-    android:windowBackground="@android:color/transparent"
-    android:windowContentOverlay="@null">
+    android:layout_height="match_parent"
+    tools:context=".ui.places_activity.PlacesActivity">
+
+    <FrameLayout
+        android:id="@+id/fr_places_maps_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="0dp"
         android:layout_height="156dp"
-        android:layout_marginTop="102dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintStart_toStartOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/tv_features_name"
+                android:id="@+id/tv_places_name"
                 style="@style/SanadRegularBlueText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,27 +42,27 @@
                 tools:text="عمر" />
 
             <TextView
-                android:id="@+id/tv_features_battery"
+                android:id="@+id/tv_places_battery"
                 style="@style/SanadRegularBlueText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:fontFamily="@font/cairo_semi_bold"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_features_name"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_places_name"
                 app:layout_constraintStart_toEndOf="@+id/imageView6"
-                app:layout_constraintTop_toTopOf="@+id/tv_features_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_places_name"
                 tools:text="78%" />
 
             <TextView
-                android:id="@+id/tv_features_is_connected"
+                android:id="@+id/tv_places_is_connected"
                 style="@style/SanadRegularBlueText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="32dp"
                 android:fontFamily="@font/cairo_semi_bold"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_features_name"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_places_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_features_name"
+                app:layout_constraintTop_toTopOf="@+id/tv_places_name"
                 tools:text="متصل" />
 
             <ImageView
@@ -65,9 +70,9 @@
                 android:layout_width="12dp"
                 android:layout_height="12dp"
                 android:layout_marginEnd="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_features_is_connected"
-                app:layout_constraintEnd_toStartOf="@+id/tv_features_is_connected"
-                app:layout_constraintTop_toTopOf="@+id/tv_features_is_connected"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_places_is_connected"
+                app:layout_constraintEnd_toStartOf="@+id/tv_places_is_connected"
+                app:layout_constraintTop_toTopOf="@+id/tv_places_is_connected"
                 app:srcCompat="@drawable/blind_connect_background" />
 
             <ImageView
@@ -75,66 +80,75 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_features_battery"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_places_battery"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tv_features_battery"
+                app:layout_constraintTop_toTopOf="@+id/tv_places_battery"
                 app:srcCompat="@drawable/ic_battery" />
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginStart="12dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="12dp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintDimensionRatio="356:80"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_features_name">
+                app:layout_constraintTop_toBottomOf="@+id/tv_places_name">
 
                 <Button
-                    android:id="@+id/btn_features_people"
-                    style="@style/SanadFeatureButton"
-                    android:background="@drawable/feature_people_background"
-                    android:text="@string/feature_people"
-                    app:backgroundTint="@null" />
+                    android:id="@+id/btn_places_reminder"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/add_reminder" />
 
                 <Button
-                    android:id="@+id/btn_features_places"
-                    style="@style/SanadFeatureButton"
-                    android:background="@drawable/feature_gps_background"
-                    android:text="@string/feature_gps"
-                    app:backgroundTint="@null" />
-
-                <Button
-                    android:id="@+id/btn_features_chat"
-                    style="@style/SanadFeatureButton"
-                    android:background="@drawable/feature_chat_background"
-                    android:text="@string/feature_chat"
-                    app:backgroundTint="@null" />
-
-                <Button
-                    android:id="@+id/btn_features_call"
-                    style="@style/SanadFeatureButton"
-                    android:background="@drawable/feature_call_background"
-                    android:text="@string/feature_call"
-                    app:backgroundTint="@null" />
+                    android:id="@+id/btn_places_add_place"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:text="@string/add_a_favorite_place" />
 
             </LinearLayout>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.cardview.widget.CardView>
 
     <ImageView
-        android:id="@+id/iv_features_profile_pic"
+        android:id="@+id/iv_places_profile_pic"
         android:layout_width="120dp"
         android:layout_height="120dp"
+        android:layout_marginBottom="138dp"
         android:elevation="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         tools:src="@drawable/ic_person" />
 
+    <ProgressBar
+        android:id="@+id/pb_places_loading"
+        style="?android:attr/progressBarStyle"
+        android:visibility="invisible"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_places_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="invisible"
+        android:layout_marginTop="8dp"
+        android:text=""
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

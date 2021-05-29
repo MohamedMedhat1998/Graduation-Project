@@ -70,4 +70,6 @@
     <string name="feature_call">اتصال</string>
     <string name="call_permission_message">مطلوب الموافقة على إذن استخدام الهاتف ﻹجراء اتصال هاتفي</string>
     <string name="call_permission_denied">لا يمكن إجراء المكالمة بدون إذن الهاتف</string>
+    <string name="add_a_favorite_place">إضافة مكان إلى المفضلة</string>
+    <string name="add_reminder">إضافة مذكرة</string>
 </resources>

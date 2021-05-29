@@ -16,8 +16,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.GraduationProject"
-
         tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".ui.places_activity.PlacesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.add_person_activity.AddPersonActivity"
             android:screenOrientation="portrait" />
@@ -31,8 +34,8 @@
 
         <activity
             android:name=".ui.main_activity.MainActivity"
-            android:theme="@style/ActionBarBlackText"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.add_blind_activity.AddBlindActivity"
             android:screenOrientation="portrait"

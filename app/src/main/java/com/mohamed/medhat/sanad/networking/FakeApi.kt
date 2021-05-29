@@ -358,4 +358,34 @@ class FakeApi @Inject constructor() : WebApi {
     override suspend fun resendConfirmationCode(): Response<Unit> {
         TODO("Not yet implemented")
     }
+
+    override suspend fun getFavoritePlaces(blindUsername: String): Response<List<FavoritePlace>> {
+        val list = mutableListOf<FavoritePlace>()
+        list.apply {
+            add(
+                FavoritePlace(
+                    id = "1",
+                    name = "كلية الهندسة",
+                    description = "هذه الكلية حيث أتعلم الكثير!",
+                    phoneNumber = "0123456789",
+                    dateCreated = "2021",
+                    latitude = 31.358446f,
+                    longitude = 31.042769f
+                )
+            )
+            add(
+                FavoritePlace(
+                    id = "2",
+                    name = "المنزل",
+                    description = "هذا هو المكان حيث أعيش!",
+                    phoneNumber = "0123456789",
+                    dateCreated = "2021",
+                    latitude = 31.064005f,
+                    longitude = 31.397104f
+                )
+            )
+        }
+        delay(500)
+        return Response.success(list)
+    }
 }

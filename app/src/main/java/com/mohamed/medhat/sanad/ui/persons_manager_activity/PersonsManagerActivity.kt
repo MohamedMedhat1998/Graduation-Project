@@ -18,7 +18,7 @@ class PersonsManagerActivity : BaseActivity(), PersonsManagerView {
     @Inject
     lateinit var personsManagerPresenter: PersonsManagerPresenter
 
-    val personsManagerViewModel: PersonsManagerViewModel by lazy {
+    private val personsManagerViewModel: PersonsManagerViewModel by lazy {
         ViewModelProviders.of(this, activityComponent.personsManagerViewModel())
             .get(PersonsManagerViewModel::class.java)
     }

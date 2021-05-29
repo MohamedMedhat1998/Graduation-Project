@@ -17,6 +17,7 @@ const val TAG_ADD_BLIND = "ADD_BLIND"
 const val TAG_MARKER_ICON = "MARKER_ICON"
 const val TAG_MAIN = "MAIN"
 const val TAG_PERSONS = "PERSONS"
+const val TAG_PLACES = "PLACES"
 
 // Networking
 const val NETWORK_BASE_URL = "https://sanad.azurewebsites.net/api/"

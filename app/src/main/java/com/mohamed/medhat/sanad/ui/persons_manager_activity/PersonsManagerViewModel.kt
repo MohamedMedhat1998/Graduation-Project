@@ -5,10 +5,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.KnownPerson
 import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
-import com.mohamed.medhat.sanad.networking.FakeApi
 import com.mohamed.medhat.sanad.networking.WebApi
 import com.mohamed.medhat.sanad.ui.base.BaseViewModel
 import com.mohamed.medhat.sanad.ui.helpers.State
@@ -22,11 +22,8 @@ import javax.inject.Inject
 /**
  * An mvvm [ViewModel] for the [PersonsManagerActivity].
  */
-class PersonsManagerViewModel @Inject constructor(
-    val webApi: WebApi,
-    val fakeApi: FakeApi
-) :
-    BaseViewModel() {
+@ActivityScope
+class PersonsManagerViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() {
 
     private val _knownPersons = MutableLiveData<List<KnownPerson>>()
     val knownPersons: LiveData<List<KnownPerson>>
