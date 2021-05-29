@@ -243,6 +243,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
         val extras = Bundle()
         extras.putDouble(EXTRA_NEW_LOCATION_LAT, latLang.latitude)
         extras.putDouble(EXTRA_NEW_LOCATION_LONG, latLang.longitude)
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
         val newLocationIntent = Intent(activity, NewLocationActivity::class.java)
         newLocationIntent.putExtras(extras)
         activity.startActivityForResult(newLocationIntent, NEW_LOCATION_REQUEST_CODE)
@@ -258,7 +259,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
     fun handleOnActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == NEW_LOCATION_REQUEST_CODE) {
             if (resultCode == Activity.RESULT_OK) {
-                loadFavoritePlaces()
+                placesViewModel.loadFavoritePlaces(blindMiniProfile)
                 // Close location selection.
                 isSelectingLocation = false
                 placesView.hideLocationPicker()

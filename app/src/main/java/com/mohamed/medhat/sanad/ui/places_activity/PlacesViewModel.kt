@@ -87,14 +87,6 @@ class PlacesViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() 
             // Making sure that only one instance of this function is running.
             return
         }
-        if (!hasInternetConnection) { // No Internet Connection, tell the user to connect.
-            appError = SimpleConnectionError(
-                "No Internet Connection",
-                "Please connect to the internet to continue!"
-            )
-            _state.postValue(State.ERROR)
-            return
-        }
         viewModelScope.launch {
             _state.postValue(State.LOADING)
             try {

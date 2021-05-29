@@ -13,7 +13,7 @@ data class FavoritePlacePost(
     val phoneNumber: String,
 
     @field:SerializedName("latitude")
-    val latitude: Int,
+    val latitude: Double,
 
     @field:SerializedName("name")
     val name: String,
@@ -22,5 +22,5 @@ data class FavoritePlacePost(
     val description: String,
 
     @field:SerializedName("longitude")
-    val longitude: Int
+    val longitude: Double
 )
