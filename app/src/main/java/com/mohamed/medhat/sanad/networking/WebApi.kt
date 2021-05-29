@@ -113,4 +113,11 @@ interface WebApi {
      */
     @POST("/Api/Accounts/ResendConfirmationEmail")
     suspend fun resendConfirmationCode(): Response<Unit>
+
+    /**
+     * @param blindUsername The blind user to retrieve his/her favorite places.
+     * @return The blind's favorite places from the back-end.
+     */
+    @GET("/Api/BlindFavoritePlaces/{blindUsername}")
+    suspend fun getFavoritePlaces(@Path("blindUsername") blindUsername: String): Response<List<FavoritePlace>>
 }

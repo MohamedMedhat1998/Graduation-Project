@@ -1,9 +1,6 @@
 package com.mohamed.medhat.sanad.ui.main_activity.features
 
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +11,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.ui.main_activity.MainActivity
+import com.mohamed.medhat.sanad.ui.main_activity.MainPresenter
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.utils.FRAGMENT_FEATURES_BLIND_PROFILE
 import kotlinx.android.synthetic.main.fragment_main_features.view.*
@@ -25,6 +23,7 @@ import kotlinx.android.synthetic.main.fragment_main_features.view.*
 class FeaturesBottomFragment : BottomSheetDialogFragment() {
 
     private lateinit var blindMiniProfile: BlindMiniProfile
+    private lateinit var presenter: MainPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +35,11 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
                 blindMiniProfile = profile as BlindMiniProfile
             }
         }
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        presenter = (activity as MainActivity).mainPresenter
     }
 
     override fun onCreateView(
@@ -58,20 +62,16 @@ class FeaturesBottomFragment : BottomSheetDialogFragment() {
         // TODO populate battery percentage
         // TODO populate isOnline icon
         view.btn_features_call.setOnClickListener {
-            (activity as MainActivity).mainPresenter.onCallClicked()
+            presenter.onCallClicked(blindMiniProfile)
         }
         view.btn_features_chat.setOnClickListener {
-            // TODO navigate to chat screen
-            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+            presenter.onChatClicked(blindMiniProfile)
         }
-        view.btn_features_gps.setOnClickListener {
-            // TODO navigate to gps screen
-            Toast.makeText(context, "Not implemented yet", Toast.LENGTH_SHORT).show()
+        view.btn_features_places.setOnClickListener {
+            presenter.onPlacesClicked(blindMiniProfile)
         }
         view.btn_features_people.setOnClickListener {
-            startActivity(Intent(activity, PersonsManagerActivity::class.java).apply {
-                putExtras(extras)
-            })
+            presenter.onPeopleClicked(blindMiniProfile)
         }
         return view
     }

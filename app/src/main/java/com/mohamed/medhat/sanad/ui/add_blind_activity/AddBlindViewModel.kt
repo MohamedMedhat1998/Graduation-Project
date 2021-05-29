@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.BlindPost
 import com.mohamed.medhat.sanad.model.error.NoError
 import com.mohamed.medhat.sanad.model.error.SimpleConnectionError
@@ -19,6 +20,7 @@ import javax.inject.Inject
 /**
  * A [ViewModel] for [AddBlindActivity]
  */
+@ActivityScope
 class AddBlindViewModel @Inject constructor(val webApi: WebApi) : BaseViewModel() {
 
     init {

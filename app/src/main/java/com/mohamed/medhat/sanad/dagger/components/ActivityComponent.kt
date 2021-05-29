@@ -20,6 +20,8 @@ import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureViewMode
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerViewModel
+import com.mohamed.medhat.sanad.ui.places_activity.PlacesActivity
+import com.mohamed.medhat.sanad.ui.places_activity.PlacesViewModel
 import com.mohamed.medhat.sanad.ui.q_r_activity.QRActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.ui.registration_activity.RegistrationActivity
@@ -52,6 +54,7 @@ interface ActivityComponent {
     fun inject(personsManagerActivity: PersonsManagerActivity)
     fun inject(addPersonActivity: AddPersonActivity)
     fun inject(mentorPictureActivity: MentorPictureActivity)
+    fun inject(placesActivity: PlacesActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -65,4 +68,5 @@ interface ActivityComponent {
     fun mentorPictureViewModel(): ViewModelFactory<MentorPictureViewModel>
     fun mentorPictureNavViewModel(): ViewModelFactory<MentorPictureNavViewModel>
     fun commonNavViewModel(): ViewModelFactory<CommonNavViewModel>
+    fun placesViewModel(): ViewModelFactory<PlacesViewModel>
 }

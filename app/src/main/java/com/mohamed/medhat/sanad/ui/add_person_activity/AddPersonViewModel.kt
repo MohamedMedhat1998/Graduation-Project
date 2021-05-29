@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.KnownPersonData
 import com.mohamed.medhat.sanad.model.error.NoError
@@ -27,6 +28,7 @@ import javax.inject.Inject
 /**
  * An mvvm [ViewModel] for the [AddPersonActivity].
  */
+@ActivityScope
 class AddPersonViewModel @Inject constructor(val webApi: WebApi) :
     BaseViewModel() {
 

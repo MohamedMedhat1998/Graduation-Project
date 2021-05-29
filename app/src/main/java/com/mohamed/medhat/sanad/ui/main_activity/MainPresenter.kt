@@ -32,11 +32,10 @@ import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindItem
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindsAdapter
 import com.mohamed.medhat.sanad.ui.main_activity.features.FeaturesBottomFragment
+import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
+import com.mohamed.medhat.sanad.ui.places_activity.PlacesActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
-import com.mohamed.medhat.sanad.utils.MAP_CAMERA_ZOOM_LEVEL
-import com.mohamed.medhat.sanad.utils.TAG_FRAGMENT_FEATURES
-import com.mohamed.medhat.sanad.utils.TAG_MARKER_ICON
-import com.mohamed.medhat.sanad.utils.handleLoadingState
+import com.mohamed.medhat.sanad.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -123,17 +122,6 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     false
                 }
             }
-        }
-    }
-
-    fun onCallClicked() {
-        mainView.requestPermission(
-            permission = Manifest.permission.CALL_PHONE,
-            message = activity.getString(R.string.call_permission_message),
-            permissionCode = MAIN_CALL_PERMISSION
-        ) {
-            // TODO use the real mobile number from the back-end
-            mainView.makePhoneCall("01063863298")
         }
     }
 
@@ -359,5 +347,33 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 runPositionsThread(blindsList)
             }
         }
+    }
+
+    fun onCallClicked(blindMiniProfile: BlindMiniProfile) {
+        mainView.requestPermission(
+            permission = Manifest.permission.CALL_PHONE,
+            message = activity.getString(R.string.call_permission_message),
+            permissionCode = MAIN_CALL_PERMISSION
+        ) {
+            // TODO use the real mobile number from the back-end
+            mainView.makePhoneCall("01063863298")
+        }
+    }
+
+    // TODO implement this feature as future work.
+    fun onChatClicked(blindMiniProfile: BlindMiniProfile) {
+        mainView.displayToast(activity.getString(R.string.in_development))
+    }
+
+    fun onPlacesClicked(blindMiniProfile: BlindMiniProfile) {
+        val extras = Bundle()
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
+        mainView.navigateTo(PlacesActivity::class.java, extras)
+    }
+
+    fun onPeopleClicked(blindMiniProfile: BlindMiniProfile) {
+        val extras = Bundle()
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
+        mainView.navigateTo(PersonsManagerActivity::class.java, extras)
     }
 }
