@@ -1,5 +1,6 @@
 package com.mohamed.medhat.sanad.ui.places_activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
@@ -36,6 +37,15 @@ class PlacesActivity : BaseActivity(), PlacesView {
         iv_places_profile_pic.setOnClickListener {
             placesPresenter.onProfilePictureClicked()
         }
+        btn_places_add_place.setOnClickListener {
+            placesPresenter.onAddPlaceClicked()
+        }
+        btn_places_confirm_location.setOnClickListener {
+            placesPresenter.onConfirmLocationClicked()
+        }
+        btn_places_deny_location.setOnClickListener {
+            placesPresenter.onDenyLocationClicked()
+        }
     }
 
     override fun onPause() {
@@ -62,6 +72,28 @@ class PlacesActivity : BaseActivity(), PlacesView {
             .into(iv_places_profile_pic)
     }
 
+    override fun hideBottomView() {
+        cv_places_bottom_view.animate()
+            .translationY(cv_places_bottom_view.measuredHeight.toFloat() + 1)
+            .setDuration(200).start()
+        iv_places_profile_pic.animate()
+            .translationY(iv_places_profile_pic.measuredHeight + cv_places_bottom_view.measuredHeight + 1f)
+            .setDuration(200).start()
+    }
+
+    override fun showBottomView() {
+        cv_places_bottom_view.animate().translationY(0f).setDuration(200).start()
+        iv_places_profile_pic.animate().translationY(0f).setDuration(200).start()
+    }
+
+    override fun showLocationPicker() {
+        iv_places_location_picker.visibility = View.VISIBLE
+    }
+
+    override fun hideLocationPicker() {
+        iv_places_location_picker.visibility = View.INVISIBLE
+    }
+
     override fun onMapReady(p0: GoogleMap?) {
         if (p0 != null) {
             map = p0
@@ -83,5 +115,10 @@ class PlacesActivity : BaseActivity(), PlacesView {
 
     override fun hideError() {
         hideAppError()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        placesPresenter.handleOnActivityResult(requestCode, resultCode, data)
     }
 }

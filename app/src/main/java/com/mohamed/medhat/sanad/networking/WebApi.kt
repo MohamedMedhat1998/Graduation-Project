@@ -120,4 +120,15 @@ interface WebApi {
      */
     @GET("/Api/BlindFavoritePlaces/{blindUsername}")
     suspend fun getFavoritePlaces(@Path("blindUsername") blindUsername: String): Response<List<FavoritePlace>>
+
+    /**
+     * Used to add a new favorite place to the blind.
+     * @param blindUsername The blind's favorite places from the back-end.
+     * @param favoritePlacePost An object that contains the information about the favorite place to add.
+     */
+    @POST("/Api/BlindFavoritePlaces/{blindUsername}")
+    suspend fun addFavoritePlace(
+        @Path("blindUsername") blindUsername: String,
+        @Body favoritePlacePost: FavoritePlacePost
+    ): Response<Any>
 }

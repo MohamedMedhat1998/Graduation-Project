@@ -10,4 +10,8 @@ import com.mohamed.medhat.sanad.ui.base.LoadingFeatureOwner
  */
 interface PlacesView : BaseView, OnMapReadyCallback, LoadingFeatureOwner {
     fun setBlindProfile(blindMiniProfile: BlindMiniProfile)
+    fun hideBottomView()
+    fun showBottomView()
+    fun showLocationPicker()
+    fun hideLocationPicker()
 }

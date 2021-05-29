@@ -28,16 +28,16 @@ class FakeApi @Inject constructor() : WebApi {
     val i = "b20345fc-ec4b-4b5a-822f-f4809ec9106c"
     val j = "e06c87e7-7495-401e-bdda-d98fac92159f"
 
-    private var aInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var bInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var cInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var dInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var eInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var fInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var gInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var hInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var iInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
-    private var jInitial = GpsNode(31.042722568106434f, 31.35745120887591f)
+    private var aInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var bInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var cInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var dInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var eInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var fInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var gInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var hInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var iInitial = GpsNode(31.042722568106434, 31.35745120887591)
+    private var jInitial = GpsNode(31.042722568106434, 31.35745120887591)
 
     override suspend fun register(newUser: NewUser): Response<Token> {
         TODO("Not yet implemented")
@@ -369,8 +369,8 @@ class FakeApi @Inject constructor() : WebApi {
                     description = "هذه الكلية حيث أتعلم الكثير!",
                     phoneNumber = "0123456789",
                     dateCreated = "2021",
-                    latitude = 31.358446f,
-                    longitude = 31.042769f
+                    latitude = 31.358446,
+                    longitude = 31.042769
                 )
             )
             add(
@@ -380,12 +380,19 @@ class FakeApi @Inject constructor() : WebApi {
                     description = "هذا هو المكان حيث أعيش!",
                     phoneNumber = "0123456789",
                     dateCreated = "2021",
-                    latitude = 31.064005f,
-                    longitude = 31.397104f
+                    latitude = 31.064005,
+                    longitude = 31.397104
                 )
             )
         }
         delay(500)
         return Response.success(list)
+    }
+
+    override suspend fun addFavoritePlace(
+        blindUsername: String,
+        favoritePlacePost: FavoritePlacePost
+    ): Response<Any> {
+        TODO("Not yet implemented")
     }
 }

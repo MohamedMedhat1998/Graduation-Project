@@ -72,4 +72,7 @@
     <string name="call_permission_denied">لا يمكن إجراء المكالمة بدون إذن الهاتف</string>
     <string name="add_a_favorite_place">إضافة مكان إلى المفضلة</string>
     <string name="add_reminder">إضافة مذكرة</string>
+    <string name="cancel">إلغاء</string>
+    <string name="ok">موافق</string>
+    <string name="new_location_failed">لم تكتمل عملية إضافة المكان</string>
 </resources>

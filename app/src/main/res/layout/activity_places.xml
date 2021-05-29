@@ -15,8 +15,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <LinearLayout
+        android:id="@+id/location_confirmation_box"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:layout_gravity="bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/btn_places_deny_location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/cancel" />
+
+        <Button
+            android:id="@+id/btn_places_confirm_location"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/ok" />
+    </LinearLayout>
+
     <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
+        android:id="@+id/cv_places_bottom_view"
         android:layout_width="0dp"
         android:layout_height="156dp"
         app:cardCornerRadius="16dp"
@@ -132,11 +156,11 @@
     <ProgressBar
         android:id="@+id/pb_places_loading"
         style="?android:attr/progressBarStyle"
-        android:visibility="invisible"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -145,10 +169,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:textColor="@android:color/holo_red_dark"
-        android:visibility="invisible"
         android:layout_marginTop="8dp"
         android:text=""
+        android:textColor="@android:color/holo_red_dark"
+        android:visibility="invisible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/iv_places_location_picker"
+        android:layout_width="36dp"
+        android:layout_height="76dp"
+        android:layout_marginBottom="76dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_pin" />
 </androidx.constraintlayout.widget.ConstraintLayout>
