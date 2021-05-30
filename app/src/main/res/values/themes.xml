@@ -116,6 +116,17 @@
         <item name="android:background">@drawable/google_button_background</item>
     </style>
 
+    <style name="SanadBottomPlacesButton">
+        <item name="android:paddingTop">40dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:fontFamily">@font/cairo_regular</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@color/sanad_off_white</item>
+    </style>
+
     <style name="SanadRadioButton" parent="SanadGreyButton">
         <item name="android:background">@drawable/radio_button_background_selector</item>
         <item name="android:layout_height">42dp</item>

@@ -46,6 +46,9 @@ class PlacesActivity : BaseActivity(), PlacesView {
         btn_places_deny_location.setOnClickListener {
             placesPresenter.onDenyLocationClicked()
         }
+        btn_places_tour.setOnClickListener {
+            placesPresenter.onTourClicked()
+        }
     }
 
     override fun onPause() {
@@ -92,6 +95,16 @@ class PlacesActivity : BaseActivity(), PlacesView {
 
     override fun hideLocationPicker() {
         iv_places_location_picker.visibility = View.INVISIBLE
+    }
+
+    override fun showConfirmationBox() {
+        location_confirmation_box.animate().translationY(0f).setDuration(200).setStartDelay(100)
+            .start()
+    }
+
+    override fun hideConfirmationBox() {
+        location_confirmation_box.animate().translationY(120f).setDuration(200).setStartDelay(0)
+            .start()
     }
 
     override fun onMapReady(p0: GoogleMap?) {
