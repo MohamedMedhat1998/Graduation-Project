@@ -154,4 +154,12 @@
         <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/sanad_off_white</item>
     </style>
+
+    <style name="SanadPreviousButton">
+        <item name="android:background">@drawable/btn_previous_background</item>
+        <item name="android:drawableLeft">@drawable/ic_previous</item>
+        <item name="android:textColor">@color/sanad_off_white</item>
+        <item name="android:fontFamily">@font/cairo_bold</item>
+        <item name="android:textSize">12sp</item>
+    </style>
 </resources>

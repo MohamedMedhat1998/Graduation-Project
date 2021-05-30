@@ -31,6 +31,9 @@ class NewLocationActivity : BaseActivity(), NewLocationView {
         btn_new_place_next.setOnClickListener {
             newLocationPresenter.onNextClicked()
         }
+        btn_new_location_previous.setOnClickListener {
+            newLocationPresenter.onPreviousClicked()
+        }
     }
 
     override fun getPlaceName(): String {
