@@ -26,7 +26,8 @@
             android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.add_person_activity.AddPersonActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlackText" />
         <activity
             android:name=".ui.persons_manager_activity.PersonsManagerActivity"
             android:screenOrientation="portrait"
