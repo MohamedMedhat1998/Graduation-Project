@@ -104,4 +104,8 @@ class PersonsManagerPresenter @Inject constructor() :
             }
         }
     }
+
+    fun onPreviousClicked() {
+        activity.onBackPressed()
+    }
 }

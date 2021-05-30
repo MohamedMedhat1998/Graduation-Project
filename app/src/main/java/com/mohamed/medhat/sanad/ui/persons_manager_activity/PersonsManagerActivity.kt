@@ -30,6 +30,9 @@ class PersonsManagerActivity : BaseActivity(), PersonsManagerView {
         personsManagerPresenter.setView(this)
         personsManagerPresenter.setViewModel(personsManagerViewModel)
         personsManagerPresenter.start(savedInstanceState)
+        btn_persons_previous.setOnClickListener {
+            personsManagerPresenter.onPreviousClicked()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

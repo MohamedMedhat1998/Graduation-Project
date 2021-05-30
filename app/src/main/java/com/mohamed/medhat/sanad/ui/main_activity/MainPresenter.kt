@@ -85,8 +85,8 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             blindsList = it
             runPositionsThread(it)
             val listWithAddButton = mutableListOf<BlindItem>()
-            listWithAddButton.addAll(it)
             listWithAddButton.add(BlindAddProfile())
+            listWithAddButton.addAll(it)
             blindsAdapter.updateBlindsList(listWithAddButton)
         }
         mainViewModel.position.observe(activity) {
@@ -198,7 +198,7 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         }
         blindsRecyclerView = activity.rv_main_blinds_list
         blindsRecyclerView.layoutManager =
-            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
+            LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, true)
         blindsRecyclerView.adapter = blindsAdapter
     }
 

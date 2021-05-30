@@ -83,4 +83,7 @@
     <string name="associated_number_label">رقم الشخص المرتبط بالمكان:</string>
     <string name="location_details_label">تفاصيل المكان:</string>
     <string name="previous">السابق</string>
+    <string name="add_person">إضافة شخص</string>
+    <string name="no_known_persons_found">لم يتم العثور على أشخاص</string>
+    <string name="known_persons_title">أشخاص يعرفهم</string>
 </resources>

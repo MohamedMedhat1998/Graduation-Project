@@ -29,7 +29,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.persons_manager_activity.PersonsManagerActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlackText" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
