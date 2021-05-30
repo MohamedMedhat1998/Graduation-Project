@@ -267,7 +267,7 @@ class AddBlindPresenter @Inject constructor() :
             )
             // TODO update constant values.
             val lastNamePart =
-                MultipartBody.Part.createFormData("LastName", "last-name")
+                MultipartBody.Part.createFormData("LastName", "")
             // TODO update constant values.
             val emergencyPhoneNumberPart =
                 MultipartBody.Part.createFormData("EmergencyPhoneNumber", "01234567899")

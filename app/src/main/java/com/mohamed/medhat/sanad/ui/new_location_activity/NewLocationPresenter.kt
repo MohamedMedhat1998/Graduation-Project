@@ -97,4 +97,8 @@ class NewLocationPresenter @Inject constructor() :
         )
         newLocationViewModel.addLocation(blindMiniProfile, favoritePlacePost)
     }
+
+    fun onPreviousClicked() {
+        activity.onBackPressed()
+    }
 }

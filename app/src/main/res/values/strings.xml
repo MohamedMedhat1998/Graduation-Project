@@ -76,4 +76,11 @@
     <string name="add">إضافة</string>
     <string name="new_location_failed">لم تكتمل عملية إضافة المكان</string>
     <string name="tour">الذهاب في جولة</string>
+    <string name="location_details">تفاصيل المكان</string>
+    <string name="new_location_message">قم بإضافة بعض التفاصيل الخاصة بالمكان</string>
+    <string name="place_name">اسم المكان:</string>
+    <string name="associated_name_label">اسم شخص مرتبط بالمكان:</string>
+    <string name="associated_number_label">رقم الشخص المرتبط بالمكان:</string>
+    <string name="location_details_label">تفاصيل المكان:</string>
+    <string name="previous">السابق</string>
 </resources>
