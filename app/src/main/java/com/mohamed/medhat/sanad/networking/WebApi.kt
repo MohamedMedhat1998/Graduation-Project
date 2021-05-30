@@ -75,8 +75,8 @@ interface WebApi {
      * @param blindUsername Which blind to fetch his/her [KnownPerson]s.
      * @return A list of the [KnownPerson]s of the blind.
      */
-    @GET("/Api/BlindKnownPersons/{blindUsername}")
-    suspend fun getKnownPersons(@Path("blindUsername") blindUsername: String): Response<List<KnownPerson>>
+    @GET("/Api/BlindKnownPersons")
+    suspend fun getKnownPersons(@Query("blindUsername") blindUsername: String): Response<List<KnownPerson>>
 
     /**
      * Adds a new known person to the blind.

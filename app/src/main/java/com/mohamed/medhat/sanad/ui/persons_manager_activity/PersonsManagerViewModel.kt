@@ -68,12 +68,18 @@ class PersonsManagerViewModel @Inject constructor(val webApi: WebApi) : BaseView
                             internalServerErrorMessage
                         )
                     }
-                    else -> { // Some application error, parse it and display it to the user.
+                    400 -> { // Some application error, parse it and display it to the user.
                         withContext(Dispatchers.IO) {
                             appError = ApplicationConnectionErrorParser.parse(
                                 knownPersonsResponse.errorBody()?.string().toString()
                             )
                         }
+                    }
+                    else -> { // Something went wrong, display the error to the user.
+                        appError = SimpleConnectionError(
+                            "Something Went Wrong - ${knownPersonsResponse.code()}",
+                            knownPersonsResponse.message()
+                        )
                     }
                 }
                 _state.postValue(State.ERROR)
