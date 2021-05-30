@@ -18,25 +18,35 @@
     <LinearLayout
         android:id="@+id/location_confirmation_box"
         android:layout_width="match_parent"
-        android:layout_height="76dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:translationY="120dp"
+        android:background="@drawable/main_blind_list_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/btn_places_deny_location"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/cancel" />
+            style="@style/SanadBottomPlacesButton"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:text="@string/cancel"
+            android:background="@drawable/btn_places_deny_background"
+            app:backgroundTint="@null" />
 
         <Button
             android:id="@+id/btn_places_confirm_location"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="@string/ok" />
+            style="@style/SanadBottomPlacesButton"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/btn_places_confirm_background"
+            android:text="@string/add"
+            app:backgroundTint="@null" />
     </LinearLayout>
 
     <androidx.cardview.widget.CardView
@@ -123,20 +133,20 @@
                 app:layout_constraintTop_toBottomOf="@+id/tv_places_name">
 
                 <Button
-                    android:id="@+id/btn_places_reminder"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    android:id="@+id/btn_places_tour"
+                    style="@style/SanadBottomPlacesButton"
                     android:layout_marginEnd="4dp"
-                    android:layout_weight="1"
-                    android:text="@string/add_reminder" />
+                    android:background="@drawable/btn_tour_background"
+                    android:text="@string/tour"
+                    app:backgroundTint="@null" />
 
                 <Button
                     android:id="@+id/btn_places_add_place"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
+                    style="@style/SanadBottomPlacesButton"
                     android:layout_marginStart="4dp"
-                    android:layout_weight="1"
-                    android:text="@string/add_a_favorite_place" />
+                    android:background="@drawable/btn_add_place_background"
+                    android:text="@string/add_a_favorite_place"
+                    app:backgroundTint="@null" />
 
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

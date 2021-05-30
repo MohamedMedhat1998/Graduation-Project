@@ -234,6 +234,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
             placesView.hideBottomView()
             placesView.showLocationPicker()
             isSelectingLocation = true
+            placesView.showConfirmationBox()
         }
     }
 
@@ -251,6 +252,7 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
 
     fun onDenyLocationClicked() {
         // Close location selection.
+        placesView.hideConfirmationBox()
         isSelectingLocation = false
         placesView.hideLocationPicker()
         placesView.showBottomView()
@@ -268,5 +270,9 @@ class PlacesPresenter @Inject constructor() : AdvancedPresenter<PlacesView, Plac
                 placesView.displayToast(activity.getString(R.string.new_location_failed))
             }
         }
+    }
+
+    fun onTourClicked() {
+        placesView.displayToast(activity.getString(R.string.in_development))
     }
 }

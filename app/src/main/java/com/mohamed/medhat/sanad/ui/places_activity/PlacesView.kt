@@ -14,4 +14,6 @@ interface PlacesView : BaseView, OnMapReadyCallback, LoadingFeatureOwner {
     fun showBottomView()
     fun showLocationPicker()
     fun hideLocationPicker()
+    fun showConfirmationBox()
+    fun hideConfirmationBox()
 }
