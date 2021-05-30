@@ -8,14 +8,10 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.util.Log
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.KnownPersonData
-import com.mohamed.medhat.sanad.ui.add_person_activity.pictures.PicturePreview
-import com.mohamed.medhat.sanad.ui.add_person_activity.pictures.PicturesAdapter
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -28,11 +24,8 @@ import kotlinx.android.synthetic.main.activity_add_person.*
 import java.io.File
 import javax.inject.Inject
 
-
-private const val NEEDED_PICTURES_NUMBER = 3
 private const val ADD_PERSON_PICK_FROM_GALLERY = 1
 private const val ADD_PERSON_TAKE_PHOTO = 2
-private const val PICTURE_PREVIEW_TAG = "picture-preview"
 
 /**
  * An mvp presenter for the [AddPersonActivity].
@@ -44,25 +37,17 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     lateinit var addPersonView: AddPersonView
     lateinit var addPersonViewModel: AddPersonViewModel
     private lateinit var blindMiniProfile: BlindMiniProfile
-    private lateinit var picturesRecyclerView: RecyclerView
-    private lateinit var picturesAdapter: PicturesAdapter
-    private val pictures = mutableListOf<Uri>()
+    private var pictureUri: Uri? = null
     private var pictureName = ""
 
     override fun start(savedInstanceState: Bundle?) {
-        initializePicturesRecyclerView()
         addPersonViewModel.shouldReLogin.observe(activity) {
             if (it) {
                 addPersonView.startActivityAsRoot(LoginActivity::class.java)
             }
         }
         addPersonViewModel.registrationSuccessful.observe(activity) {
-            if (it.first) {
-                if (it.second == 0) {
-                    addPersonView.displayToast("Successfully registered a new person!")
-                } else {
-                    addPersonView.displayToast("Success, but failed to upload ${it.second} images.")
-                }
+            if (it) {
                 addPersonView.finishWithResult(Activity.RESULT_OK)
             }
         }
@@ -121,8 +106,9 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 if (resultCode == Activity.RESULT_OK) {
                     val imageUri = data?.data
                     if (imageUri != null) {
-                        pictures.add(imageUri)
-                        picturesAdapter.updatePictures(pictures)
+                        pictureUri = imageUri
+                        addPersonView.updatePreviewPicture(pictureUri!!)
+                        addPersonView.showPreviewPicture()
                     } else {
                         addPersonView.displayToast("Something went wrong while selecting an image!")
                     }
@@ -138,8 +124,9 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     Log.d("Picture", "Name: $pictureName Size: ${picture.length() / 1024.0}KB")
                     val imageUri = Uri.fromFile(picture)
                     if (imageUri != null) {
-                        pictures.add(imageUri)
-                        picturesAdapter.updatePictures(pictures)
+                        pictureUri = imageUri
+                        addPersonView.updatePreviewPicture(pictureUri!!)
+                        addPersonView.showPreviewPicture()
                     } else {
                         addPersonView.displayToast("Something went wrong while taking a photo!")
                     }
@@ -147,11 +134,6 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                     addPersonView.displayToast("Something went wrong while taking a photo!")
                 }
             }
-        }
-        if (pictures.size < 3) {
-            addPersonView.enablePictureButtons()
-        } else {
-            addPersonView.disablePictureButtons()
         }
     }
 
@@ -163,8 +145,8 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
             )
             return
         }
-        if (pictures.size < NEEDED_PICTURES_NUMBER) {
-            addPersonView.displayToast("You must select $NEEDED_PICTURES_NUMBER pictures")
+        if (pictureUri == null) {
+            addPersonView.displayToast("من فضلك قم باختيار صورة")
             return
         }
         val knownPersonData =
@@ -176,26 +158,6 @@ class AddPersonPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
                 ),
                 blindUsername = blindMiniProfile.userName
             )
-        addPersonViewModel.addNewPerson(knownPersonData, pictures, blindMiniProfile, activity)
-    }
-
-    /**
-     * Sets up the "pictures recycler view".
-     */
-    private fun initializePicturesRecyclerView() {
-        picturesRecyclerView = activity.rv_add_person_pictures
-        picturesAdapter = PicturesAdapter(mutableListOf(), onDeletePictureClicked = {
-            pictures.remove(it)
-            if (pictures.size < 3) {
-                addPersonView.enablePictureButtons()
-            } else {
-                addPersonView.disablePictureButtons()
-            }
-        }) {
-            // TODO display the image in a dialog
-            PicturePreview(it).show(activity.supportFragmentManager, PICTURE_PREVIEW_TAG)
-        }
-        picturesRecyclerView.layoutManager = GridLayoutManager(activity, 3)
-        picturesRecyclerView.adapter = picturesAdapter
+        addPersonViewModel.addNewPerson(knownPersonData, pictureUri!!, blindMiniProfile, activity)
     }
 }

@@ -1,9 +1,11 @@
 package com.mohamed.medhat.sanad.ui.add_person_activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.Glide
 import com.mohamed.medhat.sanad.R
 import com.mohamed.medhat.sanad.ui.base.BaseActivity
 import kotlinx.android.synthetic.main.activity_add_person.*
@@ -58,14 +60,15 @@ class AddPersonActivity : BaseActivity(), AddPersonView {
         return et_add_person_name.text.toString()
     }
 
-    override fun disablePictureButtons() {
-        btn_add_person_pick_from_gallery.isEnabled = false
-        btn_add_person_take_photo.isEnabled = false
+    override fun updatePreviewPicture(imageUri: Uri) {
+        Glide.with(this)
+            .load(imageUri)
+            .circleCrop()
+            .into(iv_add_person_preview)
     }
 
-    override fun enablePictureButtons() {
-        btn_add_person_pick_from_gallery.isEnabled = true
-        btn_add_person_take_photo.isEnabled = true
+    override fun showPreviewPicture() {
+        iv_add_person_preview.visibility = View.VISIBLE
     }
 
     override fun showLoadingIndicator() {
