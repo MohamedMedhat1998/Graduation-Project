@@ -228,6 +228,16 @@ class AddBlindPresenter @Inject constructor() :
             }
             return
         }
+        if (addBlindActivity.et_add_blind_nickname.text.toString().isEmpty()) {
+            addBlindView.showInputError(addBlindActivity.et_add_blind_nickname, emptyFieldError)
+            addBlindActivity.add_blind_root.post {
+                addBlindActivity.add_blind_root.smoothScrollTo(
+                    0,
+                    addBlindActivity.et_add_blind_nickname.top
+                )
+            }
+            return
+        }
         if (addBlindActivity.et_add_blind_phone.text.toString().isEmpty()) {
             addBlindView.showInputError(addBlindActivity.et_add_blind_phone, emptyFieldError)
             addBlindActivity.add_blind_root.post {
@@ -239,6 +249,7 @@ class AddBlindPresenter @Inject constructor() :
             return
         }
         val name = addBlindView.getName()
+        val lastName = addBlindView.getLastName()
         val age = addBlindView.getAge()
         val phone = addBlindView.getPhoneNumber()
         val gender = addBlindView.getGender()
@@ -265,9 +276,8 @@ class AddBlindPresenter @Inject constructor() :
                 "profile_ss_picture_$name.png",
                 profileRequestBody
             )
-            // TODO update constant values.
             val lastNamePart =
-                MultipartBody.Part.createFormData("LastName", "")
+                MultipartBody.Part.createFormData("LastName", lastName)
             // TODO update constant values.
             val emergencyPhoneNumberPart =
                 MultipartBody.Part.createFormData("EmergencyPhoneNumber", "01234567899")
@@ -283,7 +293,7 @@ class AddBlindPresenter @Inject constructor() :
                     bloodType = bloodTypePart,
                     illnesses = illnesses,
                     profilePicture = profilePicturePart,
-                    lastName = lastNamePart, // TODO fix this
+                    lastName = lastNamePart,
                     emergencyPhoneNumber = emergencyPhoneNumberPart,
                     phoneNumber = phoneNumberPart,
                     serialNumber = serialNumberPart
