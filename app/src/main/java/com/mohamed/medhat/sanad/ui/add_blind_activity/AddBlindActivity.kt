@@ -90,6 +90,10 @@ class AddBlindActivity : BaseActivity(), AddBlindView {
         return et_add_blind_name.text.toString()
     }
 
+    override fun getLastName(): String {
+        return et_add_blind_nickname.text.toString()
+    }
+
     override fun getAge(): Int {
         return et_add_blind_age.text.toString().toInt()
     }

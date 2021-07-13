@@ -23,6 +23,17 @@
             app:layout_constraintEnd_toEndOf="@+id/iv_add_blind_profile_preview"
             app:srcCompat="@drawable/ic_plus" />
 
+        <TextView
+            android:id="@+id/textView19"
+            style="@style/SanadAddBlindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="52dp"
+            android:text="@string/blind_name_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
+
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_add_blind_name"
             style="@style/SanadInputField"
@@ -35,6 +46,30 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView19" />
+
+        <TextView
+            android:id="@+id/textView22"
+            style="@style/SanadAddBlindText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="52dp"
+            android:text="@string/add_blind_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_add_blind_name" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_add_blind_nickname"
+            style="@style/SanadInputField"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:drawableLeft="@drawable/ic_person"
+            android:inputType="text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView22" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_add_blind_age"
@@ -274,17 +309,6 @@
             app:layout_constraintTop_toBottomOf="@+id/textView17" />
 
         <TextView
-            android:id="@+id/textView19"
-            style="@style/SanadAddBlindText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="52dp"
-            android:text="@string/blind_name_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_add_blind_profile_preview" />
-
-        <TextView
             android:id="@+id/textView20"
             style="@style/SanadAddBlindText"
             android:layout_width="wrap_content"
@@ -293,7 +317,7 @@
             android:layout_marginEnd="52dp"
             android:text="@string/blind_age_label"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_add_blind_name" />
+            app:layout_constraintTop_toBottomOf="@+id/et_add_blind_nickname" />
 
         <TextView
             android:id="@+id/textView21"

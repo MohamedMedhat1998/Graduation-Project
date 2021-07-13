@@ -89,4 +89,5 @@
     <string name="add_known_person_label">إضافة شخص يعرفه</string>
     <string name="add_person_message">قم بالتقاط او برفع صورة شخصية واضحة له</string>
     <string name="add_person_name_label">اسم الشخص:</string>
+    <string name="add_blind_nickname">اللقب:</string>
 </resources>

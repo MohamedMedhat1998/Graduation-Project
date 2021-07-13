@@ -99,12 +99,12 @@ class CommonNavViewModel @Inject constructor(
                                 return@launch
                             }
                             in 500..511 -> { // Internal server error, restart the app.
-                                _destination.postValue(SplashActivity::class.java)
+                                _destination.postValue(LoginActivity::class.java)
                                 _state.postValue(State.NORMAL)
                                 return@launch
                             }
                             else -> {
-                                _destination.postValue(SplashActivity::class.java)
+                                _destination.postValue(LoginActivity::class.java)
                                 _state.postValue(State.NORMAL)
                                 return@launch
                             }
@@ -123,12 +123,12 @@ class CommonNavViewModel @Inject constructor(
                         return@launch
                     }
                     in 500..511 -> { // Internal server error, restart the app.
-                        _destination.postValue(SplashActivity::class.java)
+                        _destination.postValue(LoginActivity::class.java)
                         _state.postValue(State.NORMAL)
                         return@launch
                     }
                     else -> {
-                        _destination.postValue(SplashActivity::class.java)
+                        _destination.postValue(LoginActivity::class.java)
                         _state.postValue(State.NORMAL)
                         return@launch
                     }
