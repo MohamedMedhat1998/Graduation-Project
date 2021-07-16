@@ -63,3 +63,7 @@ const val MAP_CAMERA_ZOOM_LEVEL = 18f
 
 // Span counts
 const val SPAN_KNOWN_PERSONS = 3
+
+// Chat
+const val CHAT_HUB_URL = "https://sanad.azurewebsites.net/hubs/chat/"
+const val CHAT_DATABASE_FILENAME = "chat-database"

@@ -40,7 +40,7 @@ class FakeApi @Inject constructor() : WebApi {
     private var jInitial = GpsNode(31.042722568106434, 31.35745120887591)
 
     override suspend fun register(newUser: NewUser): Response<Token> {
-        TODO("Not yet implemented")
+        return Response.success(Token("","","",""))
     }
 
     override suspend fun login(loginUser: LoginUser): Response<Token> {
@@ -56,7 +56,7 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun confirmEmail(confirmationCode: String): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success("")
     }
 
     override suspend fun getMentorProfile(): Response<MentorProfile> {
@@ -91,7 +91,7 @@ class FakeApi @Inject constructor() : WebApi {
         illnesses: List<String>,
         profilePicture: MultipartBody.Part
     ): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success("")
     }
 
     override suspend fun getBlinds(): Response<List<BlindMiniProfile>> {
@@ -340,7 +340,7 @@ class FakeApi @Inject constructor() : WebApi {
     }
 
     override suspend fun addKnownPerson(knownPersonData: KnownPersonData): Response<KnownPerson> {
-        TODO("Not yet implemented")
+        return Response.success(KnownPerson("", "", "", "", "", listOf()))
     }
 
     override suspend fun addNewPictureForKnownPerson(
@@ -348,15 +348,15 @@ class FakeApi @Inject constructor() : WebApi {
         personId: MultipartBody.Part,
         picture: MultipartBody.Part
     ): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success("")
     }
 
     override suspend fun uploadMentorPicture(profilePicture: MultipartBody.Part): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success("")
     }
 
     override suspend fun resendConfirmationCode(): Response<Unit> {
-        TODO("Not yet implemented")
+        return Response.success(Unit)
     }
 
     override suspend fun getFavoritePlaces(blindUsername: String): Response<List<FavoritePlace>> {
@@ -393,6 +393,13 @@ class FakeApi @Inject constructor() : WebApi {
         blindUsername: String,
         favoritePlacePost: FavoritePlacePost
     ): Response<Any> {
-        TODO("Not yet implemented")
+        return Response.success("")
+    }
+
+    override suspend fun sendChatMessage(
+        receiverUserName: MultipartBody.Part,
+        message: MultipartBody.Part
+    ): Response<Unit> {
+        return Response.success(Unit)
     }
 }

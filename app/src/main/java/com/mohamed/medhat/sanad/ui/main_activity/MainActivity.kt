@@ -88,11 +88,16 @@ class MainActivity : BaseActivity(), MainView {
 
     override fun onPause() {
         super.onPause()
-        mainPresenter.pausePositionUpdates()
+        mainPresenter.activityPaused()
     }
 
     override fun onResume() {
         super.onResume()
-        mainPresenter.resumePositionUpdates()
+        mainPresenter.activityResumed()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainPresenter.activityDestroyed()
     }
 }

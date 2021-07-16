@@ -7,6 +7,8 @@ import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindActivity
 import com.mohamed.medhat.sanad.ui.add_blind_activity.AddBlindViewModel
 import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonActivity
 import com.mohamed.medhat.sanad.ui.add_person_activity.AddPersonViewModel
+import com.mohamed.medhat.sanad.ui.chat_activity.ChatActivity
+import com.mohamed.medhat.sanad.ui.chat_activity.ChatViewModel
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationActivity
 import com.mohamed.medhat.sanad.ui.confirmation_activity.ConfirmationViewModel
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
@@ -18,7 +20,6 @@ import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureActivity
 import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureNavViewModel
 import com.mohamed.medhat.sanad.ui.mentor_picture_activity.MentorPictureViewModel
 import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationActivity
-import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationPresenter
 import com.mohamed.medhat.sanad.ui.new_location_activity.NewLocationViewModel
 import com.mohamed.medhat.sanad.ui.on_boarding_activity.OnBoardingActivity
 import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivity
@@ -59,6 +60,7 @@ interface ActivityComponent {
     fun inject(mentorPictureActivity: MentorPictureActivity)
     fun inject(placesActivity: PlacesActivity)
     fun inject(newLocationActivity: NewLocationActivity)
+    fun inject(chatActivity: ChatActivity)
 
     fun loginViewModel(): ViewModelFactory<LoginViewModel>
     fun loginNavViewModel(): ViewModelFactory<LoginNavViewModel>
@@ -74,4 +76,5 @@ interface ActivityComponent {
     fun commonNavViewModel(): ViewModelFactory<CommonNavViewModel>
     fun placesViewModel(): ViewModelFactory<PlacesViewModel>
     fun newLocationViewModel(): ViewModelFactory<NewLocationViewModel>
+    fun chatViewModel(): ViewModelFactory<ChatViewModel>
 }

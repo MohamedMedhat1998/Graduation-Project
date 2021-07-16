@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/chat_item_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right"
+    android:weightSum="1">
+
+    <!--    <TextView-->
+    <!--        android:id="@+id/tv_chat_item_message"-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:gravity="right"-->
+    <!--        android:layout_weight="0.75"-->
+    <!--        tools:text="Message"-->
+    <!--        android:layout_height="wrap_content" />-->
+    <Button
+        android:id="@+id/btn_chat_item_listen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="استماع"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <SeekBar
+        android:id="@+id/sb_chat_item_progress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_chat_item_listen"
+        app:layout_constraintEnd_toStartOf="@+id/tv_chat_item_duration"
+        app:layout_constraintStart_toEndOf="@+id/btn_chat_item_listen"
+        app:layout_constraintTop_toTopOf="@+id/btn_chat_item_listen" />
+
+    <TextView
+        android:id="@+id/tv_chat_item_duration"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_chat_item_listen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/btn_chat_item_listen" />
+</androidx.constraintlayout.widget.ConstraintLayout>
