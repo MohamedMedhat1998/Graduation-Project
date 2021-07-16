@@ -1,9 +1,16 @@
 package com.mohamed.medhat.sanad.ui.main_activity
 
 import android.Manifest
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.PopupMenu
@@ -16,18 +23,23 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.*
+import com.google.gson.Gson
 import com.mohamed.medhat.sanad.R
+import com.mohamed.medhat.sanad.chat.ChatSocket
+import com.mohamed.medhat.sanad.chat.MessagesDao
 import com.mohamed.medhat.sanad.dagger.scopes.ActivityScope
 import com.mohamed.medhat.sanad.local.SharedPrefs
 import com.mohamed.medhat.sanad.model.BlindAddProfile
 import com.mohamed.medhat.sanad.model.BlindMiniProfile
 import com.mohamed.medhat.sanad.model.GpsNode
+import com.mohamed.medhat.sanad.model.chat.ChatMessage
 import com.mohamed.medhat.sanad.model.gps_errors.GpsError
 import com.mohamed.medhat.sanad.model.gps_errors.GpsNoLocationError
 import com.mohamed.medhat.sanad.model.gps_errors.GpsTrackingError
 import com.mohamed.medhat.sanad.networking.NetworkState
 import com.mohamed.medhat.sanad.ui.base.AdvancedPresenter
 import com.mohamed.medhat.sanad.ui.base.error_viewers.TextErrorViewer
+import com.mohamed.medhat.sanad.ui.chat_activity.ChatActivity
 import com.mohamed.medhat.sanad.ui.login_activity.LoginActivity
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindItem
 import com.mohamed.medhat.sanad.ui.main_activity.blinds.BlindsAdapter
@@ -36,6 +48,7 @@ import com.mohamed.medhat.sanad.ui.persons_manager_activity.PersonsManagerActivi
 import com.mohamed.medhat.sanad.ui.places_activity.PlacesActivity
 import com.mohamed.medhat.sanad.ui.q_r_activity.scanner.ScannerActivity
 import com.mohamed.medhat.sanad.utils.*
+import com.smartarmenia.dotnetcoresignalrclientjava.HubMessage
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +63,11 @@ private const val MAIN_CALL_PERMISSION = 2
  * An mvp presenter for the main screen.
  */
 @ActivityScope
-class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
+class MainPresenter @Inject constructor(
+    val sharedPrefs: SharedPrefs,
+    val chatSocket: ChatSocket,
+    val messagesDao: MessagesDao
+) :
     AdvancedPresenter<MainView, MainViewModel>() {
 
     private lateinit var mainView: MainView
@@ -72,6 +89,31 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
     private val markerOptions = MarkerOptions()
 
     override fun start(savedInstanceState: Bundle?) {
+        chatSocket.startListening(onMessageReceived = { // Chat Message
+            // TODO: Receive the message - notify the mentor - add some icon on the sender.
+            sendChatNotification(it)
+            val chatMessages = mutableListOf<ChatMessage>()
+            it.arguments.forEach { jsonElement ->
+                chatMessages.add(Gson().fromJson(jsonElement, ChatMessage::class.java))
+            }
+            CoroutineScope(Dispatchers.IO).launch {
+                messagesDao.insertMessages(chatMessages)
+                Log.d("Messages","${chatMessages.size}")
+            }
+        }) { message -> // Connection Message
+            val chatMessages = mutableListOf<ChatMessage>()
+            if (message?.target == "ReceiveMessagesWhenReConnectedAsMobile") {
+                val usersArray = message.arguments[0].asJsonArray
+                usersArray.forEach {
+                    val userObject = it.asJsonObject
+                    val messages = userObject["messages"].asJsonArray
+                    messages.forEach { chatMessage ->
+                        chatMessages.add(Gson().fromJson(chatMessage, ChatMessage::class.java))
+                    }
+                }
+                messagesDao.insertMessages(chatMessages)
+            }
+        }
         loadMap()
         initializeOptionsMenu()
         initializeBlindsRecyclerView()
@@ -360,9 +402,10 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         }
     }
 
-    // TODO implement this feature as future work.
     fun onChatClicked(blindMiniProfile: BlindMiniProfile) {
-        mainView.displayToast(activity.getString(R.string.in_development))
+        val extras = Bundle()
+        extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
+        mainView.navigateTo(ChatActivity::class.java, extras)
     }
 
     fun onPlacesClicked(blindMiniProfile: BlindMiniProfile) {
@@ -375,5 +418,63 @@ class MainPresenter @Inject constructor(val sharedPrefs: SharedPrefs) :
         val extras = Bundle()
         extras.putSerializable(FRAGMENT_FEATURES_BLIND_PROFILE, blindMiniProfile)
         mainView.navigateTo(PersonsManagerActivity::class.java, extras)
+    }
+
+    fun activityPaused() {
+        pausePositionUpdates()
+    }
+
+    fun activityResumed() {
+        resumePositionUpdates()
+        chatSocket.connect()
+    }
+
+    fun activityDestroyed() {
+        chatSocket.disconnect()
+    }
+
+    private fun sendChatNotification(message: HubMessage) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val notificationChannel = NotificationChannel(
+                "sanad-chat",
+                "Chat Messages",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationChannel.setSound(
+                Uri.parse("android.resource://" + activity.packageName + "/" + R.raw.chat_notification),
+                null
+            )
+            val notificationBuilder = Notification.Builder(activity, "sanad-chat")
+            notificationBuilder.apply {
+                setSmallIcon(R.drawable.ic_chatboxes_yellow)
+                setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        activity.resources,
+                        R.drawable.ic_chatboxes_yellow
+                    )
+                )
+                setContentTitle("You have a new message")
+            }
+            val notificationManager =
+                activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(notificationChannel)
+            notificationManager.notify(1, notificationBuilder.build())
+        } else {
+            val notificationBuilder = Notification.Builder(activity)
+            notificationBuilder.apply {
+                setSmallIcon(R.drawable.ic_chatboxes_yellow)
+                setLargeIcon(
+                    BitmapFactory.decodeResource(
+                        activity.resources,
+                        R.drawable.ic_chatboxes_yellow
+                    )
+                )
+                setContentTitle("You have a new message")
+                setSound(Uri.parse("android.resource://" + activity.packageName + "/" + R.raw.chat_notification))
+            }
+            val notificationManager =
+                activity.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.notify(1, notificationBuilder.build())
+        }
     }
 }

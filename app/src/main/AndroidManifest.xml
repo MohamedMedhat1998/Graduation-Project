@@ -17,6 +17,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.GraduationProject"
         tools:ignore="LockedOrientationActivity">
+        <activity android:name=".ui.chat_activity.ChatActivity"></activity>
         <activity
             android:name=".ui.new_location_activity.NewLocationActivity"
             android:theme="@style/ActionBarBlackText" />

@@ -71,4 +71,9 @@ dependencies {
     // Glide images
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    // SignalR web-sockets
+    implementation 'com.smartarmenia:dotnetcoresignalrclientjava:1.14'
+    // Room DB
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
 }

@@ -131,4 +131,15 @@ interface WebApi {
         @Path("blindUsername") blindUsername: String,
         @Body favoritePlacePost: FavoritePlacePost
     ): Response<Any>
+
+    /**
+     * Sends a chat message to the target user.
+     * @param receiverUserName The username of the target.
+     */
+    @Multipart
+    @POST("/Api/Chat/SendMessage")
+    suspend fun sendChatMessage(
+        @Part receiverUserName: MultipartBody.Part,
+        @Part message: MultipartBody.Part
+    ): Response<Unit>
 }

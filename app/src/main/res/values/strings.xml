@@ -90,4 +90,7 @@
     <string name="add_person_message">قم بالتقاط او برفع صورة شخصية واضحة له</string>
     <string name="add_person_name_label">اسم الشخص:</string>
     <string name="add_blind_nickname">اللقب:</string>
+    <string name="send">إرسال</string>
+    <string name="message_duration">%d:%d</string>
+    <string name="please_type_a_message">من فضلك قم بكتابة رسالة</string>
 </resources>
